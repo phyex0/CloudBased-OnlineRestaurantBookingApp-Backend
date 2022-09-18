@@ -9,7 +9,7 @@ TODO:
 
 3) Enable Hyper-V from your Windows OS => https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
 
-4) Step 4 - Download the Linux kernel update package (download the latest package) => https://learn.microsoft.com/en-gb/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
+4) Download the Linux kernel update package (download the latest package) => https://learn.microsoft.com/en-gb/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
 
 5) Open a powershell on adminstrator mode and run the following command => Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
