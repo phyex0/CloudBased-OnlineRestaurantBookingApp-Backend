@@ -1,4 +1,4 @@
-# CloudBased-OnlineRestaurantBookingApp
+# CloudBased-OnlineRestaurantBookingApp-Backend
 Graduation project
 
 TODO:
