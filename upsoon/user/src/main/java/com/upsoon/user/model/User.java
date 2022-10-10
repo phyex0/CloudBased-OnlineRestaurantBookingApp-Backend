@@ -9,6 +9,6 @@ public class User {
     private String middleName;
     private String identificationNumber;
     private String phoneNumber;
-    
+
 
 }
