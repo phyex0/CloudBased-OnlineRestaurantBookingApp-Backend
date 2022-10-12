@@ -34,17 +34,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>4.6.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registery-prometheus</artifactId>
-            <scope>runtime</scope>
-            <!--			 <version>1.9.4</version> -->
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.liquibase</groupId>-->
+<!--            <artifactId>liquibase-core</artifactId>-->
+<!--            <version>4.6.2</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.micrometer</groupId>-->
+<!--            <artifactId>micrometer-registery-prometheus</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--            &lt;!&ndash;			 <version>1.9.4</version> &ndash;&gt;-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -66,11 +66,11 @@
             <version>1.4.2.Final</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-kubernetes-fabric8-all</artifactId>
-            <version>5.3.23</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-kubernetes-fabric8-all</artifactId>-->
+<!--            <version>5.3.23</version>-->
+<!--        </dependency>-->
         <!--		<dependency>-->
         <!--			<groupId>jakarta.validation</groupId>-->
         <!--			<artifactId>jakarta.validation-api</artifactId>-->
@@ -86,11 +86,11 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>3.1.4</version>
         </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-maven-plugin</artifactId>
-            <version>3.4.1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.liquibase</groupId>-->
+<!--            <artifactId>liquibase-maven-plugin</artifactId>-->
+<!--            <version>3.4.1</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
@@ -116,91 +116,91 @@
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugings</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${org.projectlombok.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok-mapstruct-bindings</artifactId>
-                            <version>${lombok-mapstruct-binding.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.liqubase</groupId>
-                <artifactId>liqubase-maven-plugin</artifactId>
-                <version>3.4.1</version>
-                <configuration>
-                    <changeLogFile>src/maim/resource/db/changelog/master.xml</changeLogFile>
-                    <diffChangeLogFile>src/maim/resource/db/changelog/changelog.xml</diffChangeLogFile>
-                    <outputChangeLogFile>src/maim/resource/db/changelog/myaddon.db.changelog.xml</outputChangeLogFile>
-                    <driver>org.postgresql.Driver</driver>
-                    <url>jdbc:postgresql://localhost:5432/upsoon-order</url>
-                    <referenceUrl>jdbc:postgresql://localhost:5432/upsoon-order</referenceUrl>
-                    <referenceDriver>org.postgresql.Driver</referenceDriver>
-                    <username>upsoon</username>
-                    <password></password>
-                    <referenceUsername>upsoon</referenceUsername>
-                    <referencePassword></referencePassword>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.liquibase.ext</groupId>
-                        <artifactId>liquibase-hibernate4</artifactId>
-                        <version>3.5</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-beans</artifactId>
-                        <version>4.1.7.RELEASE</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.springframework.data</groupId>
-                        <artifactId>spring-data-jpa</artifactId>
-                        <version>1.7.3.RELEASE</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>${jib-maven-plugin.version}</version>
-            </plugin>
-        </plugins>
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugings</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <version>${maven-compiler-plugin.version}</version>-->
+<!--                <configuration>-->
+<!--                    <source>${java.version}</source>-->
+<!--                    <target>${java.version}</target>-->
+<!--                    <annotationProcessorPaths>-->
+<!--                        <path>-->
+<!--                            <groupId>org.mapstruct</groupId>-->
+<!--                            <artifactId>mapstruct-processor</artifactId>-->
+<!--                            <version>${mapstruct.version}</version>-->
+<!--                        </path>-->
+<!--                        <path>-->
+<!--                            <groupId>org.projectlombok</groupId>-->
+<!--                            <artifactId>lombok</artifactId>-->
+<!--                            <version>${org.projectlombok.version}</version>-->
+<!--                        </path>-->
+<!--                        <path>-->
+<!--                            <groupId>org.projectlombok</groupId>-->
+<!--                            <artifactId>lombok-mapstruct-bindings</artifactId>-->
+<!--                            <version>${lombok-mapstruct-binding.version}</version>-->
+<!--                        </path>-->
+<!--                        <path>-->
+<!--                            <groupId>org.mapstruct</groupId>-->
+<!--                            <artifactId>mapstruct-processor</artifactId>-->
+<!--                            <version>${mapstruct.version}</version>-->
+<!--                        </path>-->
+<!--                    </annotationProcessorPaths>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.liqubase</groupId>-->
+<!--                <artifactId>liqubase-maven-plugin</artifactId>-->
+<!--                <version>3.4.1</version>-->
+<!--                <configuration>-->
+<!--                    <changeLogFile>src/maim/resource/db/changelog/master.xml</changeLogFile>-->
+<!--                    <diffChangeLogFile>src/maim/resource/db/changelog/changelog.xml</diffChangeLogFile>-->
+<!--                    <outputChangeLogFile>src/maim/resource/db/changelog/myaddon.db.changelog.xml</outputChangeLogFile>-->
+<!--                    <driver>org.postgresql.Driver</driver>-->
+<!--                    <url>jdbc:postgresql://localhost:5432/upsoon-order</url>-->
+<!--                    <referenceUrl>jdbc:postgresql://localhost:5432/upsoon-order</referenceUrl>-->
+<!--                    <referenceDriver>org.postgresql.Driver</referenceDriver>-->
+<!--                    <username>upsoon</username>-->
+<!--                    <password></password>-->
+<!--                    <referenceUsername>upsoon</referenceUsername>-->
+<!--                    <referencePassword></referencePassword>-->
+<!--                </configuration>-->
+<!--                <dependencies>-->
+<!--                    <dependency>-->
+<!--                        <groupId>org.liquibase.ext</groupId>-->
+<!--                        <artifactId>liquibase-hibernate4</artifactId>-->
+<!--                        <version>3.5</version>-->
+<!--                    </dependency>-->
+<!--                    <dependency>-->
+<!--                        <groupId>org.springframework</groupId>-->
+<!--                        <artifactId>spring-beans</artifactId>-->
+<!--                        <version>4.1.7.RELEASE</version>-->
+<!--                    </dependency>-->
+<!--                    <dependency>-->
+<!--                        <groupId>org.springframework.data</groupId>-->
+<!--                        <artifactId>spring-data-jpa</artifactId>-->
+<!--                        <version>1.7.3.RELEASE</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <excludes>-->
+<!--                        <exclude>-->
+<!--                            <groupId>org.projectlombok</groupId>-->
+<!--                            <artifactId>lombok</artifactId>-->
+<!--                        </exclude>-->
+<!--                    </excludes>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>com.google.cloud.tools</groupId>-->
+<!--                <artifactId>jib-maven-plugin</artifactId>-->
+<!--                <version>${jib-maven-plugin.version}</version>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
         <!--        <pluginManagement>-->
         <!--            <plugins>-->
         <!--                <plugin>-->

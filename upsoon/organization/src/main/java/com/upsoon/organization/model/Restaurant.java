@@ -4,19 +4,20 @@ package com.upsoon.organization.model;
 import com.upsoon.common.model.AbstractAuditBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "restaurant")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @SQLDelete(sql = "UPDATE restaurant SET deleted = '1' where id = ?")
 @Where(clause = "deleted <> '1' ")
 public class Restaurant extends AbstractAuditBaseEntity implements Serializable {
@@ -39,11 +40,6 @@ public class Restaurant extends AbstractAuditBaseEntity implements Serializable 
     @Column(name = "zip_code")
     private String zipCode;
 
-    @ManyToMany
-    private List<User> user;
-
-    @ManyToOne(cascade = {CascadeType.MERGE})
-    private Organization organization;
 
 
 }

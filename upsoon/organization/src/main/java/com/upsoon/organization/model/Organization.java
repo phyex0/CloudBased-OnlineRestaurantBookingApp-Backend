@@ -5,13 +5,16 @@ import com.upsoon.common.enums.PackageService;
 import com.upsoon.common.model.AbstractAuditBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.annotations.WhereJoinTable;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -19,21 +22,30 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true, exclude ="restaurantUsers" )
 @SQLDelete(sql = "UPDATE organization SET deleted = '1' where id = ?")
 @Where(clause = "deleted <> '1' ")
 public class Organization extends AbstractAuditBaseEntity implements Serializable {
 
-    @Column(name = "organization-name", nullable = false, length = 255)
+    @Column(name = "organization_name", nullable = false, length = 255)
     private String organizationName;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "package-service-type")
+    @Column(name = "package_service_type")
     private PackageService packageService;
 
-    @ManyToOne
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "id", name = "parent_organization")
+    private Organization parentOrganization;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Restaurant> companies;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentOrganization")
+    private Set<Organization> childOrganizations;
 
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @WhereJoinTable(clause = "deleted=false")
+    @JoinTable(name = "organization_user",
+            joinColumns = @JoinColumn(name = "organization_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    private Set<RestaurantUser> restaurantUsers = new HashSet<>();
 }

@@ -1,34 +1,37 @@
 package com.upsoon.organization.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upsoon.common.model.AbstractAuditBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "restaurant_user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE user SET deleted = '1' where id = ?")
+@EqualsAndHashCode(callSuper = true)
+@SQLDelete(sql = "UPDATE restaurant_user SET deleted = '1' where id = ?")
 @Where(clause = "deleted <> '1' ")
-public class User extends AbstractAuditBaseEntity implements Serializable {
+public class RestaurantUser extends AbstractAuditBaseEntity implements Serializable {
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "middle_name", nullable = false)
+    @Column(name = "middle_name")
     private String middleName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @Column(name = "phone_number", nullable = false)
@@ -36,4 +39,11 @@ public class User extends AbstractAuditBaseEntity implements Serializable {
 
     @Column(name = "email", nullable = false)
     private String email;
+
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "restaurantUsers")
+    @JsonIgnore
+    private Set<Organization> organizations = new HashSet<>();
 }

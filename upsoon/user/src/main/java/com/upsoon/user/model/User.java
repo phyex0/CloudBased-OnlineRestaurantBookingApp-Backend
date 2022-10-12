@@ -1,6 +1,8 @@
 package com.upsoon.user.model;
 
-@Entity
+import javax.persistence.Entity;
+
+
 public class User {
 
 
