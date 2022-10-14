@@ -7,11 +7,13 @@ import com.upsoon.organization.model.Organization;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring", uses = {RestaurantUserMapper.class})
 public interface OrganizationMapper extends EntityMapper<OrganizationDTO, Organization> {
 
 
+    @Mapping(target = "restaurantUsers", ignore = true)
     Organization toEntity(OrganizationDTO dto);
 
+    @Mapping(target = "restaurantUsers", ignore = true)
     OrganizationDTO toDto(Organization entity);
 }

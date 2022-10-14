@@ -3,10 +3,7 @@ package com.upsoon.organization.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upsoon.common.model.AbstractAuditBaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -21,6 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@ToString
 @SQLDelete(sql = "UPDATE restaurant_user SET deleted = '1' where id = ?")
 @Where(clause = "deleted <> '1' ")
 public class RestaurantUser extends AbstractAuditBaseEntity implements Serializable {

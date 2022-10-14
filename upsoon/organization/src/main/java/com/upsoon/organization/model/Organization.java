@@ -3,10 +3,7 @@ package com.upsoon.organization.model;
 
 import com.upsoon.common.enums.PackageService;
 import com.upsoon.common.model.AbstractAuditBaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.hibernate.annotations.WhereJoinTable;
@@ -22,12 +19,13 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true, exclude ="restaurantUsers" )
+@EqualsAndHashCode(callSuper = true, exclude = "restaurantUsers")
+@ToString
 @SQLDelete(sql = "UPDATE organization SET deleted = '1' where id = ?")
 @Where(clause = "deleted <> '1' ")
 public class Organization extends AbstractAuditBaseEntity implements Serializable {
 
-    @Column(name = "organization_name", nullable = false, length = 255)
+    @Column(name = "organization_name", nullable = false)
     private String organizationName;
 
     @Enumerated(EnumType.STRING)
@@ -41,9 +39,11 @@ public class Organization extends AbstractAuditBaseEntity implements Serializabl
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentOrganization")
     private Set<Organization> childOrganizations;
 
+    @Column(name = "full_address", nullable = false)
+    private String fullAddress;
+
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @WhereJoinTable(clause = "deleted=false")
     @JoinTable(name = "organization_user",
             joinColumns = @JoinColumn(name = "organization_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))

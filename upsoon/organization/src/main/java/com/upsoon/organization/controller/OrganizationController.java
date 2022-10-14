@@ -1,7 +1,7 @@
 package com.upsoon.organization.controller;
 
 
-import com.upsoon.common.dto.OrganizationDTO;
+import com.upsoon.common.dto.NewOrganizationCreateDTO;
 import com.upsoon.organization.service.OrganizationService;
 import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/organization")
-@Api
+@Api(value = "Organization Controller")
 public class OrganizationController {
 
     private final OrganizationService organizationSerice;
@@ -23,7 +23,7 @@ public class OrganizationController {
 
 
     @PostMapping
-    public ResponseEntity<OrganizationDTO> createOrganization(@RequestBody OrganizationDTO organizationDTO){
-        return organizationSerice.createOrganization(organizationDTO);
+    public ResponseEntity<NewOrganizationCreateDTO> createOrganization(@RequestBody NewOrganizationCreateDTO newOrganizationCreateDTO) {
+        return organizationSerice.createOrganization(newOrganizationCreateDTO);
     }
 }

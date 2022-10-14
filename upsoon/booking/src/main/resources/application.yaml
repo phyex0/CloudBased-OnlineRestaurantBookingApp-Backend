@@ -1,1 +1,9 @@
 
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationSorter: method
+    enabled: true
+    disable-swagger-default-url: true

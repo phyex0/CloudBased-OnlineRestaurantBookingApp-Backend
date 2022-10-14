@@ -1,15 +1,17 @@
 package com.upsoon.common.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO implements Serializable {
+@EqualsAndHashCode
+@ToString
+public class RestaurantUserDTO implements Serializable {
 
     private String name;
 
@@ -20,4 +22,6 @@ public class UserDTO implements Serializable {
     private String phoneNumber;
 
     private String email;
+
+    private Set<OrganizationDTO> organizations;
 }
