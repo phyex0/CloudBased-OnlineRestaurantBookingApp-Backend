@@ -36,6 +36,7 @@ public class Organization extends AbstractAuditBaseEntity implements Serializabl
     @JoinColumn(referencedColumnName = "id", name = "parent_organization")
     private Organization parentOrganization;
 
+    //not required
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentOrganization")
     private Set<Organization> childOrganizations;
 

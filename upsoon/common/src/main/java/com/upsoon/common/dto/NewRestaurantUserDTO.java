@@ -6,11 +6,14 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewRestaurantUserDTO implements Serializable {
+
+    private UUID userId;
 
     @NotNull
     private String name;

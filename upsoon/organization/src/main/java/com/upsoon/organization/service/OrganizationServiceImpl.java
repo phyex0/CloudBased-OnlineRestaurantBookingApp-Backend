@@ -11,6 +11,9 @@ import com.upsoon.organization.model.Organization;
 import com.upsoon.organization.model.RestaurantUser;
 import com.upsoon.organization.repository.OrganizationRepository;
 import com.upsoon.organization.repository.RestaurantUserRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrganizationRepository organizationRepository;
@@ -90,11 +94,28 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         var restaurant = newOrganizationCreateMapper.toEntity(newOrganizationDTO);
 
+        organization.get().getRestaurantUsers().forEach(user -> {
+            restaurant.getRestaurantUsers().add(user);
+        });
 
         restaurant.setParentOrganization(organization.get());
         organizationRepository.save(restaurant);
 
+        //TODO: Kafka event goes here.
+
 
         return new ResponseEntity<>(newOrganizationDTO, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Page<NewOrganizationDTO>> getAllOrganizations(UUID restaurantUserId, Pageable pageable) {
+
+        Page<NewOrganizationDTO> organizations = restaurantUserRepository.getAllOrganizations(restaurantUserId, pageable);
+
+        if (organizations.isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(organizations, HttpStatus.OK);
+
     }
 }
