@@ -1,6 +1,7 @@
 package com.upsoon.organization.service;
 
 import com.upsoon.common.dto.NewOrganizationCreateDTO;
+import com.upsoon.common.dto.NewOrganizationDTO;
 import com.upsoon.common.dto.OrganizationDTO;
 import com.upsoon.common.enums.PackageService;
 import com.upsoon.organization.mapper.NewOrganizationCreateMapper;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
@@ -40,14 +42,14 @@ public class OrganizationServiceImpl implements OrganizationService {
     void init() {
         Organization organization = new Organization();
         organization.setFullAddress("Full Address");
-        organization.setOrganizationName("Organization 1");
+        organization.setOrganizationName("Root");
         organization.setPackageService(PackageService.OWN_CARRIER);
 
         RestaurantUser restaurantUser = new RestaurantUser();
         restaurantUser.setPhoneNumber("+999");
         restaurantUser.setEmail("test@test.1");
-        restaurantUser.setName("Test");
-        restaurantUser.setLastName("Test");
+        restaurantUser.setName("Root");
+        restaurantUser.setLastName("Root");
 
 
         organization.getRestaurantUsers().add(restaurantUser);
@@ -73,7 +75,26 @@ public class OrganizationServiceImpl implements OrganizationService {
         organizationRepository.save(organization);
         restaurantUserRepository.save(restaurantUser);
 
-        return new ResponseEntity<NewOrganizationCreateDTO>(newOrganizationCreateDTO, HttpStatus.OK);
+        return new ResponseEntity<>(newOrganizationCreateDTO, HttpStatus.OK);
 
+    }
+
+
+    @Override
+    public ResponseEntity<NewOrganizationDTO> createRestaurant(UUID organizationId, NewOrganizationDTO newOrganizationDTO) {
+
+        var organization = organizationRepository.findById(organizationId);
+
+        if (!organization.isPresent())
+            return new ResponseEntity<>(newOrganizationDTO, HttpStatus.NOT_FOUND);
+
+        var restaurant = newOrganizationCreateMapper.toEntity(newOrganizationDTO);
+
+
+        restaurant.setParentOrganization(organization.get());
+        organizationRepository.save(restaurant);
+
+
+        return new ResponseEntity<>(newOrganizationDTO, HttpStatus.OK);
     }
 }
