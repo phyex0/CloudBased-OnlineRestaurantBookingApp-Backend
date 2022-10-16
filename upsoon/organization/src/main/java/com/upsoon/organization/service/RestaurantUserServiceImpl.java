@@ -1,8 +1,8 @@
 package com.upsoon.organization.service;
 
 
-import com.upsoon.common.dto.NewOrganizationDTO;
 import com.upsoon.common.dto.NewRestaurantUserDTO;
+import com.upsoon.common.dto.UpdateRestaurantUserDTO;
 import com.upsoon.organization.mapper.NewRestaurantUserCreateMapper;
 import com.upsoon.organization.repository.OrganizationRepository;
 import com.upsoon.organization.repository.RestaurantUserRepository;
@@ -88,6 +88,22 @@ public class RestaurantUserServiceImpl implements RestaurantUserService {
         restaurantUserRepository.save(restaurantUser.get());
 
         return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<UpdateRestaurantUserDTO> updateUser(UUID userId, UpdateRestaurantUserDTO restaurantUserDTO) {
+
+        var user = restaurantUserRepository.findById(userId);
+
+        if (!user.isPresent())
+            return new ResponseEntity<>(restaurantUserDTO, HttpStatus.NOT_FOUND);
+
+        var updatedUser = newRestaurantUserCreateMapper.updateEntity(user.get(), restaurantUserDTO);
+        restaurantUserRepository.save(updatedUser);
+
+        return new ResponseEntity<>(restaurantUserDTO, HttpStatus.OK);
 
     }
 }

@@ -2,12 +2,10 @@ package com.upsoon.organization.service;
 
 import com.upsoon.common.dto.NewOrganizationCreateDTO;
 import com.upsoon.common.dto.NewOrganizationDTO;
-import com.upsoon.common.dto.OrganizationDTO;
+import com.upsoon.common.dto.UpdateOrganizationDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
@@ -25,4 +23,6 @@ public interface OrganizationService {
     ResponseEntity<Void> linkUserToGivenRestaurant(UUID restaurantId, UUID userId);
 
     ResponseEntity<Void> unlinkGivenUserFromGivenRestaurant(UUID userId, UUID restaurantId);
+
+    ResponseEntity<UpdateOrganizationDTO> updateRestaurant(UUID restaurantId, UpdateOrganizationDTO organizationDTO);
 }

@@ -3,6 +3,7 @@ package com.upsoon.organization.controller;
 
 import com.upsoon.common.dto.NewOrganizationCreateDTO;
 import com.upsoon.common.dto.NewOrganizationDTO;
+import com.upsoon.common.dto.UpdateOrganizationDTO;
 import com.upsoon.organization.service.OrganizationService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -62,4 +63,11 @@ public class OrganizationController {
     public ResponseEntity<Void> unlinkGivenUserFromGivenRestaurant(@RequestParam(value = "userId") UUID userId, @RequestParam(value = "restaurantId") UUID restaurantId) {
         return organizationSerice.unlinkGivenUserFromGivenRestaurant(userId, restaurantId);
     }
+
+    @PutMapping
+    @Operation(summary = "Updates given restaurant")
+    public ResponseEntity<UpdateOrganizationDTO> updateRestaurant(@RequestParam(value = "restaurantId") UUID restaurantId, @RequestBody UpdateOrganizationDTO organizationDTO) {
+        return organizationSerice.updateRestaurant(restaurantId, organizationDTO);
+    }
+
 }

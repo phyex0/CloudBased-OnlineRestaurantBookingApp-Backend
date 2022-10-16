@@ -1,6 +1,7 @@
 package com.upsoon.organization.service;
 
 import com.upsoon.common.dto.NewRestaurantUserDTO;
+import com.upsoon.common.dto.UpdateRestaurantUserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -15,5 +16,7 @@ public interface RestaurantUserService {
     ResponseEntity<Page<NewRestaurantUserDTO>> getAllUsers(UUID organizationId, Pageable pageable);
 
     ResponseEntity<Void> deleteUser(UUID userId);
+
+    ResponseEntity<UpdateRestaurantUserDTO> updateUser(UUID userId, UpdateRestaurantUserDTO restaurantUserDTO);
 
 }

@@ -2,6 +2,7 @@ package com.upsoon.organization.service;
 
 import com.upsoon.common.dto.NewOrganizationCreateDTO;
 import com.upsoon.common.dto.NewOrganizationDTO;
+import com.upsoon.common.dto.UpdateOrganizationDTO;
 import com.upsoon.common.enums.PackageService;
 import com.upsoon.organization.mapper.NewOrganizationCreateMapper;
 import com.upsoon.organization.mapper.NewRestaurantUserCreateMapper;
@@ -16,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -183,6 +183,22 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         return new ResponseEntity<>(HttpStatus.OK);
 
+
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<UpdateOrganizationDTO> updateRestaurant(UUID restaurantId, UpdateOrganizationDTO organizationDTO) {
+
+        var organization = organizationRepository.findById(restaurantId);
+
+        if (!organization.isPresent())
+            return new ResponseEntity<>(organizationDTO, HttpStatus.NOT_FOUND);
+
+        var updatedOrganization = newOrganizationCreateMapper.updateEntity(organization.get(), organizationDTO);
+        organizationRepository.save(updatedOrganization);
+
+        return new ResponseEntity<>(organizationDTO, HttpStatus.OK);
 
     }
 }

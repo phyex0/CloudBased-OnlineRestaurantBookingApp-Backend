@@ -1,6 +1,5 @@
 package com.upsoon.organization.repository;
 
-import com.upsoon.common.dto.NewOrganizationDTO;
 import com.upsoon.common.dto.NewRestaurantUserDTO;
 import com.upsoon.organization.model.Organization;
 import org.springframework.data.domain.Page;

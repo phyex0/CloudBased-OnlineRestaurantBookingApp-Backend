@@ -2,6 +2,7 @@ package com.upsoon.organization.controller;
 
 
 import com.upsoon.common.dto.NewRestaurantUserDTO;
+import com.upsoon.common.dto.UpdateRestaurantUserDTO;
 import com.upsoon.organization.service.RestaurantUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
@@ -35,8 +36,14 @@ public class RestaurantUserController {
 
     @DeleteMapping
     @Operation(summary = "Deletes the given user")
-    ResponseEntity<Void> deleteUser(@RequestParam(value = "userId") UUID userId) {
+    public ResponseEntity<Void> deleteUser(@RequestParam(value = "userId") UUID userId) {
         return restaurantUserService.deleteUser(userId);
+    }
+
+    @PutMapping
+    @Operation(summary = "Updates the given user")
+    public ResponseEntity<UpdateRestaurantUserDTO> updateUser(@RequestParam(value = "userId") UUID userId, @RequestBody UpdateRestaurantUserDTO restaurantUserDTO) {
+        return restaurantUserService.updateUser(userId, restaurantUserDTO);
     }
 
 }
