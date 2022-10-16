@@ -34,6 +34,7 @@ public class RestaurantUserController {
     }
 
     @DeleteMapping
+    @Operation(summary = "Deletes the given user")
     ResponseEntity<Void> deleteUser(@RequestParam(value = "userId") UUID userId) {
         return restaurantUserService.deleteUser(userId);
     }

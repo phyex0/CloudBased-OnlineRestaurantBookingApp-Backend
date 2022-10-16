@@ -143,5 +143,46 @@ public class OrganizationServiceImpl implements OrganizationService {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    @Override
+    @Transactional
+    public ResponseEntity<Void> linkUserToGivenRestaurant(UUID restaurantId, UUID userId) {
 
+        var user = restaurantUserRepository.findById(userId);
+        var restaurant = organizationRepository.findById(restaurantId);
+
+        if (!user.isPresent() || !restaurant.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        user.get().getOrganizations().add(restaurant.get());
+        restaurant.get().getRestaurantUsers().add(user.get());
+
+        restaurantUserRepository.save(user.get());
+        organizationRepository.save(restaurant.get());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+
+    }
+
+
+    @Override
+    @Transactional
+    public ResponseEntity<Void> unlinkGivenUserFromGivenRestaurant(UUID userId, UUID restaurantId) {
+
+        var user = restaurantUserRepository.findById(userId);
+        var restaurant = organizationRepository.findById(restaurantId);
+
+        if (!user.isPresent() || !restaurant.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        user.get().getOrganizations().remove(restaurant.get());
+        restaurant.get().getRestaurantUsers().remove(user.get());
+
+        restaurantUserRepository.save(user.get());
+        organizationRepository.save(restaurant.get());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+
+    }
 }

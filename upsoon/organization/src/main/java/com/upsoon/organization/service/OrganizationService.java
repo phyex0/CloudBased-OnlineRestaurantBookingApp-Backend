@@ -21,4 +21,8 @@ public interface OrganizationService {
     ResponseEntity<Page<NewOrganizationDTO>> getAllOrganizations(UUID restaurantUserId, Pageable pageable);
 
     ResponseEntity<Void> deleteRestaurant(UUID restaurantId);
+
+    ResponseEntity<Void> linkUserToGivenRestaurant(UUID restaurantId, UUID userId);
+
+    ResponseEntity<Void> unlinkGivenUserFromGivenRestaurant(UUID userId, UUID restaurantId);
 }
