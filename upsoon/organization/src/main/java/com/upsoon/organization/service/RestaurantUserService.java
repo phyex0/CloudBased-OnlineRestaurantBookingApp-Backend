@@ -13,4 +13,7 @@ public interface RestaurantUserService {
     ResponseEntity<NewRestaurantUserDTO> addNewUserToRestaurant(UUID restaurantId, NewRestaurantUserDTO newRestaurantUserDTO);
 
     ResponseEntity<Page<NewRestaurantUserDTO>> getAllUsers(UUID organizationId, Pageable pageable);
+
+    ResponseEntity<Void> deleteUser(UUID userId);
+
 }

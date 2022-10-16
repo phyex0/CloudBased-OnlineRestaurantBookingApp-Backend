@@ -2,7 +2,6 @@ package com.upsoon.organization.service;
 
 import com.upsoon.common.dto.NewOrganizationCreateDTO;
 import com.upsoon.common.dto.NewOrganizationDTO;
-import com.upsoon.common.dto.OrganizationDTO;
 import com.upsoon.common.enums.PackageService;
 import com.upsoon.organization.mapper.NewOrganizationCreateMapper;
 import com.upsoon.organization.mapper.NewRestaurantUserCreateMapper;
@@ -17,9 +16,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
+
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -33,6 +35,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final NewRestaurantUserCreateMapper newRestaurantUserCreateMapper;
 
     private final NewOrganizationCreateMapper newOrganizationCreateMapper;
+
 
     public OrganizationServiceImpl(OrganizationRepository organizationRepository, RestaurantUserRepository restaurantUserRepository, OrganizationMapper organizationMapper, NewRestaurantUserCreateMapper newRestaurantUserCreateMapper, NewOrganizationCreateMapper newOrganizationCreateMapper) {
         this.organizationRepository = organizationRepository;
@@ -85,6 +88,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 
     @Override
+    @Transactional
     public ResponseEntity<NewOrganizationDTO> createRestaurant(UUID organizationId, NewOrganizationDTO newOrganizationDTO) {
 
         var organization = organizationRepository.findById(organizationId);
@@ -118,4 +122,26 @@ public class OrganizationServiceImpl implements OrganizationService {
         return new ResponseEntity<>(organizations, HttpStatus.OK);
 
     }
+
+    @Override
+    @Transactional
+    public ResponseEntity<Void> deleteRestaurant(UUID restaurantId) {
+
+        var restaurant = organizationRepository.findById(restaurantId);
+
+        if (Objects.isNull(restaurant))
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+        var restaurantObject = restaurant.get();
+
+        restaurantObject.getRestaurantUsers().clear();
+        restaurantObject.setParentOrganization(null);
+        restaurantObject.setDeleted(Boolean.TRUE);
+        organizationRepository.save(restaurantObject);
+
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+
 }

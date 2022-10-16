@@ -18,5 +18,7 @@ public interface OrganizationService {
 
     ResponseEntity<NewOrganizationDTO> createRestaurant(UUID organizationId, NewOrganizationDTO newOrganizationDTO);
 
-    ResponseEntity<Page<NewOrganizationDTO>> getAllOrganizations(@RequestParam(value = "restaurantUserId") UUID restaurantUserId, Pageable pageable);
+    ResponseEntity<Page<NewOrganizationDTO>> getAllOrganizations(UUID restaurantUserId, Pageable pageable);
+
+    ResponseEntity<Void> deleteRestaurant(UUID restaurantId);
 }

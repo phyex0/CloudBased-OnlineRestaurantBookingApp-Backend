@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.UUID;
 
@@ -32,6 +34,7 @@ public class RestaurantUserServiceImpl implements RestaurantUserService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<NewRestaurantUserDTO> addNewUserToRestaurant(UUID restaurantId, NewRestaurantUserDTO newRestaurantUserDTO) {
 
         var restaurant = organizationRepository.findById(restaurantId);
@@ -60,5 +63,31 @@ public class RestaurantUserServiceImpl implements RestaurantUserService {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<Void> deleteUser(UUID userId) {
+
+        var restaurantUser = restaurantUserRepository.findById(userId);
+
+        if (!restaurantUser.isPresent())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+        var organizations = organizationRepository.getAllOrganizationsByUserId(userId);
+
+
+        organizations.forEach(organization -> {
+            organization.getRestaurantUsers().remove(restaurantUser.get());
+            organizationRepository.save(organization);
+        });
+
+
+        restaurantUser.get().getOrganizations().clear();
+        restaurantUser.get().setDeleted(Boolean.TRUE);
+        restaurantUserRepository.save(restaurantUser.get());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 }

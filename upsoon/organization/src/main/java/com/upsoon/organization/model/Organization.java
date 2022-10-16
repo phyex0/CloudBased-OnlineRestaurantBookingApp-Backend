@@ -6,7 +6,7 @@ import com.upsoon.common.model.AbstractAuditBaseEntity;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.hibernate.annotations.WhereJoinTable;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,11 +19,12 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true, exclude = "restaurantUsers")
-@ToString
+@EqualsAndHashCode(callSuper = true, exclude = {"restaurantUsers",/*"childOrganizations"*/})
+@ToString(callSuper = true, exclude = "parentOrganization")
 @SQLDelete(sql = "UPDATE organization SET deleted = '1' where id = ?")
 @Where(clause = "deleted <> '1' ")
-public class Organization extends AbstractAuditBaseEntity implements Serializable {
+public class
+Organization extends AbstractAuditBaseEntity implements Serializable {
 
     @Column(name = "organization_name", nullable = false)
     private String organizationName;
@@ -36,9 +37,6 @@ public class Organization extends AbstractAuditBaseEntity implements Serializabl
     @JoinColumn(referencedColumnName = "id", name = "parent_organization")
     private Organization parentOrganization;
 
-    //not required
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentOrganization")
-    private Set<Organization> childOrganizations;
 
     @Column(name = "full_address", nullable = false)
     private String fullAddress;

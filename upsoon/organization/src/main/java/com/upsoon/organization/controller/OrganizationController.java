@@ -39,10 +39,15 @@ public class OrganizationController {
 
 
     @GetMapping
-    @Operation(summary= "Returns all of the organizations and restaurant for related restaurantUser")
-    public ResponseEntity<Page<NewOrganizationDTO>> getAllOrganizations(@RequestParam(value = "restaurantUserId") UUID restaurantUserId, Pageable pageable){
+    @Operation(summary = "Returns all of the organizations and restaurant for related restaurantUser")
+    public ResponseEntity<Page<NewOrganizationDTO>> getAllOrganizations(@RequestParam(value = "restaurantUserId") UUID restaurantUserId, Pageable pageable) {
         return organizationSerice.getAllOrganizations(restaurantUserId, pageable);
     }
 
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteRestaurant(@RequestParam(value = "restaurantId") UUID restaurantId) {
+        return organizationSerice.deleteRestaurant(restaurantId);
+    }
 
 }

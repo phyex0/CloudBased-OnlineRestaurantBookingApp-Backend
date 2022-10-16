@@ -33,5 +33,9 @@ public class RestaurantUserController {
         return restaurantUserService.getAllUsers(organizationId, pageable);
     }
 
+    @DeleteMapping
+    ResponseEntity<Void> deleteUser(@RequestParam(value = "userId") UUID userId) {
+        return restaurantUserService.deleteUser(userId);
+    }
 
 }
