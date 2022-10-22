@@ -1,8 +1,9 @@
 # Use postgres/example user/password credentials
 version: '3.8'
 services:
-  postgres:
+  organization-postgres:
     image: postgres:13.2
+    container_name: organization-postgres
 
     environment:
       - POSTGRES_USER=postgres

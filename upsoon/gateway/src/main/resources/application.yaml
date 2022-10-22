@@ -1,4 +1,5 @@
-
+server:
+  port: 8080
 
 springdoc:
   swagger-ui:
@@ -6,3 +7,8 @@ springdoc:
     operationSorter: method
     enabled: true
     disable-swagger-default-url: true
+
+logging:
+  level:
+    org: debug
+

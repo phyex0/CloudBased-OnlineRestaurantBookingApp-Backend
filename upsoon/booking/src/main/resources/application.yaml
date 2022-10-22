@@ -1,5 +1,21 @@
+server:
+  port: 8082
 
 
+spring:
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    type: com.zaxxer.hikari.HikariDataSource
 
 springdoc:
   swagger-ui:
@@ -7,3 +23,10 @@ springdoc:
     operationSorter: method
     enabled: true
     disable-swagger-default-url: true
+
+logging:
+  level:
+    org: debug
+
+kafka:
+  topic-name: topic-name

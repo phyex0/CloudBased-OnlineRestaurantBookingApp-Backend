@@ -1,14 +1,17 @@
 package com.upsoon.organization.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.upsoon.common.dto.NewOrganizationCreateDTO;
 import com.upsoon.common.dto.NewOrganizationDTO;
 import com.upsoon.common.dto.UpdateOrganizationDTO;
 import com.upsoon.common.enums.PackageService;
+import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upsoon.organization.mapper.NewOrganizationCreateMapper;
 import com.upsoon.organization.mapper.NewRestaurantUserCreateMapper;
 import com.upsoon.organization.mapper.OrganizationMapper;
 import com.upsoon.organization.model.Organization;
 import com.upsoon.organization.model.RestaurantUser;
+import com.upsoon.organization.producer.KafkaProducer;
 import com.upsoon.organization.repository.OrganizationRepository;
 import com.upsoon.organization.repository.RestaurantUserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -36,13 +39,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     private final NewOrganizationCreateMapper newOrganizationCreateMapper;
 
+    private final KafkaProducer kafkaProducer;
 
-    public OrganizationServiceImpl(OrganizationRepository organizationRepository, RestaurantUserRepository restaurantUserRepository, OrganizationMapper organizationMapper, NewRestaurantUserCreateMapper newRestaurantUserCreateMapper, NewOrganizationCreateMapper newOrganizationCreateMapper) {
+
+    public OrganizationServiceImpl(OrganizationRepository organizationRepository, RestaurantUserRepository restaurantUserRepository, OrganizationMapper organizationMapper, NewRestaurantUserCreateMapper newRestaurantUserCreateMapper, NewOrganizationCreateMapper newOrganizationCreateMapper, KafkaProducer kafkaProducer) {
         this.organizationRepository = organizationRepository;
         this.restaurantUserRepository = restaurantUserRepository;
         this.organizationMapper = organizationMapper;
         this.newRestaurantUserCreateMapper = newRestaurantUserCreateMapper;
         this.newOrganizationCreateMapper = newOrganizationCreateMapper;
+        this.kafkaProducer = kafkaProducer;
     }
 
     @PostConstruct
@@ -118,6 +124,15 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         if (organizations.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+
+        OrganizationToOrder organizationToOrder = new OrganizationToOrder();
+        organizationToOrder.setOrganizationName("Kafka Test");
+        try {
+            kafkaProducer.produce(organizationToOrder);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
         return new ResponseEntity<>(organizations, HttpStatus.OK);
 
