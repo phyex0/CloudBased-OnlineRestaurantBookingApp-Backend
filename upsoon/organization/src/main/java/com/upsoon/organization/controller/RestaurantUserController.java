@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 @RestController
 @RequestMapping("/api/restaurant-user")
 public class RestaurantUserController {

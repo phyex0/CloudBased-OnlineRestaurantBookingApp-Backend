@@ -27,6 +27,9 @@ import javax.annotation.PostConstruct;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
 @Service
 @Slf4j
 public class OrganizationServiceImpl implements OrganizationService {
@@ -34,11 +37,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final RestaurantUserRepository restaurantUserRepository;
     private final OrganizationMapper organizationMapper;
-
     private final NewRestaurantUserCreateMapper newRestaurantUserCreateMapper;
-
     private final NewOrganizationCreateMapper newOrganizationCreateMapper;
-
     private final KafkaProducer kafkaProducer;
 
 
@@ -57,6 +57,9 @@ public class OrganizationServiceImpl implements OrganizationService {
         organization.setFullAddress("Full Address");
         organization.setOrganizationName("Root");
         organization.setPackageService(PackageService.OWN_CARRIER);
+        organization.setMarket(false);
+        organization.setRestaurant(true);
+        organization.setBooking(true);
 
         RestaurantUser restaurantUser = new RestaurantUser();
         restaurantUser.setPhoneNumber("+999");
@@ -99,10 +102,15 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         var organization = organizationRepository.findById(organizationId);
 
-        if (!organization.isPresent())
+        if (!organization.isPresent() ||
+                !(newOrganizationDTO.isRestaurant() || newOrganizationDTO.isBooking() || newOrganizationDTO.isMarket()))
             return new ResponseEntity<>(newOrganizationDTO, HttpStatus.NOT_FOUND);
 
         var restaurant = newOrganizationCreateMapper.toEntity(newOrganizationDTO);
+        restaurant.setRestaurant(organization.get().isRestaurant());
+        restaurant.setBooking(organization.get().isBooking());
+        restaurant.setMarket(organization.get().isMarket());
+
 
         organization.get().getRestaurantUsers().forEach(user -> {
             restaurant.getRestaurantUsers().add(user);

@@ -9,6 +9,10 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.UUID;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 
 public interface OrganizationService {
 

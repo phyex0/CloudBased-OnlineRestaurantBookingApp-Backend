@@ -7,11 +7,10 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+
+/**
+ * @author Halit Burak Yeşildal
+ */
 
 @Entity
 @Table(name = "organization")

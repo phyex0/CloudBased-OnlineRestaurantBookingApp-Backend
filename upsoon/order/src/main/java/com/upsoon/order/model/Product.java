@@ -9,6 +9,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
 @Entity
 @Table(name = "product")
 @Data

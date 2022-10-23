@@ -6,6 +6,10 @@ import com.upsoon.common.mapper.EntityMapper;
 import com.upsoon.organization.model.RestaurantUser;
 import org.mapstruct.*;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 @Mapper(componentModel = "spring", uses = {}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface NewRestaurantUserCreateMapper extends EntityMapper<NewRestaurantUserDTO, RestaurantUser> {
 

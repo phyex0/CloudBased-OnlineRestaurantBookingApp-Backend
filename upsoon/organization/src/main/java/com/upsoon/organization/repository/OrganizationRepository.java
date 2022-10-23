@@ -11,6 +11,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, UUID> {
     @Query("select distinct new com.upsoon.common.dto.NewRestaurantUserDTO(ru.id, ru.name, ru.lastName, ru.middleName, ru.phoneNumber, ru.email) " +

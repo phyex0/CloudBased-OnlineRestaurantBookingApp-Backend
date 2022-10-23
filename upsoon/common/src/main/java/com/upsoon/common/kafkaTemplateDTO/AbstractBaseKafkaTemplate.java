@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.GeneratedValue;
 import java.time.LocalDate;
 import java.util.UUID;
+
+/**
+ * @author Halit Burak Yeşildal
+ */
 
 @Data
 @AllArgsConstructor

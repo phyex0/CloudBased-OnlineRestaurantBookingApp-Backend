@@ -17,6 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 @Service
 @Slf4j
 public class RestaurantUserServiceImpl implements RestaurantUserService {

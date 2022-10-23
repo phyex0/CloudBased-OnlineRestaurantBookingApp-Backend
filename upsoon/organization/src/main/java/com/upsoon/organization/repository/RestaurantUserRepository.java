@@ -9,6 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.UUID;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 public interface RestaurantUserRepository extends JpaRepository<RestaurantUser, UUID> {
     @Query("select distinct new com.upsoon.common.dto.NewOrganizationDTO(o.id, o.organizationName, o.packageService, o.fullAddress) " +
             "from  RestaurantUser  ru left join ru.organizations o " +

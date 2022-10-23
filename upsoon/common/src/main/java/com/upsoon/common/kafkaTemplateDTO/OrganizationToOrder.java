@@ -6,9 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
+
+/**
+ * @author Halit Burak Yeşildal
+ */
 
 @Data
 @AllArgsConstructor

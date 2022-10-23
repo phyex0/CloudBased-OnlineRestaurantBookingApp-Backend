@@ -19,6 +19,10 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 @Configuration
 public class KafkaConfiguration {
 

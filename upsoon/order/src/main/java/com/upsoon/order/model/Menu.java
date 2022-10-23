@@ -8,6 +8,10 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 @Entity
 @Table(name = "menu")
 @Data

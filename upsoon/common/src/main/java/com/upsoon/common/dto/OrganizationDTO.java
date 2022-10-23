@@ -6,6 +6,10 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

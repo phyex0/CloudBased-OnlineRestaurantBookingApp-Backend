@@ -6,6 +6,10 @@ import com.upsoon.common.mapper.EntityMapper;
 import com.upsoon.organization.model.Organization;
 import org.mapstruct.*;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 @Mapper(componentModel = "spring", uses = {}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface NewOrganizationCreateMapper extends EntityMapper<NewOrganizationDTO, Organization> {
 

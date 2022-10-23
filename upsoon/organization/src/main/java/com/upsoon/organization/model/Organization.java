@@ -13,6 +13,10 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 
 @Entity
 @Table(name = "organization")
@@ -33,14 +37,21 @@ Organization extends AbstractAuditBaseEntity implements Serializable {
     @Column(name = "package_service_type")
     private PackageService packageService;
 
+    @Column(name = "is_market")
+    private boolean isMarket;
+
+    @Column(name = "is_restaurant")
+    private boolean isRestaurant;
+
+    @Column(name = "is_booking")
+    private boolean isBooking;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "id", name = "parent_organization")
     private Organization parentOrganization;
 
-
     @Column(name = "full_address", nullable = false)
     private String fullAddress;
-
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "organization_user",

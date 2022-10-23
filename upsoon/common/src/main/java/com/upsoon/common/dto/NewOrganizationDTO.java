@@ -9,6 +9,10 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.UUID;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,5 +29,11 @@ public class NewOrganizationDTO implements Serializable {
 
     @NotNull
     private String fullAddress;
+
+    private boolean isMarket;
+
+    private boolean isRestaurant;
+
+    private boolean isBooking;
 
 }

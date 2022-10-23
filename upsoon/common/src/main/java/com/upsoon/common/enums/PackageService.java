@@ -3,6 +3,10 @@ package com.upsoon.common.enums;
 
 import java.util.Arrays;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 public enum PackageService {
 
     NO_CARRIER("no_carrier"),

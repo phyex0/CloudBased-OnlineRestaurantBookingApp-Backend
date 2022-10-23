@@ -18,6 +18,10 @@ import javax.persistence.PrePersist;
 import java.time.Instant;
 import java.util.Date;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 @MappedSuperclass
 @EntityListeners({AuditingEntityListener.class})
 @AllArgsConstructor

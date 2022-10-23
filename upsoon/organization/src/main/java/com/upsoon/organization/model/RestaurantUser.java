@@ -12,6 +12,10 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 @Entity
 @Table(name = "restaurant_user")
 @Data

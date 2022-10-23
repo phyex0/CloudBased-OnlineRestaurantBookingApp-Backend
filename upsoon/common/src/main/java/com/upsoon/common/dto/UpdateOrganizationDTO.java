@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 
 @Data
 @AllArgsConstructor
