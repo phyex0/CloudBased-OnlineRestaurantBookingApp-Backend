@@ -29,4 +29,6 @@ logging:
     org: debug
 
 kafka:
-  topic-name: topic-name
+  address: 127.0.0.1:9092
+  group-id: upsoon-group-id
+  topic: order
