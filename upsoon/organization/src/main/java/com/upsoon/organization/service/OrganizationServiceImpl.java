@@ -9,6 +9,7 @@ import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upsoon.organization.mapper.NewOrganizationCreateMapper;
 import com.upsoon.organization.mapper.NewRestaurantUserCreateMapper;
 import com.upsoon.organization.mapper.OrganizationMapper;
+import com.upsoon.organization.mapper.RestaurantKafkaEventMapper;
 import com.upsoon.organization.model.Organization;
 import com.upsoon.organization.model.RestaurantUser;
 import com.upsoon.organization.producer.KafkaProducer;
@@ -41,14 +42,17 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final NewOrganizationCreateMapper newOrganizationCreateMapper;
     private final KafkaProducer kafkaProducer;
 
+    private final RestaurantKafkaEventMapper restaurantKafkaEventMapper;
 
-    public OrganizationServiceImpl(OrganizationRepository organizationRepository, RestaurantUserRepository restaurantUserRepository, OrganizationMapper organizationMapper, NewRestaurantUserCreateMapper newRestaurantUserCreateMapper, NewOrganizationCreateMapper newOrganizationCreateMapper, KafkaProducer kafkaProducer) {
+
+    public OrganizationServiceImpl(OrganizationRepository organizationRepository, RestaurantUserRepository restaurantUserRepository, OrganizationMapper organizationMapper, NewRestaurantUserCreateMapper newRestaurantUserCreateMapper, NewOrganizationCreateMapper newOrganizationCreateMapper, KafkaProducer kafkaProducer, RestaurantKafkaEventMapper restaurantKafkaEventMapper) {
         this.organizationRepository = organizationRepository;
         this.restaurantUserRepository = restaurantUserRepository;
         this.organizationMapper = organizationMapper;
         this.newRestaurantUserCreateMapper = newRestaurantUserCreateMapper;
         this.newOrganizationCreateMapper = newOrganizationCreateMapper;
         this.kafkaProducer = kafkaProducer;
+        this.restaurantKafkaEventMapper = restaurantKafkaEventMapper;
     }
 
     @PostConstruct
@@ -120,6 +124,12 @@ public class OrganizationServiceImpl implements OrganizationService {
         organizationRepository.save(restaurant);
 
         //TODO: Kafka event goes here.
+        var organizationToOrder = restaurantKafkaEventMapper.toDto(restaurant);
+        try {
+            kafkaProducer.produce(organizationToOrder);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
 
         return new ResponseEntity<>(newOrganizationDTO, HttpStatus.OK);
@@ -132,15 +142,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         if (organizations.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
-
-        OrganizationToOrder organizationToOrder = new OrganizationToOrder();
-        organizationToOrder.setOrganizationName("Kafka Test");
-        try {
-            kafkaProducer.produce(organizationToOrder);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
 
         return new ResponseEntity<>(organizations, HttpStatus.OK);
 

@@ -26,9 +26,10 @@ springdoc:
 
 logging:
   level:
-    org: debug
+    org: info
 
 kafka:
   address: 127.0.0.1:9092
   group-id: upsoon-group-id
-  topic: order
+  topic-organization-create: topic-organization-create
+  topic-organization-create-fail: topic-organization-create-fail

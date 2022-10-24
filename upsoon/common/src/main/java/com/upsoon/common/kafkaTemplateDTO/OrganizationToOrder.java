@@ -15,8 +15,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(of = {"id", "message", "messageDate"})
-public class OrganizationToOrder extends AbstractBaseKafkaTemplate implements Serializable {
+public class OrganizationToOrder implements Serializable {
     private UUID organizationId;
 
     private String organizationName;

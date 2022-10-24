@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class KafkaProducer {
 
-    @Value("${kafka.topic}")
+    @Value("${kafka.topic-organization-create}")
     private String topicName;
 
     private final ObjectMapper objectMapper;

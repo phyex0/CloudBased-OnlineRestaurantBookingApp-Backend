@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class KafkaProducer {
 
-    @Value("${kafka.topic-name}")
-    private String topicName;
+    @Value("${kafka.topic-organization-create-fail}")
+    private String organizationCreateFail;
 
     private final ObjectMapper objectMapper;
 
@@ -30,10 +30,10 @@ public class KafkaProducer {
     }
 
 
-    public void produce(OrganizationToOrder organizationToOrder) throws JsonProcessingException {
+    public void produceOrganizationCreateFail(OrganizationToOrder organizationToOrder) throws JsonProcessingException {
 
         String transferredMessage = objectMapper.writeValueAsString(organizationToOrder);
-        kafkaTemplate.send(topicName, transferredMessage);
+        kafkaTemplate.send(organizationCreateFail, transferredMessage);
         log.info("Message:" + transferredMessage);
 
     }

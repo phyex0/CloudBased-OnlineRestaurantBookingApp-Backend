@@ -31,7 +31,8 @@ public class Business extends AbstractAuditBaseEntity {
     @Column(name = "business_image")
     private String businessImage;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "business_id")
     private List<Menu> menuList;
 
 }

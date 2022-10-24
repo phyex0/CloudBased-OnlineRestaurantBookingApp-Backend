@@ -7,14 +7,18 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.KafkaException;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.listener.ErrorHandler;
+import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,5 +71,16 @@ public class KafkaConfiguration {
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
+    @Bean
+    public ErrorHandler handler() {
+        SeekToCurrentErrorHandler eh = new SeekToCurrentErrorHandler((rec, ex) -> {
+            System.out.println("Retries exhausted:" + rec);
+        });
+        eh.setBackOffFunction((rec, ex) -> {
+            return new FixedBackOff(0L, 8);
+        });
+        eh.setLogLevel(KafkaException.Level.DEBUG);
+        return eh;
+    }
 
 }

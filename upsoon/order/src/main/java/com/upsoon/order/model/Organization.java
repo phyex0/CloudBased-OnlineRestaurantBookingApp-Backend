@@ -7,6 +7,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 /**
  * @author Halit Burak Yeşildal
@@ -23,26 +24,19 @@ import javax.persistence.*;
 @Where(clause = "deleted <> '1' ")
 public class Organization extends AbstractAuditBaseEntity {
 
+    @Column(name = "exact_organization_id", nullable = false)
+    private UUID exactOrganizationId;
 
     @Column(name = "organization_name", nullable = false)
     private String organizationName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "package_service_type")
-    private PackageService packageService;
-
-    @Column(name = "full_address", nullable = false)
-    private String fullAddress;
-
-//    @Column(name = "user_id_list", nullable = false)
-//    private List<UUID> userIdList;
-
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "organization_m_id")
     private Business market;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "organization_r_id")
     private Business restaurant;
-
 
 
 }

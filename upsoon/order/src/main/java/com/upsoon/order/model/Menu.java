@@ -26,7 +26,8 @@ public class Menu extends AbstractAuditBaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "menu_id")
     private List<Product> productList;
 
 
