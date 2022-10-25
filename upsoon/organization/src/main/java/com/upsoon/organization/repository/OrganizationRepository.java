@@ -1,6 +1,6 @@
 package com.upsoon.organization.repository;
 
-import com.upsoon.common.dto.NewRestaurantUserDTO;
+import com.upsoon.common.dto.Organization.NewRestaurantUserDTO;
 import com.upsoon.organization.model.Organization;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, UUID> {
-    @Query("select distinct new com.upsoon.common.dto.NewRestaurantUserDTO(ru.id, ru.name, ru.lastName, ru.middleName, ru.phoneNumber, ru.email) " +
+    @Query("select distinct new com.upsoon.common.dto.Organization.NewRestaurantUserDTO(ru.id, ru.name, ru.lastName, ru.middleName, ru.phoneNumber, ru.email) " +
             "from  Organization  o join o.restaurantUsers ru " +
             "where o.id = :organizationId and o.deleted is false and ru.deleted is false ")
     Page<NewRestaurantUserDTO> getAllUsers(UUID organizationId, Pageable pageable);

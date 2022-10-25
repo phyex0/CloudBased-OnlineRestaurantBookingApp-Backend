@@ -1,7 +1,7 @@
 package com.upsoon.organization.mapper;
 
 
-import com.upsoon.common.dto.OrganizationDTO;
+import com.upsoon.common.dto.Organization.OrganizationDTO;
 import com.upsoon.common.mapper.EntityMapper;
 import com.upsoon.organization.model.Organization;
 import org.mapstruct.Mapper;

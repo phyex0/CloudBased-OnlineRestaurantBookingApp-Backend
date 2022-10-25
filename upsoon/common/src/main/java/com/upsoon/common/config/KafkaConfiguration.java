@@ -71,16 +71,4 @@ public class KafkaConfiguration {
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
-    @Bean
-    public ErrorHandler handler() {
-        SeekToCurrentErrorHandler eh = new SeekToCurrentErrorHandler((rec, ex) -> {
-            System.out.println("Retries exhausted:" + rec);
-        });
-        eh.setBackOffFunction((rec, ex) -> {
-            return new FixedBackOff(0L, 8);
-        });
-        eh.setLogLevel(KafkaException.Level.DEBUG);
-        return eh;
-    }
-
 }

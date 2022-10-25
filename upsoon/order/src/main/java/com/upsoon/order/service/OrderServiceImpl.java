@@ -1,6 +1,5 @@
 package com.upsoon.order.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upsoon.order.mapper.OrganizationFromOrganizationServiceMapper;
 import com.upsoon.order.producer.KafkaProducer;
@@ -8,6 +7,11 @@ import com.upsoon.order.repository.OrganizationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * @author Halit Burak Yeşildal
+ */
+
 
 @Service
 @Slf4j
@@ -27,22 +31,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void saveOrganization(OrganizationToOrder organizationToOrder) {
-
         var organization = organizationFromOrganizationServiceMapper.toEntity(organizationToOrder);
-
-
-        if (organizationRepository.existsOrganizationByExactOrganizationId(organization.getExactOrganizationId())) {
-            try {
-                kafkaProducer.produceOrganizationCreateFail(organizationToOrder);
-            } catch (JsonProcessingException e) {
-                log.info("Already exist organization tried to create again");
-                throw new RuntimeException(e);
-            }
-            return;
-        }
-
         organizationRepository.save(organization);
-
-
     }
 }

@@ -1,6 +1,5 @@
 package com.upsoon.order.model;
 
-import com.upsoon.common.enums.PackageService;
 import com.upsoon.common.model.AbstractAuditBaseEntity;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;

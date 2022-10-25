@@ -1,6 +1,6 @@
 package com.upsoon.order.repository;
 
-import com.upsoon.order.model.Organization;
+import com.upsoon.order.model.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
@@ -10,5 +10,5 @@ import java.util.UUID;
  */
 
 
-public interface OrganizationRepository extends JpaRepository<Organization, UUID> {
+public interface MenuRepository extends JpaRepository<Menu, UUID> {
 }

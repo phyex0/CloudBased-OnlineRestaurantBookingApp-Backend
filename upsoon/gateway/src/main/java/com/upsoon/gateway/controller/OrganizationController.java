@@ -1,7 +1,7 @@
 package com.upsoon.gateway.controller;
 
 
-import com.upsoon.common.dto.OrganizationDTO;
+import com.upsoon.common.dto.Organization.OrganizationDTO;
 import com.upsoon.gateway.client.OrganizationClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

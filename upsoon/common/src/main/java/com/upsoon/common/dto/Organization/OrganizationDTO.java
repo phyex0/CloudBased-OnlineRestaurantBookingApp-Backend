@@ -1,4 +1,4 @@
-package com.upsoon.common.dto;
+package com.upsoon.common.dto.Organization;
 
 import com.upsoon.common.enums.PackageService;
 import lombok.*;

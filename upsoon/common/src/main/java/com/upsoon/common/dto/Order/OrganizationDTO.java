@@ -1,4 +1,4 @@
-package com.upsoon.common.dto;
+package com.upsoon.common.dto.Order;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,15 +11,17 @@ import java.io.Serializable;
  * @author Halit Burak Yeşildal
  */
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewOrganizationCreateDTO implements Serializable {
+public class OrganizationDTO implements Serializable {
 
     @NotNull
-    private NewOrganizationDTO newOrganizationDTO;
+    private String organizationName;
 
-    @NotNull
-    private NewRestaurantUserDTO newRestaurantUserDTO;
+    private BusinessDTO market;
+
+    private BusinessDTO restaurant;
 
 }

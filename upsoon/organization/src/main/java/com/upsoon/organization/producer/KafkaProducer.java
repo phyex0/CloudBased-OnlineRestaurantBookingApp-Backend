@@ -1,12 +1,14 @@
 package com.upsoon.organization.producer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
+import com.upsoon.organization.service.OrganizationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * @author Halit Burak Yeşildal
@@ -23,16 +25,26 @@ public class KafkaProducer {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
+    private final OrganizationService organizationService;
 
-    public KafkaProducer(ObjectMapper objectMapper, KafkaTemplate<String, String> kafkaTemplate) {
+
+    public KafkaProducer(ObjectMapper objectMapper, KafkaTemplate<String, String> kafkaTemplate, OrganizationService organizationService) {
         this.objectMapper = objectMapper;
         this.kafkaTemplate = kafkaTemplate;
+        this.organizationService = organizationService;
     }
 
 
-    public void produce(OrganizationToOrder organizationToOrder) throws JsonProcessingException {
-        String transferredMessage = objectMapper.writeValueAsString(organizationToOrder);
-        kafkaTemplate.send(topicName, transferredMessage);
+    public void produce(OrganizationToOrder organizationToOrder) {
+        String transferredMessage = null;
+        try {
+            transferredMessage = objectMapper.writeValueAsString(organizationToOrder);
+            kafkaTemplate.send(topicName, UUID.randomUUID().toString(), transferredMessage);
+        } catch (Exception e) {
+            log.info("Organization create event failed. Mapper failed");
+            organizationService.deleteRestaurant(organizationToOrder.getOrganizationId());
+
+        }
         log.info("Produce :" + transferredMessage);
     }
 

@@ -1,6 +1,6 @@
 package com.upsoon.organization.mapper;
 
-import com.upsoon.common.dto.RestaurantUserDTO;
+import com.upsoon.common.dto.Organization.RestaurantUserDTO;
 import com.upsoon.common.mapper.EntityMapper;
 import com.upsoon.organization.model.RestaurantUser;
 import org.mapstruct.Mapper;

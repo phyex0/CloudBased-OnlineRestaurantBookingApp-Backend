@@ -10,6 +10,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+/**
+ * @author Halit Burak Yeşildal
+ */
+
+
 @Mapper(componentModel = "spring", uses = {})
 public interface OrganizationFromOrganizationServiceMapper extends EntityMapper<OrganizationToOrder, Organization> {
 

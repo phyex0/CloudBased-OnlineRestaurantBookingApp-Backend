@@ -1,9 +1,9 @@
 package com.upsoon.organization.controller;
 
 
-import com.upsoon.common.dto.NewOrganizationCreateDTO;
-import com.upsoon.common.dto.NewOrganizationDTO;
-import com.upsoon.common.dto.UpdateOrganizationDTO;
+import com.upsoon.common.dto.Organization.NewOrganizationCreateDTO;
+import com.upsoon.common.dto.Organization.NewOrganizationDTO;
+import com.upsoon.common.dto.Organization.UpdateOrganizationDTO;
 import com.upsoon.organization.service.OrganizationService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;

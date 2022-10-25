@@ -1,8 +1,8 @@
 package com.upsoon.organization.service;
 
-import com.upsoon.common.dto.NewOrganizationCreateDTO;
-import com.upsoon.common.dto.NewOrganizationDTO;
-import com.upsoon.common.dto.UpdateOrganizationDTO;
+import com.upsoon.common.dto.Organization.NewOrganizationCreateDTO;
+import com.upsoon.common.dto.Organization.NewOrganizationDTO;
+import com.upsoon.common.dto.Organization.UpdateOrganizationDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;

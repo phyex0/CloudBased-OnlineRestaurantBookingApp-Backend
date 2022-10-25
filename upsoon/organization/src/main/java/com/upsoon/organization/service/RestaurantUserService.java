@@ -1,7 +1,7 @@
 package com.upsoon.organization.service;
 
-import com.upsoon.common.dto.NewRestaurantUserDTO;
-import com.upsoon.common.dto.UpdateRestaurantUserDTO;
+import com.upsoon.common.dto.Organization.NewRestaurantUserDTO;
+import com.upsoon.common.dto.Organization.UpdateRestaurantUserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;

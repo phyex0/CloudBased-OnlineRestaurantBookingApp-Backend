@@ -1,11 +1,11 @@
 package com.upsoon.organization.consumer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upsoon.organization.service.OrganizationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,9 +25,14 @@ public class KafkaConsumer {
 
 
     @KafkaListener(topics = "${kafka.topic-organization-create-fail}", groupId = "${kafka.group-id}")
-    public void listen(String message) throws JsonProcessingException {
-        var object = objectMapper.readValue(message, OrganizationToOrder.class);
-        organizationService.deleteRestaurant(object.getOrganizationId());
+    public void listen(@Payload String message) {
+        OrganizationToOrder object = null;
+        try {
+            object = objectMapper.readValue(message, OrganizationToOrder.class);
+            organizationService.deleteRestaurant(object.getOrganizationId());
+        } catch (Exception e) {
+            log.info("Organization create fail - mapper exception");
+        }
         log.info("Consume :" + message);
     }
 

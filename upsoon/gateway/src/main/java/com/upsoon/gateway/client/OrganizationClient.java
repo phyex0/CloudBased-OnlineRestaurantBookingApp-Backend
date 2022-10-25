@@ -1,6 +1,6 @@
 package com.upsoon.gateway.client;
 
-import com.upsoon.common.dto.OrganizationDTO;
+import com.upsoon.common.dto.Organization.OrganizationDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

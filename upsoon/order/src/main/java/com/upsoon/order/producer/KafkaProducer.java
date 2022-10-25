@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * @author Halit Burak Yeşildal
  */
@@ -30,10 +32,15 @@ public class KafkaProducer {
     }
 
 
-    public void produceOrganizationCreateFail(OrganizationToOrder organizationToOrder) throws JsonProcessingException {
+    public void produceOrganizationCreateFail(OrganizationToOrder organizationToOrder) {
 
-        String transferredMessage = objectMapper.writeValueAsString(organizationToOrder);
-        kafkaTemplate.send(organizationCreateFail, transferredMessage);
+        String transferredMessage = null;
+        try {
+            transferredMessage = objectMapper.writeValueAsString(organizationToOrder);
+            kafkaTemplate.send(organizationCreateFail, UUID.randomUUID().toString(), transferredMessage);
+        } catch (Exception e) {
+            log.info("Organization Create Event Failed is failed :D");
+        }
         log.info("Message:" + transferredMessage);
 
     }

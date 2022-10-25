@@ -1,11 +1,9 @@
 package com.upsoon.organization.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.upsoon.common.dto.NewOrganizationCreateDTO;
-import com.upsoon.common.dto.NewOrganizationDTO;
-import com.upsoon.common.dto.UpdateOrganizationDTO;
+import com.upsoon.common.dto.Organization.NewOrganizationCreateDTO;
+import com.upsoon.common.dto.Organization.NewOrganizationDTO;
+import com.upsoon.common.dto.Organization.UpdateOrganizationDTO;
 import com.upsoon.common.enums.PackageService;
-import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upsoon.organization.mapper.NewOrganizationCreateMapper;
 import com.upsoon.organization.mapper.NewRestaurantUserCreateMapper;
 import com.upsoon.organization.mapper.OrganizationMapper;
@@ -125,12 +123,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         //TODO: Kafka event goes here.
         var organizationToOrder = restaurantKafkaEventMapper.toDto(restaurant);
-        try {
-            kafkaProducer.produce(organizationToOrder);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
+        kafkaProducer.produce(organizationToOrder);
+        //TODO: producer catchde delete yapıyor. Ama araya girme söz konusu olduğu için işlemi tamamlar mı?
 
         return new ResponseEntity<>(newOrganizationDTO, HttpStatus.OK);
     }

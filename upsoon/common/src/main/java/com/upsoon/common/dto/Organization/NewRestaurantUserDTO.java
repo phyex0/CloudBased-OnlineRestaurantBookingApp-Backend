@@ -1,4 +1,4 @@
-package com.upsoon.common.dto;
+package com.upsoon.common.dto.Organization;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
