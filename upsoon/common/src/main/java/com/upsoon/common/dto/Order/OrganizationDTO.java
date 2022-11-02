@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * @author Halit Burak Yeşildal
@@ -16,6 +17,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrganizationDTO implements Serializable {
+
+    private UUID id;
 
     @NotNull
     private String organizationName;

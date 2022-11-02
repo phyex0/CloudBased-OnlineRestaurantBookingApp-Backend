@@ -1,5 +1,6 @@
 package com.upsoon.order.model;
 
+import com.upsoon.common.enums.BusinessTypes;
 import com.upsoon.common.model.AbstractAuditBaseEntity;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -36,6 +37,13 @@ public class Organization extends AbstractAuditBaseEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "organization_r_id")
     private Business restaurant;
+
+
+    public Business getBusiness(BusinessTypes businessTypes){
+        if(businessTypes.equals(BusinessTypes.MARKET))
+            return this.market;
+        return this.restaurant;
+    }
 
 
 }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Halit Burak Yeşildal
@@ -20,6 +21,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BusinessDTO implements Serializable {
+
+    private UUID id;
 
     @NotNull
     private BusinessTypes businessTypes;
