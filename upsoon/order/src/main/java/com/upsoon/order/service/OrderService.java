@@ -36,13 +36,13 @@ public interface OrderService {
     ResponseEntity<Page<BusinessDTOForUI>> getAllOrganizations(BusinessTypes businessTypes, Pageable pageable);
 
 
-    ResponseEntity<ProductDTO> createProduct(UUID organizationId, UUID menuId, ProductDTO productDTO);
+    ResponseEntity<ProductDTO> createProduct(UUID organizationId, UUID menuId, ProductDTO productDTO, BusinessTypes businessTypes);
 
 
-    ResponseEntity<UpdateProductDTO> updateProduct(UUID organizationId, UUID productId, UpdateProductDTO updateProductDTO);
+    ResponseEntity<UpdateProductDTO> updateProduct(UUID organizationId, UUID menuId, UUID productId, UpdateProductDTO updateProductDTO, BusinessTypes businessTypes);
 
 
-    ResponseEntity<Void> deleteProduct(UUID organizationId, UUID productId);
+    ResponseEntity<Void> deleteProduct(UUID organizationId, UUID productId, UUID menuId, BusinessTypes businessTypes);
 
 
     ResponseEntity<ProductDTO> getProduct(UUID organizationId, UUID productId);

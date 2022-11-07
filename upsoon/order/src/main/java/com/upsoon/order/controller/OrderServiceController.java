@@ -57,18 +57,18 @@ public class OrderServiceController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<ProductDTO> createProduct(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestBody ProductDTO productDTO) {
-        return orderService.createProduct(organizationId, menuId, productDTO);
+    public ResponseEntity<ProductDTO> createProduct(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestBody ProductDTO productDTO, @RequestParam BusinessTypes businessTypes) {
+        return orderService.createProduct(organizationId, menuId, productDTO, businessTypes);
     }
 
     @PutMapping("/product")
-    public ResponseEntity<UpdateProductDTO> updateProduct(@RequestParam UUID organizationId, @RequestParam UUID productId, @RequestBody UpdateProductDTO updateProductDTO) {
-        return orderService.updateProduct(organizationId, productId, updateProductDTO);
+    public ResponseEntity<UpdateProductDTO> updateProduct(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestParam UUID productId, @RequestBody UpdateProductDTO updateProductDTO, @RequestParam BusinessTypes businessTypes) {
+        return orderService.updateProduct(organizationId, menuId, productId, updateProductDTO, businessTypes);
     }
 
     @DeleteMapping("/product")
-    public ResponseEntity<Void> deleteProduct(@RequestParam UUID organizationId, @RequestParam UUID productId) {
-        return orderService.deleteProduct(organizationId, productId);
+    public ResponseEntity<Void> deleteProduct(@RequestParam UUID organizationId, @RequestParam UUID productId, @RequestParam UUID menuId, @RequestParam BusinessTypes businessTypes) {
+        return orderService.deleteProduct(organizationId, productId, menuId, businessTypes);
     }
 
     @GetMapping("/product")

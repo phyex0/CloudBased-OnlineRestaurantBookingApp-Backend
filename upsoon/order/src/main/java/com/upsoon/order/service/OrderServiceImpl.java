@@ -6,6 +6,7 @@ import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upsoon.order.mapper.MenuMapper;
 import com.upsoon.order.mapper.OrganizationFromOrganizationServiceMapper;
 import com.upsoon.order.mapper.OrganizationMapper;
+import com.upsoon.order.mapper.ProductMapper;
 import com.upsoon.order.producer.KafkaProducer;
 import com.upsoon.order.repository.BusinessRepository;
 import com.upsoon.order.repository.MenuRepository;
@@ -22,6 +23,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static java.awt.SystemColor.menu;
+
 /**
  * @author Halit Burak Yeşildal
  */
@@ -37,16 +40,17 @@ public class OrderServiceImpl implements OrderService {
     private final MenuMapper menuMapper;
     private final MenuRepository menuRepository;
     private final OrganizationMapper organizationMapper;
-
+    private final ProductMapper productMapper;
     private final BusinessRepository businessRepository;
 
-    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, KafkaProducer kafkaProducer, MenuMapper menuMapper, MenuRepository menuRepository, OrganizationMapper organizationMapper, BusinessRepository businessRepository) {
+    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, KafkaProducer kafkaProducer, MenuMapper menuMapper, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, BusinessRepository businessRepository) {
         this.organizationFromOrganizationServiceMapper = organizationFromOrganizationServiceMapper;
         this.organizationRepository = organizationRepository;
         this.kafkaProducer = kafkaProducer;
         this.menuMapper = menuMapper;
         this.menuRepository = menuRepository;
         this.organizationMapper = organizationMapper;
+        this.productMapper = productMapper;
         this.businessRepository = businessRepository;
     }
 
@@ -147,17 +151,42 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseEntity<ProductDTO> createProduct(UUID organizationId, UUID menuId, ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> createProduct(UUID organizationId, UUID menuId, ProductDTO productDTO, BusinessTypes businessTypes) {
+
+        var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
+
+        if (Objects.isNull(organization))
+            return new ResponseEntity<>(productDTO, HttpStatus.NOT_FOUND);
+        if (organization.getBusiness(businessTypes).getMenuList().stream().filter(menuItem -> menuItem.getId().equals(menuId)).findFirst().isEmpty())
+            return new ResponseEntity<>(productDTO, HttpStatus.NOT_FOUND);
+
+        var product = productMapper.toEntity(productDTO);
+
+        organization.getBusiness(businessTypes).getMenuList()
+                .stream().filter(menu -> menu.getId().equals(menuId))
+                .findFirst().get().getProductList().add(product);
+
+        organizationRepository.save(organization);
+
+        return new ResponseEntity<>(productDTO, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<UpdateProductDTO> updateProduct(UUID organizationId, UUID menuId, UUID productId, UpdateProductDTO updateProductDTO, BusinessTypes businessTypes) {
+
+        var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
+
+        if (Objects.isNull(organization))
+            return new ResponseEntity<>(updateProductDTO, HttpStatus.NOT_FOUND);
+        if (organization.getBusiness(businessTypes).getMenuList().stream().filter(menu -> menu.getId().equals(menuId)).findFirst().isEmpty())
+            return new ResponseEntity<>(updateProductDTO, HttpStatus.NOT_FOUND);
+
+
         return null;
     }
 
     @Override
-    public ResponseEntity<UpdateProductDTO> updateProduct(UUID organizationId, UUID productId, UpdateProductDTO updateProductDTO) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Void> deleteProduct(UUID organizationId, UUID productId) {
+    public ResponseEntity<Void> deleteProduct(UUID organizationId, UUID productId, UUID menuId, BusinessTypes businessTypes) {
         return null;
     }
 
