@@ -7,6 +7,7 @@ import com.upsoon.order.mapper.MenuMapper;
 import com.upsoon.order.mapper.OrganizationFromOrganizationServiceMapper;
 import com.upsoon.order.mapper.OrganizationMapper;
 import com.upsoon.order.mapper.ProductMapper;
+import com.upsoon.order.model.Organization;
 import com.upsoon.order.producer.KafkaProducer;
 import com.upsoon.order.repository.BusinessRepository;
 import com.upsoon.order.repository.MenuRepository;
@@ -187,13 +188,61 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseEntity<Void> deleteProduct(UUID organizationId, UUID productId, UUID menuId, BusinessTypes businessTypes) {
-        return null;
+
+        var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
+
+        if (Objects.isNull(organization))
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        if (organization.getBusiness(businessTypes).getMenuList().stream().filter(menu -> menu.getId().equals(menuId)).findFirst().isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        if (organization.getBusiness(businessTypes).getMenuList().stream()
+                .filter(menu -> menu.getId().equals(menuId))
+                .findFirst().get().getProductList().stream().filter(prod -> prod.getId().equals(productId)).findFirst().isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+
+        organization.getBusiness(businessTypes).getMenuList().forEach(menu -> {
+            menu.getProductList().removeIf(prod -> prod.getId().equals(productId));
+        });
+        organizationRepository.save(organization);
+
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<ProductDTO> getProduct(UUID organizationId, UUID productId) {
-        return null;
+        var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
+
+        if (Objects.isNull(organization))
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+        ProductDTO dto = extractDtoFromOrganization(organization, BusinessTypes.RESTAURANT, productId);
+        if (!Objects.isNull(dto))
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        dto = extractDtoFromOrganization(organization, BusinessTypes.MARKET, productId);
+        if (!Objects.isNull(dto))
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
     }
+
+    private ProductDTO extractDtoFromOrganization(Organization organization, BusinessTypes businessTypes, UUID productId) {
+        var business = organization.getBusiness(businessTypes);
+        if (!Objects.isNull(business)) {
+            var selectedProduct = business.getMenuList().stream().flatMap(menu -> menu.getProductList().stream()).filter(prod -> prod.getId().equals(productId)).findFirst();
+            if (selectedProduct.isPresent()) {
+                var dto = productMapper.toDto(selectedProduct.get());
+                return dto;
+            }
+        }
+
+        return null;
+
+
+    }
+
 
     @Override
     public ResponseEntity<Page<ProductDTO>> getProducts(UUID organizationId, BusinessTypes businessTypes) {
