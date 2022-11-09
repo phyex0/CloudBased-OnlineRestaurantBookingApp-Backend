@@ -16,6 +16,8 @@ spring:
     password: postgres
     url: jdbc:postgresql://localhost:5433/postgres
     type: com.zaxxer.hikari.HikariDataSource
+  main:
+    allow-circular-references: true
 
 springdoc:
   swagger-ui:

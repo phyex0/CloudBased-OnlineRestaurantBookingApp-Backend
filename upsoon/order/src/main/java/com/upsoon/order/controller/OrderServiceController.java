@@ -77,8 +77,8 @@ public class OrderServiceController {
     }
 
     @GetMapping("/product-list")
-    public ResponseEntity<Page<ProductDTO>> getProducts(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes) {
-        return orderService.getProducts(organizationId, businessTypes);
+    public ResponseEntity<Page<ProductDTO>> getProducts(@RequestParam UUID organizationId, @RequestParam UUID menuID, @RequestParam BusinessTypes businessTypes, Pageable pageable) {
+        return orderService.getProducts(organizationId, menuID, businessTypes, pageable);
     }
 
 

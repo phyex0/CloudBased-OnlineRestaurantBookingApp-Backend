@@ -12,8 +12,11 @@ import com.upsoon.order.producer.KafkaProducer;
 import com.upsoon.order.repository.BusinessRepository;
 import com.upsoon.order.repository.MenuRepository;
 import com.upsoon.order.repository.OrganizationRepository;
+import com.upsoon.order.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import static java.awt.SystemColor.menu;
 
 /**
  * @author Halit Burak Yeşildal
@@ -37,22 +38,24 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper;
     private final OrganizationRepository organizationRepository;
-    private final KafkaProducer kafkaProducer;
     private final MenuMapper menuMapper;
     private final MenuRepository menuRepository;
     private final OrganizationMapper organizationMapper;
     private final ProductMapper productMapper;
     private final BusinessRepository businessRepository;
+    private final ProductRepository productRepository;
+    @Autowired
+    private KafkaProducer kafkaProducer;
 
-    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, KafkaProducer kafkaProducer, MenuMapper menuMapper, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, BusinessRepository businessRepository) {
+    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, MenuMapper menuMapper, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, BusinessRepository businessRepository, ProductRepository productRepository) {
         this.organizationFromOrganizationServiceMapper = organizationFromOrganizationServiceMapper;
         this.organizationRepository = organizationRepository;
-        this.kafkaProducer = kafkaProducer;
         this.menuMapper = menuMapper;
         this.menuRepository = menuRepository;
         this.organizationMapper = organizationMapper;
         this.productMapper = productMapper;
         this.businessRepository = businessRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
         if (Objects.isNull(organization)) {
             return new ResponseEntity<MenuDTO>(menuDTO, HttpStatus.NOT_FOUND);
         }
-
+        //TODO if selected menu is null handle it.
         var menu = menuMapper.toEntity(menuDTO);
         organization.getBusiness(businessTypes).getMenuList().add(menu);
         organizationRepository.save(organization);
@@ -124,7 +127,7 @@ public class OrderServiceImpl implements OrderService {
         if (Objects.isNull(organization)) {
             return new ResponseEntity<>(Page.empty(), HttpStatus.NOT_FOUND);
         }
-
+        //TODO obje null ise exception
         var menuIdList = organization.getBusiness(businessTypes).getMenuList().stream().map(menu -> menu.getId()).collect(Collectors.toList());
         var menuList = menuRepository.getMenuByIdList(menuIdList, pageable);
 
@@ -240,12 +243,28 @@ public class OrderServiceImpl implements OrderService {
 
         return null;
 
-
     }
 
 
     @Override
-    public ResponseEntity<Page<ProductDTO>> getProducts(UUID organizationId, BusinessTypes businessTypes) {
-        return null;
+    public ResponseEntity<Page<ProductDTO>> getProducts(UUID organizationId, UUID menuID, BusinessTypes businessTypes, Pageable pageable) {
+
+        var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
+
+        if (Objects.isNull(organization))
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        if (Objects.isNull(organization.getBusiness(businessTypes)))
+            return new ResponseEntity<>(null, HttpStatus.OK);
+
+        var businessId = organization.getBusiness(businessTypes).getId();
+
+
+        var product = productRepository.getAllProducts(businessId, menuID, pageable);
+
+        var productDto = productMapper.toDto(product.getContent());
+        Page<ProductDTO> page = new PageImpl<>(productDto);
+
+        return new ResponseEntity<>(page, HttpStatus.OK);
+
     }
 }

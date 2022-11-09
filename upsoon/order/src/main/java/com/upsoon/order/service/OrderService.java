@@ -48,7 +48,7 @@ public interface OrderService {
     ResponseEntity<ProductDTO> getProduct(UUID organizationId, UUID productId);
 
 
-    ResponseEntity<Page<ProductDTO>> getProducts(UUID organizationId, BusinessTypes businessTypes);
+    ResponseEntity<Page<ProductDTO>> getProducts(UUID organizationId, UUID menuID, BusinessTypes businessTypes, Pageable pageable);
 
 
 }

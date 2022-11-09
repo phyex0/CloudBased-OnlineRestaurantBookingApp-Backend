@@ -14,6 +14,7 @@ import com.upsoon.organization.producer.KafkaProducer;
 import com.upsoon.organization.repository.OrganizationRepository;
 import com.upsoon.organization.repository.RestaurantUserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -38,18 +39,17 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final OrganizationMapper organizationMapper;
     private final NewRestaurantUserCreateMapper newRestaurantUserCreateMapper;
     private final NewOrganizationCreateMapper newOrganizationCreateMapper;
-    private final KafkaProducer kafkaProducer;
-
     private final RestaurantKafkaEventMapper restaurantKafkaEventMapper;
+    @Autowired
+    private KafkaProducer kafkaProducer;
 
 
-    public OrganizationServiceImpl(OrganizationRepository organizationRepository, RestaurantUserRepository restaurantUserRepository, OrganizationMapper organizationMapper, NewRestaurantUserCreateMapper newRestaurantUserCreateMapper, NewOrganizationCreateMapper newOrganizationCreateMapper, KafkaProducer kafkaProducer, RestaurantKafkaEventMapper restaurantKafkaEventMapper) {
+    public OrganizationServiceImpl(OrganizationRepository organizationRepository, RestaurantUserRepository restaurantUserRepository, OrganizationMapper organizationMapper, NewRestaurantUserCreateMapper newRestaurantUserCreateMapper, NewOrganizationCreateMapper newOrganizationCreateMapper, RestaurantKafkaEventMapper restaurantKafkaEventMapper) {
         this.organizationRepository = organizationRepository;
         this.restaurantUserRepository = restaurantUserRepository;
         this.organizationMapper = organizationMapper;
         this.newRestaurantUserCreateMapper = newRestaurantUserCreateMapper;
         this.newOrganizationCreateMapper = newOrganizationCreateMapper;
-        this.kafkaProducer = kafkaProducer;
         this.restaurantKafkaEventMapper = restaurantKafkaEventMapper;
     }
 
