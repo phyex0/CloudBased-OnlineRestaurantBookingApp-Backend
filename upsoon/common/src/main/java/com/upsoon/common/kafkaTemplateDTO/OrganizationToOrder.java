@@ -16,6 +16,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrganizationToOrder implements Serializable {
+    private static final long serialVersionUID = -7965361783288377954L;
+
     private UUID organizationId;
 
     private String organizationName;

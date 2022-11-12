@@ -13,6 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateRestaurantUserDTO implements Serializable {
+    private static final long serialVersionUID = 1957309793754257670L;
 
     private String name;
 

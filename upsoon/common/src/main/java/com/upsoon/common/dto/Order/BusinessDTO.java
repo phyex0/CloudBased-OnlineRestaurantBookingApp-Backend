@@ -21,6 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BusinessDTO implements Serializable {
+    private static final long serialVersionUID = 5618035418244149764L;
 
     private UUID id;
 

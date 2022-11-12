@@ -10,5 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateBusinessDTO implements Serializable {
+    private static final long serialVersionUID = -2817804597407448815L;
+
     private String businessImage;
 }

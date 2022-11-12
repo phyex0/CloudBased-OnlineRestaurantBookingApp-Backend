@@ -35,3 +35,4 @@ kafka:
   group-id: upsoon-group-id
   topic-organization-create: topic-organization-create
   topic-organization-create-fail: topic-organization-create-fail
+  topic-order-create: topic-order-create

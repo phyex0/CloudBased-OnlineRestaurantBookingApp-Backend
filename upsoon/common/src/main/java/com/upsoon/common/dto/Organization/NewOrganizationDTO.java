@@ -17,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewOrganizationDTO implements Serializable {
-
+    private static final long serialVersionUID = -4270833131760983727L;
 
     private UUID organizationId;
 

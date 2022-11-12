@@ -16,6 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewRestaurantUserDTO implements Serializable {
+    private static final long serialVersionUID = -3607906976389348104L;
 
     private UUID userId;
 

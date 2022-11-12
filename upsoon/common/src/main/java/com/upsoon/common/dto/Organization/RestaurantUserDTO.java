@@ -15,6 +15,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 public class RestaurantUserDTO implements Serializable {
+    private static final long serialVersionUID = -6503234721562743348L;
 
     private String name;
 

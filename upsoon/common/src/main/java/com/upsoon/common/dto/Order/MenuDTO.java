@@ -17,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuDTO implements Serializable {
-
+    private static final long serialVersionUID = 2975167333662913722L;
     private UUID id;
 
     @NotNull

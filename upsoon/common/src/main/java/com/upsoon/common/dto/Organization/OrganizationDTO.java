@@ -16,7 +16,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 public class OrganizationDTO implements Serializable {
-
+    private static final long serialVersionUID = -4310059631778009167L;
 
     private String organizationName;
 

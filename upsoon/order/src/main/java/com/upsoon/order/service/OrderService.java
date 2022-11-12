@@ -50,5 +50,6 @@ public interface OrderService {
 
     ResponseEntity<Page<ProductDTO>> getProducts(UUID organizationId, UUID menuID, BusinessTypes businessTypes, Pageable pageable);
 
+    ResponseEntity<OrderDTO> createOrder(OrderDTO orderDTO);
 
 }

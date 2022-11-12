@@ -15,6 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO implements Serializable {
+    private static final long serialVersionUID = -1005738152875737310L;
 
     @NotNull
     private String productCode;

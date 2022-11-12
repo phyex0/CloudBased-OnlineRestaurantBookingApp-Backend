@@ -3,16 +3,10 @@ package com.upsoon.order.service;
 import com.upsoon.common.dto.Order.*;
 import com.upsoon.common.enums.BusinessTypes;
 import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
-import com.upsoon.order.mapper.MenuMapper;
-import com.upsoon.order.mapper.OrganizationFromOrganizationServiceMapper;
-import com.upsoon.order.mapper.OrganizationMapper;
-import com.upsoon.order.mapper.ProductMapper;
+import com.upsoon.order.mapper.*;
 import com.upsoon.order.model.Organization;
 import com.upsoon.order.producer.KafkaProducer;
-import com.upsoon.order.repository.BusinessRepository;
-import com.upsoon.order.repository.MenuRepository;
-import com.upsoon.order.repository.OrganizationRepository;
-import com.upsoon.order.repository.ProductRepository;
+import com.upsoon.order.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,10 +38,14 @@ public class OrderServiceImpl implements OrderService {
     private final ProductMapper productMapper;
     private final BusinessRepository businessRepository;
     private final ProductRepository productRepository;
+    private final OrderMapper orderMapper;
+    private final OrderRepository orderRepository;
+    private final OrderToStockMapper orderToStockMapper;
+
     @Autowired
     private KafkaProducer kafkaProducer;
 
-    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, MenuMapper menuMapper, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, BusinessRepository businessRepository, ProductRepository productRepository) {
+    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, MenuMapper menuMapper, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, BusinessRepository businessRepository, ProductRepository productRepository, OrderMapper orderMapper, OrderRepository orderRepository, OrderToStockMapper orderToStockMapper) {
         this.organizationFromOrganizationServiceMapper = organizationFromOrganizationServiceMapper;
         this.organizationRepository = organizationRepository;
         this.menuMapper = menuMapper;
@@ -56,6 +54,9 @@ public class OrderServiceImpl implements OrderService {
         this.productMapper = productMapper;
         this.businessRepository = businessRepository;
         this.productRepository = productRepository;
+        this.orderMapper = orderMapper;
+        this.orderRepository = orderRepository;
+        this.orderToStockMapper = orderToStockMapper;
     }
 
     @Override
@@ -266,5 +267,29 @@ public class OrderServiceImpl implements OrderService {
 
         return new ResponseEntity<>(page, HttpStatus.OK);
 
+    }
+
+    @Override
+    public ResponseEntity<OrderDTO> createOrder(OrderDTO orderDTO) {
+
+        var containsAll = productRepository.existsAllByIdIn(orderDTO.getProductId());
+
+        if (!containsAll) {
+            return new ResponseEntity<>(orderDTO, HttpStatus.NOT_FOUND);
+        }
+
+        var order = orderMapper.toEntity(orderDTO);
+
+        Double totalAmount = productRepository.getTotalAmount(orderDTO.getProductId());
+        order.setAmount(totalAmount);
+
+        var orderToStock = orderToStockMapper.toDto(order);
+
+        kafkaProducer.produceOrderCreatedEvent(orderToStock);
+
+        orderRepository.save(order);
+
+
+        return null;
     }
 }

@@ -2,12 +2,14 @@ package com.upsoon.order.producer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.upsoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.UUID;
 
 /**
@@ -20,6 +22,10 @@ public class KafkaProducer {
 
     @Value("${kafka.topic-organization-create-fail}")
     private String organizationCreateFail;
+
+    @Value("${kafka.topic-order-create}")
+    private String orderCreate;
+
 
     private final ObjectMapper objectMapper;
 
@@ -43,6 +49,18 @@ public class KafkaProducer {
         }
         log.info("Message:" + transferredMessage);
 
+    }
+
+    public void produceOrderCreatedEvent(OrderToStock orderToStock) {
+        String transferredMessage = null;
+
+        try {
+            transferredMessage = objectMapper.writeValueAsString(orderToStock);
+            kafkaTemplate.send(orderCreate, UUID.randomUUID().toString(), transferredMessage);
+        } catch (Exception e) {
+            log.info("Order Create Event failed");
+        }
+        log.info("Message:" + transferredMessage);
     }
 
 }

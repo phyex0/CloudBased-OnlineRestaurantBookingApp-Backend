@@ -82,4 +82,10 @@ public class OrderServiceController {
     }
 
 
+    @PostMapping
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
+        return orderService.createOrder(orderDTO);
+    }
+
+
 }
