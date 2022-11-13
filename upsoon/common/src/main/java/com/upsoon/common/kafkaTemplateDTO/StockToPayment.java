@@ -5,25 +5,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.UUID;
 
 /**
- * @author burak.yesildal
+ * @author Halit Burak Yeşildal
  */
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderToStock implements Serializable {
-    private static final long serialVersionUID = -8400233693699183103L;
+public class StockToPayment implements Serializable {
+    private static final long serialVersionUID = -6151181695342279874L;
 
-    private UUID orderId;
-
-    private Map<UUID, Long> productMap;
+    private UUID userId;
 
     private Double price;
 
-    private UUID userId;
+    private UUID orderId;
 
 }

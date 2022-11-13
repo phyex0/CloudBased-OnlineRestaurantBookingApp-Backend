@@ -14,8 +14,10 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5434/postgres
     type: com.zaxxer.hikari.HikariDataSource
+  main:
+    allow-circular-references: true
 
 springdoc:
   swagger-ui:
@@ -26,9 +28,12 @@ springdoc:
 
 logging:
   level:
-    org: debug
+    org: info
 
 kafka:
   address: 127.0.0.1:9092
   group-id: upsoon-group-id
-  topic: order
+  topic-order-create: topic-order-create
+  topic-payment-failed: topic-payment-failed
+  topic-payment-handle: topic-payment-handle
+  topic-stock-failed: topic-stock-failed

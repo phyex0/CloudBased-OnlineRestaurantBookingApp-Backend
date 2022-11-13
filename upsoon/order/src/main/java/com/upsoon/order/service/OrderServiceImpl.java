@@ -68,6 +68,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    @Transactional
     public ResponseEntity<MenuDTO> createMenu(UUID organizationId, BusinessTypes businessTypes, MenuDTO menuDTO) {
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
@@ -84,6 +85,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<UpdateMenuDTO> updateMenu(UUID organizationId, UUID menuId, BusinessTypes businessTypes, UpdateMenuDTO menuDTO) {
 
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
@@ -105,6 +107,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Void> deleteMenu(UUID organizationId, UUID menuId) {
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
@@ -156,6 +159,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<ProductDTO> createProduct(UUID organizationId, UUID menuId, ProductDTO productDTO, BusinessTypes businessTypes) {
 
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
@@ -177,6 +181,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<UpdateProductDTO> updateProduct(UUID organizationId, UUID menuId, UUID productId, UpdateProductDTO updateProductDTO, BusinessTypes businessTypes) {
 
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
@@ -191,6 +196,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Void> deleteProduct(UUID organizationId, UUID productId, UUID menuId, BusinessTypes businessTypes) {
 
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
@@ -270,6 +276,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<OrderDTO> createOrder(OrderDTO orderDTO) {
 
         var containsAll = productRepository.existsAllByIdIn(orderDTO.getProductId());
@@ -281,7 +288,7 @@ public class OrderServiceImpl implements OrderService {
         var order = orderMapper.toEntity(orderDTO);
 
         Double totalAmount = productRepository.getTotalAmount(orderDTO.getProductId());
-        order.setAmount(totalAmount);
+        order.setTotalAmount(totalAmount);
 
         var orderToStock = orderToStockMapper.toDto(order);
 

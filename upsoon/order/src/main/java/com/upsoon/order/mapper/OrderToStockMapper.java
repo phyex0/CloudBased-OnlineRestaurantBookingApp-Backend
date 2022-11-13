@@ -21,9 +21,9 @@ public interface OrderToStockMapper extends EntityMapper<OrderToStock, Order> {
     OrderToStock toDto(Order entity);
 
 
-    default Map<UUID, Integer> mapCreator(Order order) {
-        Map<UUID, Integer> map = new HashMap<>();
-        order.getProductId().forEach(product -> map.put(product, map.getOrDefault(product, 0) + 1));
+    default Map<UUID, Long> mapCreator(Order order) {
+        Map<UUID, Long> map = new HashMap<>();
+        order.getProductId().forEach(product -> map.put(product, map.getOrDefault(product, 0L) + 1));
         return map;
     }
 }
