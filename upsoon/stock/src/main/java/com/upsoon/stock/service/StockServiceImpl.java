@@ -1,6 +1,7 @@
 package com.upsoon.stock.service;
 
 import com.upsoon.common.dto.Stock.CreateStockDTO;
+import com.upsoon.common.enums.OrderStatus;
 import com.upsoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upsoon.common.kafkaTemplateDTO.StockToPayment;
 import com.upsoon.stock.mapper.OrderToStockMapper;
@@ -60,6 +61,7 @@ public class StockServiceImpl implements StockService {
 
         if (invalidStock.get()) {
             //TODO: orderService doesn't have listener for the following event!
+            orderToStock.setOrderStatus(OrderStatus.INVALID_STOCK);
             kafkaProducer.produceStockFailedEvent(orderToStock);
             return;
         }
@@ -91,8 +93,12 @@ public class StockServiceImpl implements StockService {
 
         stockRepository.saveAll(stockList);
 
-        //TODO: kafka event here with status payment_failed;
-        //kafkaProducer.produceStockFailedEvent();
+        //TODO: kafka event here with status payment_failed - Mapper required.;
+        OrderToStock orderToStock = new OrderToStock();
+        orderToStock.setOrderId(stockToPayment.getOrderId());
+        orderToStock.setOrderStatus(OrderStatus.PAYMENT_FAILED);
+        orderToStock.setUserId(stockToPayment.getUserId());
+        kafkaProducer.produceStockFailedEvent(orderToStock);
 
     }
 

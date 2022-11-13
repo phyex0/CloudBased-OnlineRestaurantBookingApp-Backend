@@ -1,5 +1,6 @@
 package com.upsoon.common.kafkaTemplateDTO;
 
+import com.upsoon.common.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,5 +26,7 @@ public class OrderToStock implements Serializable {
     private Double price;
 
     private UUID userId;
+
+    private OrderStatus orderStatus;
 
 }

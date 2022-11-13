@@ -2,7 +2,9 @@ package com.upsoon.order.service;
 
 import com.upsoon.common.dto.Order.*;
 import com.upsoon.common.enums.BusinessTypes;
+import com.upsoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
+import com.upsoon.order.model.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import java.util.UUID;
 public interface OrderService {
 
     void saveOrganization(OrganizationToOrder organizationToOrder);
+
+    void rollbackOrder(OrderToStock orderToStock);
 
 
     ResponseEntity<MenuDTO> createMenu(UUID organizationId, BusinessTypes businessTypes, MenuDTO menuDTO);

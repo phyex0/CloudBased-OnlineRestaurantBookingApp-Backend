@@ -36,3 +36,5 @@ kafka:
   topic-organization-create: topic-organization-create
   topic-organization-create-fail: topic-organization-create-fail
   topic-order-create: topic-order-create
+  topic-stock-failed: topic-stock-failed
+

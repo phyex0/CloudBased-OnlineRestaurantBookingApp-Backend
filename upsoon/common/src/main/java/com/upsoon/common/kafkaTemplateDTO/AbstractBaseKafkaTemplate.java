@@ -16,6 +16,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public abstract class AbstractBaseKafkaTemplate {
 
+    //TODO: remove class!
+
     public String id = UUID.randomUUID().toString();
 
     public LocalDate messageDate = LocalDate.now();

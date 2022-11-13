@@ -2,6 +2,8 @@ package com.upsoon.order.service;
 
 import com.upsoon.common.dto.Order.*;
 import com.upsoon.common.enums.BusinessTypes;
+import com.upsoon.common.enums.OrderStatus;
+import com.upsoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upsoon.order.mapper.*;
 import com.upsoon.order.model.Organization;
@@ -66,6 +68,18 @@ public class OrderServiceImpl implements OrderService {
         organizationRepository.save(organization);
     }
 
+    @Override
+    @Transactional
+    public void rollbackOrder(OrderToStock orderToStock) {
+        var order = orderRepository.findById(orderToStock.getOrderId());
+
+        if (order.isEmpty())
+            log.info("wtf?");
+
+        order.get().setOrderStatus(orderToStock.getOrderStatus());
+        orderRepository.save(order.get());
+
+    }
 
     @Override
     @Transactional
@@ -176,6 +190,7 @@ public class OrderServiceImpl implements OrderService {
                 .findFirst().get().getProductList().add(product);
 
         organizationRepository.save(organization);
+        //TODO: create stock for product with rest call
 
         return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
@@ -291,6 +306,7 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(totalAmount);
 
         var orderToStock = orderToStockMapper.toDto(order);
+        orderToStock.setOrderStatus(OrderStatus.ORDER_CREATED);
 
         kafkaProducer.produceOrderCreatedEvent(orderToStock);
 

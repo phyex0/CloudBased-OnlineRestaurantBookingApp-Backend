@@ -3,6 +3,7 @@ package com.upsoon.order.consumer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.upsoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upsoon.order.producer.KafkaProducer;
 import com.upsoon.order.service.OrderService;
@@ -43,6 +44,19 @@ public class KafkaConsumer {
         } catch (Exception e) {
             log.info(e.getMessage());
             kafkaProducer.produceOrganizationCreateFail(object);
+        }
+        log.info("Listen :" + message);
+    }
+
+    @KafkaListener(topics = "${kafka.topic-stock-failed}", groupId = "${kafka.group-id}")
+    public void listenStockFailedEvent(@Payload String message) {
+        OrderToStock object = null;
+        try {
+            object = objectMapper.readValue(message, OrderToStock.class);
+            orderService.rollbackOrder(object);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+//            kafkaProducer.produceOrganizationCreateFail(object);
         }
         log.info("Listen :" + message);
     }
