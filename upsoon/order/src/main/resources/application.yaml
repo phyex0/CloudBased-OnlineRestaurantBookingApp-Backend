@@ -38,3 +38,8 @@ kafka:
   topic-order-create: topic-order-create
   topic-stock-failed: topic-stock-failed
 
+client:
+  stock-api:
+    name: stock
+    url: 127.0.0.1:8086
+

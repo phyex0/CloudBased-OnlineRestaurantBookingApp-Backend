@@ -25,4 +25,6 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     @Query("select SUM(p.price) from Product p where p.id in (:idList)")
     Double getTotalAmount(List<UUID> idList);
+
+    Product findProductByProductCode(String productCode);
 }

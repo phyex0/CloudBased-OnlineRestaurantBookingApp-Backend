@@ -1,10 +1,12 @@
 package com.upsoon.order.service;
 
 import com.upsoon.common.dto.Order.*;
+import com.upsoon.common.dto.Stock.CreateStockDTO;
 import com.upsoon.common.enums.BusinessTypes;
 import com.upsoon.common.enums.OrderStatus;
 import com.upsoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
+import com.upsoon.order.client.StockClient;
 import com.upsoon.order.mapper.*;
 import com.upsoon.order.model.Organization;
 import com.upsoon.order.producer.KafkaProducer;
@@ -43,11 +45,12 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
     private final OrderToStockMapper orderToStockMapper;
+    private final StockClient stockClient;
 
     @Autowired
     private KafkaProducer kafkaProducer;
 
-    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, MenuMapper menuMapper, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, BusinessRepository businessRepository, ProductRepository productRepository, OrderMapper orderMapper, OrderRepository orderRepository, OrderToStockMapper orderToStockMapper) {
+    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, MenuMapper menuMapper, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, BusinessRepository businessRepository, ProductRepository productRepository, OrderMapper orderMapper, OrderRepository orderRepository, OrderToStockMapper orderToStockMapper, StockClient stockClient) {
         this.organizationFromOrganizationServiceMapper = organizationFromOrganizationServiceMapper;
         this.organizationRepository = organizationRepository;
         this.menuMapper = menuMapper;
@@ -59,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
         this.orderMapper = orderMapper;
         this.orderRepository = orderRepository;
         this.orderToStockMapper = orderToStockMapper;
+        this.stockClient = stockClient;
     }
 
     @Override
@@ -175,7 +179,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public ResponseEntity<ProductDTO> createProduct(UUID organizationId, UUID menuId, ProductDTO productDTO, BusinessTypes businessTypes) {
-
+        //TODO: product code gotto be unique add constraint!
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
         if (Objects.isNull(organization))
@@ -190,7 +194,9 @@ public class OrderServiceImpl implements OrderService {
                 .findFirst().get().getProductList().add(product);
 
         organizationRepository.save(organization);
-        //TODO: create stock for product with rest call
+        organizationRepository.flush();
+        product = productRepository.findProductByProductCode(product.getProductCode());
+        stockClient.createStock(new CreateStockDTO(product.getId(), 0L));
 
         return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
