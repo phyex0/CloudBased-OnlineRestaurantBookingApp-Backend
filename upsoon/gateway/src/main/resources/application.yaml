@@ -1,6 +1,10 @@
 server:
   port: 8080
 
+spring:
+ main:
+    allow-bean-definition-overriding: true
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -10,5 +14,15 @@ springdoc:
 
 logging:
   level:
-    org: debug
+    org: info
 
+client:
+  order-api:
+    name: order
+    url:  localhost:8083
+  stock-api:
+    name: stock
+    url: localhost:8086
+  organization-api:
+    name: organization
+    url: localhost:8084

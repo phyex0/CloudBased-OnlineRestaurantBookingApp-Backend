@@ -1,9 +1,9 @@
 # Use postgres/example user/password credentials
 version: '3.8'
 services:
-  order-postgres:
+  postgres-order:
     image: postgres:13.2
-    container_name: order-postgres
+    container_name: postgres-order
 
     environment:
       - POSTGRES_USER=postgres
