@@ -4,10 +4,10 @@ package com.upsoon.gateway.controller.organization;
 import com.upsoon.common.dto.Organization.NewOrganizationCreateDTO;
 import com.upsoon.common.dto.Organization.NewOrganizationDTO;
 import com.upsoon.common.dto.Organization.UpdateOrganizationDTO;
+import com.upsoon.common.web.CustomPage;
 import com.upsoon.gateway.client.organization.OrganizationClient;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +44,7 @@ public class OrganizationController {
 
     @GetMapping
     @Operation(summary = "Returns all of the organizations and restaurant for related restaurantUser")
-    public ResponseEntity<Page<NewOrganizationDTO>> getAllOrganizations(@RequestParam(value = "restaurantUserId") UUID restaurantUserId, Pageable pageable) {
+    public ResponseEntity<CustomPage<NewOrganizationDTO>> getAllOrganizations(@RequestParam(value = "restaurantUserId") UUID restaurantUserId, Pageable pageable) {
         return organizationClient.getAllOrganizations(restaurantUserId, pageable);
     }
 

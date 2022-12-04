@@ -27,5 +27,4 @@ public class Stock extends AbstractAuditBaseEntity {
     private Long count;
 
 
-
 }

@@ -3,6 +3,7 @@ package com.upsoon.organization.controller;
 
 import com.upsoon.common.dto.Organization.NewRestaurantUserDTO;
 import com.upsoon.common.dto.Organization.UpdateRestaurantUserDTO;
+import com.upsoon.common.web.CustomPage;
 import com.upsoon.organization.service.RestaurantUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
@@ -34,7 +35,7 @@ public class RestaurantUserController {
 
     @GetMapping
     @Operation(summary = "Returns all of the restaurant user related to given organization")
-    public ResponseEntity<Page<NewRestaurantUserDTO>> getAllUsers(@RequestParam(value = "organizationId") UUID organizationId, Pageable pageable) {
+    public ResponseEntity<CustomPage<NewRestaurantUserDTO>> getAllUsers(@RequestParam(value = "organizationId") UUID organizationId, Pageable pageable) {
         return restaurantUserService.getAllUsers(organizationId, pageable);
     }
 

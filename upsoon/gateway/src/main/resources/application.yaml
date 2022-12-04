@@ -2,7 +2,7 @@ server:
   port: 8080
 
 spring:
- main:
+  main:
     allow-bean-definition-overriding: true
 
 springdoc:
@@ -19,7 +19,7 @@ logging:
 client:
   order-api:
     name: order
-    url:  localhost:8083
+    url: localhost:8083
   stock-api:
     name: stock
     url: localhost:8086

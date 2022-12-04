@@ -20,5 +20,4 @@ public interface OrganizationRepository extends JpaRepository<Organization, UUID
     Organization findOrganizationByExactOrganizationId(UUID organizationId);
 
 
-
 }

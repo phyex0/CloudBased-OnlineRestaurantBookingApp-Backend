@@ -2,6 +2,7 @@ package com.upsoon.order.controller;
 
 import com.upsoon.common.dto.Order.*;
 import com.upsoon.common.enums.BusinessTypes;
+import com.upsoon.common.web.CustomPage;
 import com.upsoon.order.service.OrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +43,7 @@ public class OrderServiceController {
     }
 
     @GetMapping("/menu")
-    public ResponseEntity<Page<MenuDTO>> getMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, Pageable pageable) {
+    public ResponseEntity<CustomPage<MenuDTO>> getMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, Pageable pageable) {
         return orderService.getMenu(organizationId, businessTypes, pageable);
     }
 
@@ -52,7 +53,7 @@ public class OrderServiceController {
     }
 
     @GetMapping("/business")
-    public ResponseEntity<Page<BusinessDTOForUI>> getAllOrganizations(@RequestParam BusinessTypes businessTypes, Pageable pageable) {
+    public ResponseEntity<CustomPage<BusinessDTOForUI>> getAllOrganizations(@RequestParam BusinessTypes businessTypes, Pageable pageable) {
         return orderService.getAllOrganizations(businessTypes, pageable);
     }
 
@@ -77,7 +78,7 @@ public class OrderServiceController {
     }
 
     @GetMapping("/product-list")
-    public ResponseEntity<Page<ProductDTO>> getProducts(@RequestParam UUID organizationId, @RequestParam UUID menuID, @RequestParam BusinessTypes businessTypes, Pageable pageable) {
+    public ResponseEntity<CustomPage<ProductDTO>> getProducts(@RequestParam UUID organizationId, @RequestParam UUID menuID, @RequestParam BusinessTypes businessTypes, Pageable pageable) {
         return orderService.getProducts(organizationId, menuID, businessTypes, pageable);
     }
 

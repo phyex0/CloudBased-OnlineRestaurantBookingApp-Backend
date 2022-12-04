@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "${client.stock-api.name}", url = "${client.stock-api.url}" /*,configuration*/)
 public interface StockClient {
 
-    @PostMapping(value = "/stock")
+    @PostMapping(value = "/stock", produces = "application/json", consumes = "application/json")
     ResponseEntity<CreateStockDTO> createStock(@RequestBody CreateStockDTO createStockDTO);
 
-    @PutMapping(value = "/stock")
+    @PutMapping(value = "/stock", produces = "application/json", consumes = "application/json")
     ResponseEntity<CreateStockDTO> updateStock(@RequestBody CreateStockDTO createStockDTO);
 }

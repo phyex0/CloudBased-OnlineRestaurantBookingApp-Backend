@@ -33,7 +33,7 @@ public abstract class AbstractAuditBaseEntity extends AbstractBaseEntity {
     @CreatedBy
     @Column(name = "created_by", nullable = false, updatable = false)
     @JsonIgnore
-    protected String createdBy ="postman";
+    protected String createdBy = "postman";
 
     @CreatedDate
     @Column(name = "created_date", nullable = false, updatable = false)

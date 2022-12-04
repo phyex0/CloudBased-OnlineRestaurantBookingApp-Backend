@@ -39,8 +39,8 @@ public class Organization extends AbstractAuditBaseEntity {
     private Business restaurant;
 
 
-    public Business getBusiness(BusinessTypes businessTypes){
-        if(businessTypes.equals(BusinessTypes.MARKET))
+    public Business getBusiness(BusinessTypes businessTypes) {
+        if (businessTypes.equals(BusinessTypes.MARKET))
             return this.market;
         return this.restaurant;
     }

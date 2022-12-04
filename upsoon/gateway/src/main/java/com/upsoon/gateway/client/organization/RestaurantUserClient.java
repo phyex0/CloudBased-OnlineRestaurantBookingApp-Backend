@@ -2,6 +2,7 @@ package com.upsoon.gateway.client.organization;
 
 import com.upsoon.common.dto.Organization.NewRestaurantUserDTO;
 import com.upsoon.common.dto.Organization.UpdateRestaurantUserDTO;
+import com.upsoon.common.web.CustomPage;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
@@ -18,19 +19,19 @@ import java.util.UUID;
 @FeignClient(name = "${client.organization-api.name}", url = "${client.organization-api.url}" /*,configuration*/)
 public interface RestaurantUserClient {
 
-    @PostMapping
+    @PostMapping(value = "/api/restaurant-user", produces = "application/json", consumes = "application/json")
     @Operation(summary = "Creates new user and links to given restaurant")
     ResponseEntity<NewRestaurantUserDTO> addNewUserToRestaurant(@RequestParam(value = "restaurantId") UUID restaurantId, @RequestBody NewRestaurantUserDTO newRestaurantUserDTO);
 
-    @GetMapping
+    @GetMapping(value = "/api/restaurant-user", produces = "application/json", consumes = "application/json")
     @Operation(summary = "Returns all of the restaurant user related to given organization")
-    ResponseEntity<Page<NewRestaurantUserDTO>> getAllUsers(@RequestParam(value = "organizationId") UUID organizationId, Pageable pageable);
+    ResponseEntity<CustomPage<NewRestaurantUserDTO>> getAllUsers(@RequestParam(value = "organizationId") UUID organizationId, Pageable pageable);
 
-    @DeleteMapping
+    @DeleteMapping(value = "/api/restaurant-user", produces = "application/json", consumes = "application/json")
     @Operation(summary = "Deletes the given user")
     ResponseEntity<Void> deleteUser(@RequestParam(value = "userId") UUID userId);
 
-    @PutMapping
+    @PutMapping(value = "/api/restaurant-user", produces = "application/json", consumes = "application/json")
     @Operation(summary = "Updates the given user")
     ResponseEntity<UpdateRestaurantUserDTO> updateUser(@RequestParam(value = "userId") UUID userId, @RequestBody UpdateRestaurantUserDTO restaurantUserDTO);
 }

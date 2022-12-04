@@ -3,6 +3,7 @@ package com.upsoon.organization.service;
 
 import com.upsoon.common.dto.Organization.NewRestaurantUserDTO;
 import com.upsoon.common.dto.Organization.UpdateRestaurantUserDTO;
+import com.upsoon.common.web.CustomPage;
 import com.upsoon.organization.mapper.NewRestaurantUserCreateMapper;
 import com.upsoon.organization.repository.OrganizationRepository;
 import com.upsoon.organization.repository.RestaurantUserRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -59,14 +61,14 @@ public class RestaurantUserServiceImpl implements RestaurantUserService {
 
 
     @Override
-    public ResponseEntity<Page<NewRestaurantUserDTO>> getAllUsers(UUID organizationId, Pageable pageable) {
+    public ResponseEntity<CustomPage<NewRestaurantUserDTO>> getAllUsers(UUID organizationId, Pageable pageable) {
 
         Page<NewRestaurantUserDTO> users = organizationRepository.getAllUsers(organizationId, pageable);
 
         if (users.isEmpty())
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new CustomPage<>(new ArrayList<>(), pageable, 0), HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return new ResponseEntity<>(new CustomPage<>(users.getContent(), pageable, users.getTotalElements()), HttpStatus.OK);
     }
 
     @Override

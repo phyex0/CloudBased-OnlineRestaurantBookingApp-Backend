@@ -6,6 +6,7 @@ import com.upsoon.common.enums.BusinessTypes;
 import com.upsoon.common.enums.OrderStatus;
 import com.upsoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
+import com.upsoon.common.web.CustomPage;
 import com.upsoon.order.client.StockClient;
 import com.upsoon.order.mapper.*;
 import com.upsoon.order.model.Organization;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -142,18 +144,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseEntity<Page<MenuDTO>> getMenu(UUID organizationId, BusinessTypes businessTypes, Pageable pageable) {
+    public ResponseEntity<CustomPage<MenuDTO>> getMenu(UUID organizationId, BusinessTypes businessTypes, Pageable pageable) {
 
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
         if (Objects.isNull(organization)) {
-            return new ResponseEntity<>(Page.empty(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new CustomPage<>(new ArrayList<>(), pageable, 0), HttpStatus.NOT_FOUND);
         }
         //TODO obje null ise exception
         var menuIdList = organization.getBusiness(businessTypes).getMenuList().stream().map(menu -> menu.getId()).collect(Collectors.toList());
         var menuList = menuRepository.getMenuByIdList(menuIdList, pageable);
 
-        return new ResponseEntity<Page<MenuDTO>>(menuList, HttpStatus.OK);
+        return new ResponseEntity<CustomPage<MenuDTO>>(new CustomPage<>(menuList.getContent(), pageable, menuList.getTotalElements()), HttpStatus.OK);
     }
 
     @Override
@@ -171,9 +173,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseEntity<Page<BusinessDTOForUI>> getAllOrganizations(BusinessTypes businessTypes, Pageable pageable) {
+    public ResponseEntity<CustomPage<BusinessDTOForUI>> getAllOrganizations(BusinessTypes businessTypes, Pageable pageable) {
         var organizations = businessRepository.getAllOrganizationByBusinessType(businessTypes, pageable);
-        return new ResponseEntity<>(organizations, HttpStatus.OK);
+        return new ResponseEntity<>(new CustomPage<>(organizations.getContent(), pageable, organizations.getTotalElements()), HttpStatus.OK);
     }
 
     @Override
@@ -275,7 +277,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public ResponseEntity<Page<ProductDTO>> getProducts(UUID organizationId, UUID menuID, BusinessTypes businessTypes, Pageable pageable) {
+    public ResponseEntity<CustomPage<ProductDTO>> getProducts(UUID organizationId, UUID menuID, BusinessTypes businessTypes, Pageable pageable) {
 
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
@@ -292,7 +294,7 @@ public class OrderServiceImpl implements OrderService {
         var productDto = productMapper.toDto(product.getContent());
         Page<ProductDTO> page = new PageImpl<>(productDto);
 
-        return new ResponseEntity<>(page, HttpStatus.OK);
+        return new ResponseEntity<>(new CustomPage<>(page.getContent(), pageable, page.getTotalElements()), HttpStatus.OK);
 
     }
 

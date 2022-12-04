@@ -4,6 +4,7 @@ import com.upsoon.common.dto.Organization.NewOrganizationCreateDTO;
 import com.upsoon.common.dto.Organization.NewOrganizationDTO;
 import com.upsoon.common.dto.Organization.UpdateOrganizationDTO;
 import com.upsoon.common.enums.PackageService;
+import com.upsoon.common.web.CustomPage;
 import com.upsoon.organization.mapper.NewOrganizationCreateMapper;
 import com.upsoon.organization.mapper.NewRestaurantUserCreateMapper;
 import com.upsoon.organization.mapper.OrganizationMapper;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -130,14 +132,14 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public ResponseEntity<Page<NewOrganizationDTO>> getAllOrganizations(UUID restaurantUserId, Pageable pageable) {
+    public ResponseEntity<CustomPage<NewOrganizationDTO>> getAllOrganizations(UUID restaurantUserId, Pageable pageable) {
 
         Page<NewOrganizationDTO> organizations = restaurantUserRepository.getAllOrganizations(restaurantUserId, pageable);
 
         if (organizations.isEmpty())
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new CustomPage<>(new ArrayList<>(), pageable, 0), HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(organizations, HttpStatus.OK);
+        return new ResponseEntity<>(new CustomPage<>(organizations.getContent(), pageable, organizations.getTotalElements()), HttpStatus.OK);
 
     }
 

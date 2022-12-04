@@ -2,6 +2,7 @@ package com.upsoon.gateway.controller.organization;
 
 import com.upsoon.common.dto.Organization.NewRestaurantUserDTO;
 import com.upsoon.common.dto.Organization.UpdateRestaurantUserDTO;
+import com.upsoon.common.web.CustomPage;
 import com.upsoon.gateway.client.organization.RestaurantUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,7 +37,7 @@ public class RestaurantUserController {
 
     @GetMapping
     @Operation(summary = "Returns all of the restaurant user related to given organization")
-    public ResponseEntity<Page<NewRestaurantUserDTO>> getAllUsers(@RequestParam(value = "organizationId") UUID organizationId, Pageable pageable) {
+    public ResponseEntity<CustomPage<NewRestaurantUserDTO>> getAllUsers(@RequestParam(value = "organizationId") UUID organizationId, Pageable pageable) {
         return restaurantUserClient.getAllUsers(organizationId, pageable);
     }
 

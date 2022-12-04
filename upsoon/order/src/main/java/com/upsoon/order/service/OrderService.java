@@ -4,6 +4,7 @@ import com.upsoon.common.dto.Order.*;
 import com.upsoon.common.enums.BusinessTypes;
 import com.upsoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
+import com.upsoon.common.web.CustomPage;
 import com.upsoon.order.model.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,13 +32,13 @@ public interface OrderService {
     ResponseEntity<Void> deleteMenu(UUID organizationId, UUID menuId);
 
 
-    ResponseEntity<Page<MenuDTO>> getMenu(UUID organizationId, BusinessTypes businessTypes, Pageable pageable);
+    ResponseEntity<CustomPage<MenuDTO>> getMenu(UUID organizationId, BusinessTypes businessTypes, Pageable pageable);
 
 
     ResponseEntity<OrganizationDTO> getOrganization(UUID organizationId);
 
 
-    ResponseEntity<Page<BusinessDTOForUI>> getAllOrganizations(BusinessTypes businessTypes, Pageable pageable);
+    ResponseEntity<CustomPage<BusinessDTOForUI>> getAllOrganizations(BusinessTypes businessTypes, Pageable pageable);
 
 
     ResponseEntity<ProductDTO> createProduct(UUID organizationId, UUID menuId, ProductDTO productDTO, BusinessTypes businessTypes);
@@ -52,7 +53,7 @@ public interface OrderService {
     ResponseEntity<ProductDTO> getProduct(UUID organizationId, UUID productId);
 
 
-    ResponseEntity<Page<ProductDTO>> getProducts(UUID organizationId, UUID menuID, BusinessTypes businessTypes, Pageable pageable);
+    ResponseEntity<CustomPage<ProductDTO>> getProducts(UUID organizationId, UUID menuID, BusinessTypes businessTypes, Pageable pageable);
 
     ResponseEntity<OrderDTO> createOrder(OrderDTO orderDTO);
 

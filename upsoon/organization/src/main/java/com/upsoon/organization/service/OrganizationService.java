@@ -3,6 +3,7 @@ package com.upsoon.organization.service;
 import com.upsoon.common.dto.Organization.NewOrganizationCreateDTO;
 import com.upsoon.common.dto.Organization.NewOrganizationDTO;
 import com.upsoon.common.dto.Organization.UpdateOrganizationDTO;
+import com.upsoon.common.web.CustomPage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public interface OrganizationService {
 
     ResponseEntity<NewOrganizationDTO> createRestaurant(UUID organizationId, NewOrganizationDTO newOrganizationDTO);
 
-    ResponseEntity<Page<NewOrganizationDTO>> getAllOrganizations(UUID restaurantUserId, Pageable pageable);
+    ResponseEntity<CustomPage<NewOrganizationDTO>> getAllOrganizations(UUID restaurantUserId, Pageable pageable);
 
     ResponseEntity<Void> deleteRestaurant(UUID restaurantId);
 
