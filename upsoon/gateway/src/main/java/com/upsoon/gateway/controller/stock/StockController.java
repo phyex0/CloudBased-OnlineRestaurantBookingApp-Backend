@@ -3,6 +3,7 @@ package com.upsoon.gateway.controller.stock;
 import com.upsoon.common.dto.Stock.CreateStockDTO;
 import com.upsoon.gateway.client.stock.StockClient;
 import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +23,13 @@ public class StockController {
     }
 
     @PostMapping
+    @Operation(summary = "create stock by createStockDto")
     public ResponseEntity<CreateStockDTO> createStock(@RequestBody CreateStockDTO createStockDTO) {
         return stockClient.createStock(createStockDTO);
     }
 
     @PutMapping
+    @Operation(summary = "update stocks by create stockDto")
     public ResponseEntity<CreateStockDTO> updateStock(@RequestBody CreateStockDTO createStockDTO) {
         return stockClient.updateStock(createStockDTO);
     }

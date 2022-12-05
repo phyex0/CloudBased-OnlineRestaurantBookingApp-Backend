@@ -57,4 +57,6 @@ public interface OrderService {
 
     ResponseEntity<OrderDTO> createOrder(OrderDTO orderDTO);
 
+    ResponseEntity<CustomPage<OrderHistoryDTO>> orderHistory(UUID userId, Pageable pageable);
+
 }

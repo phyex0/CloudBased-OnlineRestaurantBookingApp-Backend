@@ -88,5 +88,9 @@ public class OrderServiceController {
         return orderService.createOrder(orderDTO);
     }
 
+    @GetMapping("get-order-history")
+    public ResponseEntity<CustomPage<OrderHistoryDTO>> orderHistory(@RequestParam("user-id") UUID userId, Pageable pageable) {
+        return orderService.orderHistory(userId, pageable);
+    }
 
 }

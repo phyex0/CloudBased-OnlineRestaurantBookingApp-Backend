@@ -55,4 +55,7 @@ public interface OrderServiceClient {
     @PostMapping(value = "/api/order", produces = "application/json", consumes = "application/json")
     ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO);
 
+    @GetMapping("/api/order/get-order-history")
+    ResponseEntity<CustomPage<OrderHistoryDTO>> orderHistory(@RequestParam("user-id") UUID userId, Pageable pageable);
+
 }

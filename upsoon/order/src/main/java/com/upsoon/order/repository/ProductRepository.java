@@ -27,4 +27,6 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     Double getTotalAmount(List<UUID> idList);
 
     Product findProductByProductCode(String productCode);
+
+    List<Product> findAllByIdIn(List<UUID> idList);
 }

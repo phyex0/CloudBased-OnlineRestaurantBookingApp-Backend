@@ -10,6 +10,7 @@ import com.upsoon.common.web.CustomPage;
 import com.upsoon.order.client.StockClient;
 import com.upsoon.order.mapper.*;
 import com.upsoon.order.model.Organization;
+import com.upsoon.order.model.Product;
 import com.upsoon.order.producer.KafkaProducer;
 import com.upsoon.order.repository.*;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -48,11 +47,12 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderToStockMapper orderToStockMapper;
     private final StockClient stockClient;
+    private final OrderHistoryMapper orderHistoryMapper;
 
     @Autowired
     private KafkaProducer kafkaProducer;
 
-    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, MenuMapper menuMapper, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, BusinessRepository businessRepository, ProductRepository productRepository, OrderMapper orderMapper, OrderRepository orderRepository, OrderToStockMapper orderToStockMapper, StockClient stockClient) {
+    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, MenuMapper menuMapper, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, BusinessRepository businessRepository, ProductRepository productRepository, OrderMapper orderMapper, OrderRepository orderRepository, OrderToStockMapper orderToStockMapper, StockClient stockClient, OrderHistoryMapper orderHistoryMapper) {
         this.organizationFromOrganizationServiceMapper = organizationFromOrganizationServiceMapper;
         this.organizationRepository = organizationRepository;
         this.menuMapper = menuMapper;
@@ -65,6 +65,7 @@ public class OrderServiceImpl implements OrderService {
         this.orderRepository = orderRepository;
         this.orderToStockMapper = orderToStockMapper;
         this.stockClient = stockClient;
+        this.orderHistoryMapper = orderHistoryMapper;
     }
 
     @Override
@@ -322,5 +323,25 @@ public class OrderServiceImpl implements OrderService {
 
 
         return null;
+    }
+
+    @Override
+    public ResponseEntity<CustomPage<OrderHistoryDTO>> orderHistory(UUID userId, Pageable pageable) {
+        var orderPage = orderRepository.getAllByUserId(userId, pageable);
+        var ordersDTOList = orderHistoryMapper.toDto(orderPage.getContent());
+
+        var productIdList = ordersDTOList.stream().flatMap(order -> order.getProductId().stream()).collect(Collectors.toList());
+        var products = productRepository.findAllByIdIn(productIdList);
+        Map<UUID, ProductDTO> productMap = new HashMap<>();
+        products.forEach(p -> productMap.put(p.getId(), productMapper.toDto(p)));
+
+        ordersDTOList.forEach(order -> {
+            List<ProductDTO> productDtoList = new ArrayList<>();
+            order.getProductId().forEach(product -> productDtoList.add(productMap.get(product)));
+            order.setProductDTOList(productDtoList);
+        });
+
+
+        return new ResponseEntity<>(new CustomPage<>(ordersDTOList, pageable, orderPage.getTotalElements()), HttpStatus.OK);
     }
 }
