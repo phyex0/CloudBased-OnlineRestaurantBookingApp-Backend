@@ -26,7 +26,7 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Data
-public abstract class AbstractAuditBaseEntity extends com.upspoon.common.model.AbstractBaseEntity {
+public abstract class AbstractAuditBaseEntity extends AbstractBaseEntity {
 
     @CreatedBy
     @Column(name = "created_by", nullable = false, updatable = false)
