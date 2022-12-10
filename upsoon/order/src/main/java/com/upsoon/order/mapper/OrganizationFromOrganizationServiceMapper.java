@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 

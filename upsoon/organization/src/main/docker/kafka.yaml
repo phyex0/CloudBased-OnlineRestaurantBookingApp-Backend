@@ -1,6 +1,7 @@
 version: '2'
 services:
   zookeeper:
+    restart: always
     image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
     environment:
@@ -10,6 +11,7 @@ services:
       - 2181:2181
 
   kafka:
+    restart: always
     image: confluentinc/cp-kafka:latest
     container_name: kafka
     depends_on:

@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 @Entity

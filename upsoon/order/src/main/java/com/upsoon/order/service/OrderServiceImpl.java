@@ -10,7 +10,6 @@ import com.upsoon.common.web.CustomPage;
 import com.upsoon.order.client.StockClient;
 import com.upsoon.order.mapper.*;
 import com.upsoon.order.model.Organization;
-import com.upsoon.order.model.Product;
 import com.upsoon.order.producer.KafkaProducer;
 import com.upsoon.order.repository.*;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +26,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 

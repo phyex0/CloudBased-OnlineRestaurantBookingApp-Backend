@@ -6,7 +6,7 @@ import com.upsoon.order.model.Order;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface OrderHistoryMapper  extends EntityMapper<OrderHistoryDTO, Order> {
+public interface OrderHistoryMapper extends EntityMapper<OrderHistoryDTO, Order> {
 
     @Override
     Order toEntity(OrderHistoryDTO dto);

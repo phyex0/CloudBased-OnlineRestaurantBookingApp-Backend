@@ -3,6 +3,7 @@ package com.upsoon.organization.service;
 
 import com.upsoon.common.dto.Organization.NewRestaurantUserDTO;
 import com.upsoon.common.dto.Organization.UpdateRestaurantUserDTO;
+import com.upsoon.common.exceptions.UserNotFoundException;
 import com.upsoon.common.web.CustomPage;
 import com.upsoon.organization.mapper.NewRestaurantUserCreateMapper;
 import com.upsoon.organization.repository.OrganizationRepository;
@@ -15,12 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 @Service
@@ -66,7 +65,7 @@ public class RestaurantUserServiceImpl implements RestaurantUserService {
         Page<NewRestaurantUserDTO> users = organizationRepository.getAllUsers(organizationId, pageable);
 
         if (users.isEmpty())
-            return new ResponseEntity<>(new CustomPage<>(new ArrayList<>(), pageable, 0), HttpStatus.NOT_FOUND);
+            throw new UserNotFoundException();
 
         return new ResponseEntity<>(new CustomPage<>(users.getContent(), pageable, users.getTotalElements()), HttpStatus.OK);
     }

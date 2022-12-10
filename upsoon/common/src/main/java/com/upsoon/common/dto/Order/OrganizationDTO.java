@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 

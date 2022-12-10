@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 @RestController

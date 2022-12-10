@@ -6,7 +6,7 @@ import com.upsoon.order.model.Business;
 import org.mapstruct.Mapper;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 

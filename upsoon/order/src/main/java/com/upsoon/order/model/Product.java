@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 @Entity
 @Table(name = "product")

@@ -4,11 +4,10 @@ import com.upsoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upsoon.common.kafkaTemplateDTO.StockToPayment;
 import com.upsoon.common.mapper.EntityMapper;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -3,7 +3,7 @@ package com.upsoon.common.mapper;
 import java.util.List;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 public interface EntityMapper<D, E> {

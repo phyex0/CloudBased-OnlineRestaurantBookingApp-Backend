@@ -1,5 +1,6 @@
 package com.upsoon.gateway.client.stock;
 
+import com.upsoon.common.config.CustomFeignConfiguration;
 import com.upsoon.common.dto.Stock.CreateStockDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +9,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
-@FeignClient(name = "${client.stock-api.name}", url = "${client.stock-api.url}" /*,configuration*/)
+@FeignClient(name = "${client.stock-api.name}", url = "${client.stock-api.url}", configuration = CustomFeignConfiguration.class)
 public interface StockClient {
 
     @PostMapping(value = "/stock", produces = "application/json", consumes = "application/json")

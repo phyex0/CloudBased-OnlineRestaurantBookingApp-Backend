@@ -4,10 +4,12 @@ import com.upsoon.common.dto.Organization.NewOrganizationDTO;
 import com.upsoon.common.dto.Organization.UpdateOrganizationDTO;
 import com.upsoon.common.mapper.EntityMapper;
 import com.upsoon.organization.model.Organization;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 @Mapper(componentModel = "spring", uses = {}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

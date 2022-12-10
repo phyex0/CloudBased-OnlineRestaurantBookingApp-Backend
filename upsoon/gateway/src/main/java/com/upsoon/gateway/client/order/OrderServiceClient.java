@@ -1,10 +1,10 @@
 package com.upsoon.gateway.client.order;
 
+import com.upsoon.common.config.CustomFeignConfiguration;
 import com.upsoon.common.dto.Order.*;
 import com.upsoon.common.enums.BusinessTypes;
 import com.upsoon.common.web.CustomPage;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
-@FeignClient(name = "${client.order-api.name}", url = "${client.order-api.url}" /*,configuration*/)
+@FeignClient(name = "${client.order-api.name}", url = "${client.order-api.url}", configuration = CustomFeignConfiguration.class)
 public interface OrderServiceClient {
 
     @PostMapping(value = "/api/order/menu", produces = "application/json", consumes = "application/json")

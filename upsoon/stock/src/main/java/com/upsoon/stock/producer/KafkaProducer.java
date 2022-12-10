@@ -2,7 +2,6 @@ package com.upsoon.stock.producer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upsoon.common.kafkaTemplateDTO.OrderToStock;
-import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upsoon.common.kafkaTemplateDTO.StockToPayment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 @Service

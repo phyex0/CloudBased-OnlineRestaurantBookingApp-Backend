@@ -5,7 +5,6 @@ import com.upsoon.common.model.AbstractAuditBaseEntity;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.hibernate.tuple.entity.AbstractEntityBasedAttribute;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

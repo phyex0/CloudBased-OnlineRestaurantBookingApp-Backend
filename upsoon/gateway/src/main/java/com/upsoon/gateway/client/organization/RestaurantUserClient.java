@@ -1,11 +1,11 @@
 package com.upsoon.gateway.client.organization;
 
+import com.upsoon.common.config.CustomFeignConfiguration;
 import com.upsoon.common.dto.Organization.NewRestaurantUserDTO;
 import com.upsoon.common.dto.Organization.UpdateRestaurantUserDTO;
 import com.upsoon.common.web.CustomPage;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
-@FeignClient(name = "${client.organization-api.name}", url = "${client.organization-api.url}" /*,configuration*/)
+@FeignClient(name = "${client.organization-api.name}", url = "${client.organization-api.url}", configuration = CustomFeignConfiguration.class)
 public interface RestaurantUserClient {
 
     @PostMapping(value = "/api/restaurant-user", produces = "application/json", consumes = "application/json")

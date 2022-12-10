@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.nio.DoubleBuffer;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;

@@ -3,7 +3,6 @@ package com.upsoon.stock.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upsoon.common.kafkaTemplateDTO.OrderToStock;
-import com.upsoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upsoon.common.kafkaTemplateDTO.StockToPayment;
 import com.upsoon.stock.producer.KafkaProducer;
 import com.upsoon.stock.service.StockService;
@@ -13,7 +12,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 @Service

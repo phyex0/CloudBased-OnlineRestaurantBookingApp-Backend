@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.UUID;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 public interface RestaurantUserRepository extends JpaRepository<RestaurantUser, UUID> {

@@ -6,7 +6,7 @@ import com.upsoon.common.kafkaTemplateDTO.StockToPayment;
 import org.springframework.http.ResponseEntity;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 public interface StockService {

@@ -1,5 +1,6 @@
 package com.upsoon.gateway.client.organization;
 
+import com.upsoon.common.config.CustomFeignConfiguration;
 import com.upsoon.common.dto.Organization.NewOrganizationCreateDTO;
 import com.upsoon.common.dto.Organization.NewOrganizationDTO;
 import com.upsoon.common.dto.Organization.UpdateOrganizationDTO;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
-@FeignClient(name = "${client.organization-api.name}", url = "${client.organization-api.url}" /*,configuration*/)
+@FeignClient(name = "${client.organization-api.name}", url = "${client.organization-api.url}", configuration = CustomFeignConfiguration.class)
 public interface OrganizationClient {
 
     @PostMapping(value = "/api/organization", produces = "application/json", consumes = "application/json")

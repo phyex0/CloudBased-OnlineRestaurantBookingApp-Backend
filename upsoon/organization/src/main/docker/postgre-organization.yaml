@@ -2,6 +2,7 @@
 version: '3.8'
 services:
   postgres-organization:
+    restart: always
     image: postgres:13.2
     container_name: postgres-organization
 

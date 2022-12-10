@@ -4,7 +4,7 @@ package com.upsoon.common.enums;
 import java.util.Arrays;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 public enum PackageService {

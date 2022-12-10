@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import java.util.UUID;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 @Entity

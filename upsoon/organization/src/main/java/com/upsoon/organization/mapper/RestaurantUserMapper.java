@@ -6,7 +6,7 @@ import com.upsoon.organization.model.RestaurantUser;
 import org.mapstruct.Mapper;
 
 /**
- * @author Halit Burak Yeşildal
+ * @author burak.yesildal
  */
 
 @Mapper(componentModel = "spring", uses = {OrganizationMapper.class})

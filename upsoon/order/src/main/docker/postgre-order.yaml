@@ -2,6 +2,7 @@
 version: '3.8'
 services:
   postgres-order:
+    restart: always
     image: postgres:13.2
     container_name: postgres-order
 
