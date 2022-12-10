@@ -29,7 +29,7 @@ public class OrderServiceController {
 
     @PostMapping("/menu")
     @Operation(summary = "Create menu by organization id, and menuDto")
-    public ResponseEntity<com.upspoon.common.dto.Order.MenuDTO> createMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, @RequestBody MenuDTO menuDTO) {
+    public ResponseEntity<MenuDTO> createMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, @RequestBody MenuDTO menuDTO) {
         return orderServiceClient.createMenu(organizationId, businessTypes, menuDTO);
     }
 

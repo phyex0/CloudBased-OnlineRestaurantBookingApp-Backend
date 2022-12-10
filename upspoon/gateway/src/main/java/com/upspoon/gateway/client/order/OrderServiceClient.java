@@ -19,19 +19,19 @@ import java.util.UUID;
 public interface OrderServiceClient {
 
     @PostMapping(value = "/api/order/menu", produces = "application/json", consumes = "application/json")
-    ResponseEntity<com.upspoon.common.dto.Order.MenuDTO> createMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, @RequestBody MenuDTO menuDTO);
+    ResponseEntity<MenuDTO> createMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, @RequestBody MenuDTO menuDTO);
 
     @PutMapping(value = "/api/order/menu", produces = "application/json", consumes = "application/json")
-    ResponseEntity<com.upspoon.common.dto.Order.UpdateMenuDTO> updateMenu(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestParam BusinessTypes businessTypes, @RequestBody UpdateMenuDTO menuDTO);
+    ResponseEntity<UpdateMenuDTO> updateMenu(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestParam BusinessTypes businessTypes, @RequestBody UpdateMenuDTO menuDTO);
 
     @DeleteMapping(value = "/api/order/menu", produces = "application/json", consumes = "application/json")
     ResponseEntity<Void> deleteMenu(@RequestParam UUID organizationId, @RequestParam UUID menuId);
 
     @GetMapping(value = "/api/order/menu", produces = "application/json", consumes = "application/json")
-    ResponseEntity<CustomPage<com.upspoon.common.dto.Order.MenuDTO>> getMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, Pageable pageable);
+    ResponseEntity<CustomPage<MenuDTO>> getMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, Pageable pageable);
 
     @GetMapping(value = "/api/order", produces = "application/json", consumes = "application/json")
-    ResponseEntity<com.upspoon.common.dto.Order.OrganizationDTO> getOrganization(@RequestParam UUID organizationId);
+    ResponseEntity<OrganizationDTO> getOrganization(@RequestParam UUID organizationId);
 
     @GetMapping(value = "/api/order/business", produces = "application/json", consumes = "application/json")
     ResponseEntity<CustomPage<BusinessDTOForUI>> getAllOrganizations(@RequestParam BusinessTypes businessTypes, Pageable pageable);
