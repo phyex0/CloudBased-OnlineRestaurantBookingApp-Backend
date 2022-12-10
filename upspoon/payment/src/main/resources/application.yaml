@@ -1,0 +1,34 @@
+server:
+  port: 8085
+
+
+spring:
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    type: com.zaxxer.hikari.HikariDataSource
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationSorter: method
+    enabled: true
+    disable-swagger-default-url: true
+
+logging:
+  level:
+    org: debug
+
+kafka:
+  address: 127.0.0.1:9092
+  group-id: upspoon-group-id
+  topic: order
