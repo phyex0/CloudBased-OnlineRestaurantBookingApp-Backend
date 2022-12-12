@@ -21,6 +21,7 @@ import java.util.UUID;
 @Where(clause = "deleted <> '1' ")
 public class StockTransaction extends AbstractAuditBaseEntity {
 
+    @Column(name = "order_id", nullable = false)
     private UUID orderId;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

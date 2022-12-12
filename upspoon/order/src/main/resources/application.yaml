@@ -5,8 +5,8 @@ server:
 spring:
   jpa:
     database: postgresql
-    hibernate:
-      ddl-auto: create-drop
+    #    hibernate:
+    #      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate:
@@ -18,6 +18,10 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
   main:
     allow-circular-references: true
+  liquibase:
+    change-log: "classpath:db/changelog/master.xml"
+    enabled: true
+    contexts: dev
 
 
 

@@ -17,21 +17,21 @@ import java.util.UUID;
  */
 
 @Entity
-@Table(name = "order_")
+@Table(name = "order_history")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@SQLDelete(sql = "UPDATE order_ SET deleted = '1' where id = ?")
+@SQLDelete(sql = "UPDATE order_history SET deleted = '1' where id = ?")
 @Where(clause = "deleted <> '1' ")
 public class Order extends AbstractAuditBaseEntity {
 
-    @Column(name = "order_user_id")
+    @Column(name = "user_id")
     private UUID userId;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "order_product_id", joinColumns = @JoinColumn(name = "order_id"))
+    @CollectionTable(name = "order_element_collection", joinColumns = @JoinColumn(name = "order_id"))
     @Column(name = "product_id")
     private List<UUID> productId;
 

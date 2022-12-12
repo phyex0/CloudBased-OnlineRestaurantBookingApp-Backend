@@ -198,6 +198,7 @@ public class OrderServiceImpl implements OrderService {
 
         organizationRepository.save(organization);
         organizationRepository.flush();
+        //TODO: getProductCode might not be unique. Find another solution about this!
         product = productRepository.findProductByProductCode(product.getProductCode());
         stockClient.createStock(new CreateStockDTO(product.getId(), 0L));
 

@@ -1,0 +1,135 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--Product Table is Created-->
+    <changeSet id="202212122107" author="burak.yesildal">
+        <createTable tableName="product">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="product_code" type="VARCHAR(64)"/>
+            <column name="product_name" type="VARCHAR(64)"/>
+            <column name="description" type="TEXT"/>
+            <column name="price" type="DOUBLE"/>
+            <column name="product_image" type="TEXT"/>
+            <column name="menu_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="202212122108" author="burak.yesildal">
+        <addPrimaryKey tableName="product" columnNames="id" constraintName="product_pkey"/>
+    </changeSet>
+
+    <!--Menu Table is Created-->
+    <changeSet id="202212122109" author="burak.yesildal">
+        <createTable tableName="menu">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="name" type="VARCHAR(64)"/>
+            <column name="business_id" type="UUID"/>
+
+        </createTable>
+    </changeSet>
+    <changeSet id="202212122110" author="burak.yesildal">
+        <addPrimaryKey tableName="menu" columnNames="id" constraintName="menu_pkey"/>
+    </changeSet>
+
+    <!--Business Table is Created-->
+    <changeSet id="202212122111" author="burak.yesildal">
+        <createTable tableName="business">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="business_type" type="VARCHAR(64)"/>
+            <column name="business_image" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="202212122112" author="burak.yesildal">
+        <addPrimaryKey tableName="business" columnNames="id" constraintName="business_pkey"/>
+    </changeSet>
+
+    <!--Organization Table is Created-->
+    <changeSet id="202212122113" author="burak.yesildal">
+        <createTable tableName="organization">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="exact_organization_id" type="UUID"/>
+            <column name="organization_name" type="VARCHAR(64)"/>
+            <column name="organization_m_id" type="UUID"/>
+            <column name="organization_r_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="202212122114" author="burak.yesildal">
+        <addPrimaryKey tableName="organization" columnNames="id" constraintName="organization_pkey"/>
+    </changeSet>
+
+    <changeSet id="202212122115" author="burak.yesildal">
+        <addUniqueConstraint tableName="organization" columnNames="organization_m_id, organization_r_id"
+                             constraintName="organization_unique_constraints"/>
+        <addForeignKeyConstraint baseTableName="menu" baseColumnNames="business_id"
+                                 constraintName="menu_foreign_constraint" referencedTableName="business"
+                                 referencedColumnNames="id" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <addForeignKeyConstraint baseTableName="product" baseColumnNames="menu_id"
+                                 constraintName="product_foreign_constraint" referencedTableName="menu"
+                                 referencedColumnNames="id" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+    <!--Order History Table is Created-->
+    <changeSet id="202212122116" author="burak.yesildal">
+        <createTable tableName="order_history">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="user_id" type="UUID"/>
+            <column name="order_status" type="VARCHAR(64)"/>
+            <column name="order_note" type="TEXT"/>
+            <column name="order_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="total_amount" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="202212122117" author="burak.yesildal">
+        <addPrimaryKey tableName="order_history" columnNames="id" constraintName="order_history_pkey"/>
+    </changeSet>
+
+    <!--Order History Element Collection Table is Created-->
+    <changeSet id="202212122118" author="burak.yesildal">
+        <createTable tableName="order_element_collection">
+            <column name="order_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="202212122119" author="burak.yesildal">
+        <addForeignKeyConstraint baseTableName="order_element_collection" baseColumnNames="order_id"
+                                 constraintName="order_element_collection_foreign_constraint"
+                                 referencedTableName="order_history"
+                                 referencedColumnNames="id" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+</databaseChangeLog>

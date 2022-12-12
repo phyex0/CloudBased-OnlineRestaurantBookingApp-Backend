@@ -1,0 +1,65 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--Stock Table is Created-->
+    <changeSet id="202212122107" author="burak.yesildal">
+        <createTable tableName="stock">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="product_id" type="UUID"/>
+            <column name="count" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="202212122108" author="burak.yesildal">
+        <addPrimaryKey tableName="stock" columnNames="id" constraintName="stock_pkey"/>
+    </changeSet>
+
+    <!--Stock Transaction Table is Created-->
+    <changeSet id="202212122109" author="burak.yesildal">
+        <createTable tableName="stock_transaction">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="order_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="202212122110" author="burak.yesildal">
+        <addPrimaryKey tableName="stock_transaction" columnNames="id" constraintName="stock_transaction_pkey"/>
+    </changeSet>
+
+    <!--Stock Transaction Product Count Table is Created-->
+    <changeSet id="202212122111" author="burak.yesildal">
+        <createTable tableName="stock_transaction_product_count">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="product_id" type="UUID"/>
+            <column name="count" type="BIGINT"/>
+            <column name="stock_transaction_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="202212122112" author="burak.yesildal">
+        <addPrimaryKey tableName="stock_transaction_product_count" columnNames="id"
+                       constraintName="stock_transaction_product_count_pkey"/>
+
+        <addForeignKeyConstraint baseTableName="stock_transaction_product_count" baseColumnNames="stock_transaction_id"
+                                 constraintName="stock_transaction_product_count_foreign_constraint"
+                                 referencedTableName="stock_transaction"
+                                 referencedColumnNames="id" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+</databaseChangeLog>

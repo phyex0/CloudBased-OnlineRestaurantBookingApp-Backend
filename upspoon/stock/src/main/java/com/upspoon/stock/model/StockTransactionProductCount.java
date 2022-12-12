@@ -5,8 +5,10 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import java.util.UUID;
 
 /**
@@ -23,9 +25,10 @@ import java.util.UUID;
 @SQLDelete(sql = "UPDATE stock_transaction_product_count SET deleted = '1' where id = ?")
 @Where(clause = "deleted <> '1' ")
 public class StockTransactionProductCount extends AbstractAuditBaseEntity {
-
+    @Column(name = "product_id", nullable = false)
     private UUID productId;
-
+    @Column(name = "count")
+    @Min(0)
     private Long count;
 
 }

@@ -8,6 +8,7 @@ import com.upspoon.payment.repository.PaymentHistoryRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Random;
 
 /**
  * @author burak.yesildal
@@ -37,7 +38,9 @@ public class PaymentServiceImpl implements PaymentService {
             paymentHistoryRepository.save(paymentHistory);
             kafkaProducer.producePaymentEvent(stockToPayment);
         } else {
-            int chance = (int) Math.random();
+            Random random = new Random();
+            int chance = random.nextInt(2);
+
             if (chance == 1) {
                 paymentHistory.setPaymentStatus(PaymentStatus.PAYMENT_DONE);
                 kafkaProducer.producePaymentEvent(stockToPayment);

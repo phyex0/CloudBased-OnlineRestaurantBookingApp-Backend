@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.UUID;
@@ -21,8 +22,9 @@ import java.util.UUID;
 @Where(clause = "deleted <> '1' ")
 public class Stock extends AbstractAuditBaseEntity {
 
+    @Column(name = "product_id", nullable = false)
     private UUID productId;
-
+    @Column(name = "count")
     private Long count;
 
 
