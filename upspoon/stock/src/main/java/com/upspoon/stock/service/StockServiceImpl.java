@@ -7,6 +7,7 @@ import com.upspoon.common.kafkaTemplateDTO.StockToPayment;
 import com.upspoon.stock.mapper.OrderToStockMapper;
 import com.upspoon.stock.mapper.StockToPaymentMapper;
 import com.upspoon.stock.model.Stock;
+import com.upspoon.stock.model.StockTransaction;
 import com.upspoon.stock.producer.KafkaProducer;
 import com.upspoon.stock.repository.StockRepository;
 import com.upspoon.stock.repository.StockTransactionRepository;
@@ -66,12 +67,12 @@ public class StockServiceImpl implements StockService {
             return;
         }
 
-        var stockTransaction = orderToStockMapper.toEntity(orderToStock);
-        var stockToPayment = stockToPaymentMapper.toEntity(orderToStock);
+        StockTransaction stockTransaction = orderToStockMapper.toEntity(orderToStock);
+        StockToPayment stockToPayment = stockToPaymentMapper.toEntity(orderToStock);
 
-        kafkaProducer.producePaymentEvent(stockToPayment);
         stockTransactionRepository.save(stockTransaction);
         stockRepository.saveAll(stocks);
+        kafkaProducer.producePaymentEvent(stockToPayment);
 
 
     }
@@ -80,11 +81,11 @@ public class StockServiceImpl implements StockService {
     @Transactional
     public void rollback(StockToPayment stockToPayment) {
         var stockTransaction = stockTransactionRepository.findByOrderId(stockToPayment.getOrderId());
-        var productIdList = stockTransaction.getProductCounts().stream().map(transaction -> transaction.getProductId()).collect(Collectors.toList());
+        var productIdList = stockTransaction.getStockTransactionProductCounts().stream().map(transaction -> transaction.getProductId()).collect(Collectors.toList());
         var stockList = stockRepository.findAllByProductIdIn(productIdList);
 
         stockList.forEach(stock -> {
-            stockTransaction.getProductCounts().forEach(transaction -> {
+            stockTransaction.getStockTransactionProductCounts().forEach(transaction -> {
                 if (stock.getProductId().equals(transaction.getProductId())) {
                     stock.setCount(stock.getCount() + transaction.getCount());
                 }

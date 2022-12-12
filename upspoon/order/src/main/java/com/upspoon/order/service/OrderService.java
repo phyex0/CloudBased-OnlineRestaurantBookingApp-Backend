@@ -4,6 +4,7 @@ import com.upspoon.common.dto.Order.*;
 import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upspoon.common.kafkaTemplateDTO.OrganizationToOrder;
+import com.upspoon.common.kafkaTemplateDTO.StockToPayment;
 import com.upspoon.common.web.CustomPage;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public interface OrderService {
 
     void rollbackOrder(OrderToStock orderToStock);
 
+    void updateOrderSuccess(StockToPayment stockToPayment);
 
     ResponseEntity<MenuDTO> createMenu(UUID organizationId, BusinessTypes businessTypes, MenuDTO menuDTO);
 

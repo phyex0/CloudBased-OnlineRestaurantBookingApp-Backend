@@ -4,6 +4,7 @@ package com.upspoon.order.consumer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upspoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upspoon.common.kafkaTemplateDTO.OrganizationToOrder;
+import com.upspoon.common.kafkaTemplateDTO.StockToPayment;
 import com.upspoon.order.producer.KafkaProducer;
 import com.upspoon.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +54,20 @@ public class KafkaConsumer {
         try {
             object = objectMapper.readValue(message, OrderToStock.class);
             orderService.rollbackOrder(object);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+//            kafkaProducer.produceOrganizationCreateFail(object);
+        }
+        log.info("Listen :" + message);
+    }
+
+
+    @KafkaListener(topics = "${kafka.topic-order-created-successfully}", groupId = "${kafka.group-id}")
+    public void listenPaymentSuccessEvent(@Payload String message) {
+        StockToPayment object = null;
+        try {
+            object = objectMapper.readValue(message, StockToPayment.class);
+            orderService.updateOrderSuccess(object);
         } catch (Exception e) {
             log.info(e.getMessage());
 //            kafkaProducer.produceOrganizationCreateFail(object);

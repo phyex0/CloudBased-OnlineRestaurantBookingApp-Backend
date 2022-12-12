@@ -19,12 +19,7 @@ spring:
   main:
     allow-circular-references: true
 
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-    operationSorter: method
-    enabled: true
-    disable-swagger-default-url: true
+
 
 logging:
   level:
@@ -37,6 +32,7 @@ kafka:
   topic-organization-create-fail: topic-organization-create-fail
   topic-order-create: topic-order-create
   topic-stock-failed: topic-stock-failed
+  topic-order-created-successfully: topic-order-created-successfully
 
 client:
   stock-api:

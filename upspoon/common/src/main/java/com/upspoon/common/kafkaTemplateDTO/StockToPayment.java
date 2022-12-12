@@ -1,5 +1,6 @@
 package com.upspoon.common.kafkaTemplateDTO;
 
+import com.upspoon.common.dto.Order.CreditCardDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,7 @@ public class StockToPayment implements Serializable {
     private Double price;
 
     private UUID orderId;
+
+    private CreditCardDTO creditCardDTO;
 
 }

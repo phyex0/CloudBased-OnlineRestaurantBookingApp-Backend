@@ -38,7 +38,7 @@ public abstract class AbstractAuditBaseEntity extends AbstractBaseEntity {
     @JsonIgnore
     protected Instant createdDate = new Date().toInstant();
 
-//    @LastModifiedBy
+    //    @LastModifiedBy
 //    @Column(name = "last_modified_by", nullable = false, updatable = false)
 //    @JsonIgnore
 //    protected String lastModifiedBy;
@@ -47,7 +47,8 @@ public abstract class AbstractAuditBaseEntity extends AbstractBaseEntity {
 //    @Column(name = "last_modified_date", nullable = false, updatable = false)
 //    @JsonIgnore
 //    protected Instant lastUpdatedDate;
-
+    @Column(name = "deleted", nullable = false)
+    @JsonIgnore
     protected Boolean deleted = Boolean.FALSE;
 
     @PrePersist

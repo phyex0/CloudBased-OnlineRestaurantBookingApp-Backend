@@ -1,5 +1,6 @@
 package com.upspoon.common.kafkaTemplateDTO;
 
+import com.upspoon.common.dto.Order.CreditCardDTO;
 import com.upspoon.common.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,5 +29,7 @@ public class OrderToStock implements Serializable {
     private UUID userId;
 
     private OrderStatus orderStatus;
+
+    private CreditCardDTO creditCardDTO;
 
 }

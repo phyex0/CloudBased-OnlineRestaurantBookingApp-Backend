@@ -6,6 +6,7 @@ import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.common.enums.OrderStatus;
 import com.upspoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upspoon.common.kafkaTemplateDTO.OrganizationToOrder;
+import com.upspoon.common.kafkaTemplateDTO.StockToPayment;
 import com.upspoon.common.web.CustomPage;
 import com.upspoon.order.client.StockClient;
 import com.upspoon.order.mapper.*;
@@ -316,9 +317,10 @@ public class OrderServiceImpl implements OrderService {
         var orderToStock = orderToStockMapper.toDto(order);
         orderToStock.setOrderStatus(OrderStatus.ORDER_CREATED);
 
+        order = orderRepository.save(order);
+        orderToStock.setOrderId(order.getId());
+        orderToStock.setPrice(totalAmount);
         kafkaProducer.produceOrderCreatedEvent(orderToStock);
-
-        orderRepository.save(order);
 
 
         return null;
@@ -342,5 +344,13 @@ public class OrderServiceImpl implements OrderService {
 
 
         return new ResponseEntity<>(new CustomPage<>(ordersDTOList, pageable, orderPage.getTotalElements()), HttpStatus.OK);
+    }
+
+    @Override
+    @Transactional
+    public void updateOrderSuccess(StockToPayment stockToPayment) {
+        var order = orderRepository.findById(stockToPayment.getOrderId());
+        order.get().setOrderStatus(OrderStatus.SUCCESS);
+        orderRepository.save(order.get());
     }
 }

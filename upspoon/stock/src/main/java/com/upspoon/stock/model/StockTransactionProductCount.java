@@ -14,15 +14,15 @@ import java.util.UUID;
  */
 
 @Entity
-@Table(name = "product_count")
+@Table(name = "stock_transaction_product_count")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@SQLDelete(sql = "UPDATE product_count SET deleted = '1' where id = ?")
+@SQLDelete(sql = "UPDATE stock_transaction_product_count SET deleted = '1' where id = ?")
 @Where(clause = "deleted <> '1' ")
-public class ProductCount extends AbstractAuditBaseEntity {
+public class StockTransactionProductCount extends AbstractAuditBaseEntity {
 
     private UUID productId;
 

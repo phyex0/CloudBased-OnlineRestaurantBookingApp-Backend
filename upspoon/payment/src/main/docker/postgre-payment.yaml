@@ -1,0 +1,15 @@
+# Use postgres/example user/password credentials
+version: '3.8'
+services:
+  postgres-payment:
+    restart: always
+    image: postgres:13.2
+    container_name: postgres-payment
+
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5435:5435"
+    command: -p 5435

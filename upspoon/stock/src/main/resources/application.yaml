@@ -19,12 +19,7 @@ spring:
   main:
     allow-circular-references: true
 
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-    operationSorter: method
-    enabled: true
-    disable-swagger-default-url: true
+
 
 logging:
   level:
