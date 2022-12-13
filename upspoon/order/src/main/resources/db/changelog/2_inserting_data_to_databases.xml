@@ -1,0 +1,114 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--Adding Organization-->
+    <changeSet id="202212120919" author="burak.yesildal">
+        <insert tableName="organization">
+            <column name="id" value="a2c3de07-23fd-4729-bcee-0678a31a9733"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="exact_organization_id" value="2d0f0a27-70b9-4f67-8fad-c4a449b9e9f9"/>
+            <column name="organization_name" value="Anatolia Beef-1"/>
+            <column name="organization_m_id" value="null"/>
+            <column name="organization_r_id" value="e2eb7bfd-dd78-4d32-b28d-29d812f29731"/>
+        </insert>
+        <!--Adding Business-->
+        <insert tableName="business">
+            <column name="id" value="e2eb7bfd-dd78-4d32-b28d-29d812f29731"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="business_type" value="RESTAURANT"/>
+            <column name="business_image" value="null"/>
+        </insert>
+
+        <!--Adding Menu-->
+        <insert tableName="menu">
+            <column name="id" value="89deed0b-4749-41f1-9816-4de9c3842901"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="name" value="Delicious Beef"/>
+            <column name="business_id" value="e2eb7bfd-dd78-4d32-b28d-29d812f29731"/>
+        </insert>
+
+        <!--Adding Product-->
+        <insert tableName="product">
+            <column name="id" value="c16e3c79-8677-4896-9432-9b055929d64d"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="product_code" value="c16e3c79-8677-4896-9432-9b055929d64d"/>
+            <column name="product_name" value="New York Stakes"/>
+            <column name="description" value="Lorem ipsum doler sit amet"/>
+            <column name="price" value="5.0"/>
+            <column name="product_image" value="null"/>
+            <column name="menu_id" value="89deed0b-4749-41f1-9816-4de9c3842901"/>
+        </insert>
+
+        <!--Adding Product-->
+        <insert tableName="product">
+            <column name="id" value="d638b749-fa53-411d-aa43-4217dc80b5cf"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="product_code" value="d638b749-fa53-411d-aa43-4217dc80b5cf"/>
+            <column name="product_name" value="Seafood Risotto"/>
+            <column name="description" value="Lorem ipsum doler sit amet"/>
+            <column name="price" value="10.0"/>
+            <column name="product_image" value="null"/>
+            <column name="menu_id" value="89deed0b-4749-41f1-9816-4de9c3842901"/>
+        </insert>
+
+
+        <!--Adding Menu2-->
+        <insert tableName="menu">
+            <column name="id" value="eef064e9-30d7-4f49-8a73-79b60566945b"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="name" value="Drinks"/>
+            <column name="business_id" value="e2eb7bfd-dd78-4d32-b28d-29d812f29731"/>
+        </insert>
+
+        <!--Adding Product-->
+        <insert tableName="product">
+            <column name="id" value="e37bcf11-caf1-45af-a316-221b1173e5c3"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="product_code" value="e37bcf11-caf1-45af-a316-221b1173e5c3"/>
+            <column name="product_name" value="Coke"/>
+            <column name="description" value="Lorem ipsum doler sit amet"/>
+            <column name="price" value="3.0"/>
+            <column name="product_image" value="null"/>
+            <column name="menu_id" value="eef064e9-30d7-4f49-8a73-79b60566945b"/>
+        </insert>
+
+        <!--Adding Product-->
+        <insert tableName="product">
+            <column name="id" value="b3792be6-9d47-42ee-ae3e-18639edc35c3"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="product_code" value="b3792be6-9d47-42ee-ae3e-18639edc35c3"/>
+            <column name="product_name" value="Water"/>
+            <column name="description" value="Lorem ipsum doler sit amet"/>
+            <column name="price" value="1.0"/>
+            <column name="product_image" value="null"/>
+            <column name="menu_id" value="eef064e9-30d7-4f49-8a73-79b60566945b"/>
+        </insert>
+
+    </changeSet>
+
+
+</databaseChangeLog>

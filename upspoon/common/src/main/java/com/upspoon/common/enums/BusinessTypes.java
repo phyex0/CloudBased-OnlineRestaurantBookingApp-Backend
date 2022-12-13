@@ -14,7 +14,7 @@ public enum BusinessTypes {
 
     BOOK("book");
 
-    private final String codeName;
+    public final String codeName;
 
     BusinessTypes(String codeName) {
         this.codeName = codeName;

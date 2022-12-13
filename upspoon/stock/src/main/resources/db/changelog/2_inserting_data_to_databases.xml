@@ -1,0 +1,49 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--Adding Organization-->
+    <changeSet id="202212121158" author="burak.yesildal">
+        <insert tableName="stock">
+            <column name="id" value="89d6a0a6-6c49-4a01-a4ff-7af78152d7b9"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="product_id" value="c16e3c79-8677-4896-9432-9b055929d64d"/>
+            <column name="count" value="10"/>
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="45896305-ed10-47f5-9528-2e3602484948"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="product_id" value="d638b749-fa53-411d-aa43-4217dc80b5cf"/>
+            <column name="count" value="10"/>
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="f22b9ce1-663d-4e00-8703-6142c6bbdb10"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="product_id" value="e37bcf11-caf1-45af-a316-221b1173e5c3"/>
+            <column name="count" value="50"/>
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="fa6ce2d9-750e-4812-baae-56e8e325657a"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="product_id" value="b3792be6-9d47-42ee-ae3e-18639edc35c3"/>
+            <column name="count" value="50"/>
+        </insert>
+
+    </changeSet>
+
+
+</databaseChangeLog>

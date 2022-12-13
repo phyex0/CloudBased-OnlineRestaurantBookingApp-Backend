@@ -3,7 +3,6 @@ package com.upspoon.organization.service;
 import com.upspoon.common.dto.Organization.NewOrganizationCreateDTO;
 import com.upspoon.common.dto.Organization.NewOrganizationDTO;
 import com.upspoon.common.dto.Organization.UpdateOrganizationDTO;
-import com.upspoon.common.enums.PackageService;
 import com.upspoon.common.web.CustomPage;
 import com.upspoon.organization.mapper.NewOrganizationCreateMapper;
 import com.upspoon.organization.mapper.NewRestaurantUserCreateMapper;
@@ -23,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
@@ -52,32 +50,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         this.newRestaurantUserCreateMapper = newRestaurantUserCreateMapper;
         this.newOrganizationCreateMapper = newOrganizationCreateMapper;
         this.restaurantKafkaEventMapper = restaurantKafkaEventMapper;
-    }
-
-    @PostConstruct
-    void init() {
-        Organization organization = new Organization();
-        organization.setFullAddress("Full Address");
-        organization.setOrganizationName("Root");
-        organization.setPackageService(PackageService.OWN_CARRIER);
-        organization.setMarket(false);
-        organization.setRestaurant(true);
-        organization.setBooking(true);
-
-        RestaurantUser restaurantUser = new RestaurantUser();
-        restaurantUser.setPhoneNumber("+999");
-        restaurantUser.setEmail("test@test.1");
-        restaurantUser.setName("Root");
-        restaurantUser.setLastName("Root");
-
-
-        organization.getRestaurantUsers().add(restaurantUser);
-        restaurantUser.getOrganizations().add(organization);
-
-
-        organizationRepository.save(organization);
-        restaurantUserRepository.save(restaurantUser);
-
     }
 
 

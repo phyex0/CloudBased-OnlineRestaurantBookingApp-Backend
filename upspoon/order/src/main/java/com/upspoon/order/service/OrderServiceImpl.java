@@ -4,6 +4,7 @@ import com.upspoon.common.dto.Order.*;
 import com.upspoon.common.dto.Stock.CreateStockDTO;
 import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.common.enums.OrderStatus;
+import com.upspoon.common.exceptions.BusinessTypeDoesNotRecognisedException;
 import com.upspoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upspoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upspoon.common.kafkaTemplateDTO.StockToPayment;
@@ -175,7 +176,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseEntity<CustomPage<BusinessDTOForUI>> getAllOrganizations(BusinessTypes businessTypes, Pageable pageable) {
-        var organizations = businessRepository.getAllOrganizationByBusinessType(businessTypes, pageable);
+
+        Page<BusinessDTOForUI> organizations = null;
+        if (businessTypes.codeName.equals(BusinessTypes.RESTAURANT.codeName))
+            organizations = organizationRepository.getAllRestaurantOrganizationByBusinessType(pageable);
+        else if (businessTypes.codeName.equals(BusinessTypes.MARKET.codeName))
+            organizations = organizationRepository.getAllMarketOrganizationByBusinessType(pageable);
+        else
+            throw new BusinessTypeDoesNotRecognisedException(businessTypes + " is not recognised");
         return new ResponseEntity<>(new CustomPage<>(organizations.getContent(), pageable, organizations.getTotalElements()), HttpStatus.OK);
     }
 

@@ -1,0 +1,63 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--Adding Organization and User-->
+    <changeSet id="202212120919" author="burak.yesildal">
+        <insert tableName="organization">
+            <column name="id" value="30f9e4c3-904d-4037-8708-cb8e2d4049f5"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="organization_name" value="Anatolia Beef"/>
+            <column name="package_service_type" value="OWN_CARRIER"/>
+            <column name="is_market" value="false"/>
+            <column name="is_restaurant" value="true"/>
+            <column name="is_booking" value="false"/>
+            <column name="parent_organization" value="null"/>
+            <column name="full_address" value="Uyanış mahallesi 1. sokak 1/1 Keçiören Ankara Türkiye"/>
+        </insert>
+
+        <insert tableName="restaurant_user">
+            <column name="id" value="cbb100ea-d7e1-443f-a39d-45a102542808"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="name" value="Burak"/>
+            <column name="middle_name" value="null"/>
+            <column name="last_name" value="Yeşildal"/>
+            <column name="phone_number" value="+905555555555"/>
+            <column name="email" value="system@system.com"/>
+        </insert>
+
+        <insert tableName="organization_user">
+            <column name="organization_id" value="30f9e4c3-904d-4037-8708-cb8e2d4049f5"/>
+            <column name="user_id" value="cbb100ea-d7e1-443f-a39d-45a102542808"/>
+        </insert>
+
+        <!--Adding Restaurant to Organization-->
+        <insert tableName="organization">
+            <column name="id" value="2d0f0a27-70b9-4f67-8fad-c4a449b9e9f9"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="organization_name" value="Anatolia Beef-1"/>
+            <column name="package_service_type" value="OWN_CARRIER"/>
+            <column name="is_market" value="false"/>
+            <column name="is_restaurant" value="true"/>
+            <column name="is_booking" value="false"/>
+            <column name="parent_organization" value="30f9e4c3-904d-4037-8708-cb8e2d4049f5"/>
+            <column name="full_address" value="Uyanış mahallesi 1. sokak 1/1 Keçiören Ankara Türkiye"/>
+        </insert>
+
+        <insert tableName="organization_user">
+            <column name="organization_id" value="2d0f0a27-70b9-4f67-8fad-c4a449b9e9f9"/>
+            <column name="user_id" value="cbb100ea-d7e1-443f-a39d-45a102542808"/>
+        </insert>
+
+    </changeSet>
+
+
+</databaseChangeLog>

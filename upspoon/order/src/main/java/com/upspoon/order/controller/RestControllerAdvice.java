@@ -1,6 +1,6 @@
-package com.upspoon.organization.controller;
+package com.upspoon.order.controller;
 
-import com.upspoon.common.exceptions.UserNotFoundException;
+import com.upspoon.common.exceptions.BusinessTypeDoesNotRecognisedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +25,9 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> handleUserNotFoundException(
-            UserNotFoundException ex, WebRequest request) {
+    @ExceptionHandler(BusinessTypeDoesNotRecognisedException.class)
+    public ResponseEntity<Object> handleBusinessTypeDoesNotRecognised(
+            BusinessTypeDoesNotRecognisedException ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("message", ex.getMessage());
         return ResponseEntity.badRequest().body(body);
