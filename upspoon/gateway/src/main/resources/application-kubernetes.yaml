@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationSorter: method
+    enabled: true
+    disable-swagger-default-url: true
+
+logging:
+  level:
+    org: info
+
+client:
+  order-api:
+    name: order
+    url: upspoon-order:8083
+  stock-api:
+    name: stock
+    url: upspoon-stock:8086
+  organization-api:
+    name: organization
+    url: upspoon-organization:8084

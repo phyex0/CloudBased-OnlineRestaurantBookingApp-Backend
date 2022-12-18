@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: upspoon-payment
+  name: upspoon-payment
+spec:
+  ports:
+    - name: 8085-8085
+      port: 8085
+      protocol: TCP
+      targetPort: 8085
+  selector:
+    app: upspoon-payment
+  type: ClusterIP

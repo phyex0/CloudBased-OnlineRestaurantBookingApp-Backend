@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: upspoon-organization
+  name: upspoon-organization
+spec:
+  ports:
+    - name: 8084-8084
+      port: 8084
+      protocol: TCP
+      targetPort: 8084
+  selector:
+    app: upspoon-organization
+  type: ClusterIP

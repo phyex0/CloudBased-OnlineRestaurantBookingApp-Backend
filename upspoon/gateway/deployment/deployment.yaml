@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: upspoon-gw
+  name: upspoon-gw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upspoon-gw
+  template:
+    metadata:
+      labels:
+        app: upspoon-gw
+    spec:
+      containers:
+        - env:
+            - name: spring.config.name
+              value: application-kubernetes
+          image: upspoon-gw:latest
+          name: upspoon-api
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
