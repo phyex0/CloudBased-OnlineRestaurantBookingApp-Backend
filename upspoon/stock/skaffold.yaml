@@ -3,12 +3,12 @@ kind: Config
 build:
   artifacts:
     - image: upspoon-stock
-      jib: {}
+      jib: { }
   tagPolicy:
-    sha256: {}
+    sha256: { }
   local:
     push: false
 
 deploy:
   kubectl:
-    manifests: ["./deployment/*.yaml"]
+    manifests: [ "./deployment/*.yaml" ]

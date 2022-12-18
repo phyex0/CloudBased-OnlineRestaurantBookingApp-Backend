@@ -4,7 +4,7 @@ build:
   artifacts:
     - image: upspoon-gw
       context: ./gateway
-      jib: {}
+      jib: { }
     - image: upspoon-organization
       context: ./organization
       jib: { }
@@ -18,7 +18,7 @@ build:
       context: ./payment
       jib: { }
   tagPolicy:
-    sha256: {}
+    sha256: { }
   local:
     push: false
 

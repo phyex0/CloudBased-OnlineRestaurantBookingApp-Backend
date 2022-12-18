@@ -54,5 +54,5 @@ spec:
               name: data
               subPath: postgres
       volumes:
-        - emptyDir: {}
+        - emptyDir: { }
           name: data
