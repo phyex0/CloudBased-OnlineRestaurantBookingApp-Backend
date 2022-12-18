@@ -26,3 +26,5 @@ TODO:
 11) Install Java 11 from => https://drive.google.com/file/d/1iW9Oj82nPWiuAmjGD8LzDEohpQ8oeBXm/view?usp=sharing
 
 12) Set the environment variables for JAVA => https://stackoverflow.com/questions/1672281/how-to-set-the-environment-variables-for-java-in-windows
+
+13) Run terminal as admin and run => choco install skaffold -y

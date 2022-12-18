@@ -1,0 +1,33 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+build:
+  artifacts:
+    - image: upspoon-gw
+      context: ./gateway
+      jib: {}
+    - image: upspoon-organization
+      context: ./organization
+      jib: { }
+    - image: upspoon-order
+      context: ./order
+      jib: { }
+    - image: upspoon-stock
+      context: ./stock
+      jib: { }
+    - image: upspoon-payment
+      context: ./payment
+      jib: { }
+  tagPolicy:
+    sha256: {}
+  local:
+    push: false
+
+deploy:
+  kubectl:
+    manifests: [
+      "./gateway/deployment/*.yaml",
+      "./organization/deployment/*.yaml",
+      "./order/deployment/*.yaml",
+      "./stock/deployment/*.yaml",
+      "./payment/deployment/*.yaml"
+    ]

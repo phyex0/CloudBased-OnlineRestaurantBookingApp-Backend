@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: upspoon-stock
+  name: upspoon-stock
+spec:
+  ports:
+    - name: 8086-8086
+      port: 8086
+      protocol: TCP
+      targetPort: 8086
+  selector:
+    app: upspoon-stock
+  type: ClusterIP

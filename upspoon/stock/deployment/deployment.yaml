@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: upspoon-stock
+  name: upspoon-stock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upspoon-stock
+  template:
+    metadata:
+      labels:
+        app: upspoon-stock
+    spec:
+      containers:
+        - env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-username
+                  name: upspoon-stock
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-password
+                  name: upspoon-stock
+            - name: spring.config.name
+              value: application-kubernetes
+          image: upspoon-stock:latest
+          name: upspoon-api
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi

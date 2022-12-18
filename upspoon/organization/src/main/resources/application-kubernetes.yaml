@@ -1,5 +1,5 @@
 server:
-  port: 8086
+  port: 8084
 
 spring:
   jpa:
@@ -13,7 +13,7 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://localhost:5434/postgres
+    url: jdbc:postgresql://upspoon-organization-postgresql:5432/postgres
     type: com.zaxxer.hikari.HikariDataSource
 
   main:
@@ -32,7 +32,5 @@ logging:
 kafka:
   address: 127.0.0.1:9092
   group-id: upspoon-group-id
-  topic-order-create: topic-order-create
-  topic-payment-failed: topic-payment-failed
-  topic-payment-handle: topic-payment-handle
-  topic-stock-failed: topic-stock-failed
+  topic-organization-create: topic-organization-create
+  topic-organization-create-fail: topic-organization-create-fail
