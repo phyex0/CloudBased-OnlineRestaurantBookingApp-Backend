@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: upspoon-ingress
+spec:
+  rules:
+    - host: upspoon.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: upspoon-gw
+                port:
+                  number: 8080
+  ingressClassName: nginx
