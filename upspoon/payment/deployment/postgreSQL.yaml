@@ -21,8 +21,6 @@ spec:
       app: upspoon-payment-postgresql
   template:
     metadata:
-      annotations:
-        sidecar.istio.io/inject: "false"
       labels:
         app: upspoon-payment-postgresql
     spec:

@@ -28,3 +28,5 @@ TODO:
 12) Set the environment variables for JAVA => https://stackoverflow.com/questions/1672281/how-to-set-the-environment-variables-for-java-in-windows
 
 13) Run terminal as admin and run => choco install skaffold -y
+
+14) Run terminal as admin adn run => choco install kubernetes-helm -y

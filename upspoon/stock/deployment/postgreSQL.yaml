@@ -21,8 +21,6 @@ spec:
       app: upspoon-stock-postgresql
   template:
     metadata:
-      annotations:
-        sidecar.istio.io/inject: "false"
       labels:
         app: upspoon-stock-postgresql
     spec:

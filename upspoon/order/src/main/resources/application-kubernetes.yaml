@@ -30,7 +30,7 @@ logging:
     org: info
 
 kafka:
-  address: 127.0.0.1:9092
+  address: kafka:9092
   group-id: upspoon-group-id
   topic-organization-create: topic-organization-create
   topic-organization-create-fail: topic-organization-create-fail
