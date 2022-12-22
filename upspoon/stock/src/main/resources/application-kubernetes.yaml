@@ -2,6 +2,9 @@ server:
   port: 8086
 
 spring:
+  kafka:
+    bootstrap-servers: kafka-service:9092
+
   jpa:
     database: postgresql
 
@@ -30,7 +33,7 @@ logging:
     org: info
 
 kafka:
-  address: kafka:9092
+  address: kafka-service:9092
   group-id: upspoon-group-id
   topic-order-create: topic-order-create
   topic-payment-failed: topic-payment-failed
