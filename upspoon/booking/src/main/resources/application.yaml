@@ -1,29 +1,39 @@
 server:
   port: 8082
 
-
 spring:
   jpa:
     database: postgresql
     hibernate:
       ddl-auto: create-drop
+
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5436/postgres
     type: com.zaxxer.hikari.HikariDataSource
 
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
+  liquibase:
+    change-log: "classpath:db/changelog/master.xml"
+    enabled: false
+    contexts: dev
 
 
 logging:
   level:
-    org: debug
+    org: info
 
 kafka:
   address: 127.0.0.1:9092
   group-id: upspoon-group-id
-  topic: order
+  topic-booking-create: topic-booking-create
+  topic-booking-create-fail: topic-booking-create-fail

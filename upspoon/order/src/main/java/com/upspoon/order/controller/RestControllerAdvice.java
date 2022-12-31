@@ -29,7 +29,7 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleBusinessTypeDoesNotRecognised(
             BusinessTypeDoesNotRecognisedException ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("message", ex.getMessage());
+        body.put("errorMessage", ex.getMessage());
         return ResponseEntity.badRequest().body(body);
     }
 

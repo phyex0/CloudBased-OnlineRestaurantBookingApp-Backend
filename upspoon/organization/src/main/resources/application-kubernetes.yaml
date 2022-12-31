@@ -37,3 +37,5 @@ kafka:
   group-id: upspoon-group-id
   topic-organization-create: topic-organization-create
   topic-organization-create-fail: topic-organization-create-fail
+  topic-booking-create: topic-booking-create
+  topic-booking-create-fail: topic-booking-create-fail

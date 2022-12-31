@@ -36,4 +36,8 @@ public class KafkaConsumer {
         log.info("Consume :" + message);
     }
 
+
+    //TODO: kafka listener goes here booking create-fail event
+
+
 }

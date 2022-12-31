@@ -70,6 +70,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     }
 
+    //TODO: createBooking goes here!
+    //TODO: if u seperated the restaurant and market be careful about the user have that option :D
+    //TODO: update restaurant caselerde feign ile rest at :D?
 
     @Override
     @Transactional
@@ -95,6 +98,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         organizationRepository.save(restaurant);
 
         //TODO: Kafka event goes here.
+        //TODO: logical error: market ve restaurant direkt açıyor. Adam belki birisini açmak ister? servisleri böl. ya da bunu update et
         var organizationToOrder = restaurantKafkaEventMapper.toDto(restaurant);
         kafkaProducer.produce(organizationToOrder);
         //TODO: producer catchde delete yapıyor. Ama araya girme söz konusu olduğu için işlemi tamamlar mı?

@@ -1,5 +1,7 @@
-package com.upspoon.organization.controller;
+package com.upspoon.booking.controller;
 
+import com.upspoon.common.exceptions.AlreadyBookedTableException;
+import com.upspoon.common.exceptions.BookingOrganizationNotFound;
 import com.upspoon.common.exceptions.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,22 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(
             UserNotFoundException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("errorMessage", ex.getMessage());
+        return ResponseEntity.badRequest().body(body);
+    }
+
+    @ExceptionHandler(BookingOrganizationNotFound.class)
+    public ResponseEntity<Object> handleBookingOrganizationNotFound(
+            BookingOrganizationNotFound ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("errorMessage", ex.getMessage());
+        return ResponseEntity.badRequest().body(body);
+    }
+
+    @ExceptionHandler(AlreadyBookedTableException.class)
+    public ResponseEntity<Object> handleAlreadyBookedTableException(
+            AlreadyBookedTableException ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("errorMessage", ex.getMessage());
         return ResponseEntity.badRequest().body(body);
