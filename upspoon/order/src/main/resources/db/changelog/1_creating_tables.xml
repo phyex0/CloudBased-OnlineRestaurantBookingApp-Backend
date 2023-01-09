@@ -34,30 +34,12 @@
             <column name="deleted" type="BOOL"/>
 
             <column name="name" type="VARCHAR(64)"/>
-            <column name="business_id" type="UUID"/>
+            <column name="organization_id" type="UUID"/>
 
         </createTable>
     </changeSet>
     <changeSet id="202212122110" author="burak.yesildal">
         <addPrimaryKey tableName="menu" columnNames="id" constraintName="menu_pkey"/>
-    </changeSet>
-
-    <!--Business Table is Created-->
-    <changeSet id="202212122111" author="burak.yesildal">
-        <createTable tableName="business">
-            <column name="id" type="UUID">
-                <constraints nullable="false"/>
-            </column>
-            <column name="created_by" type="VARCHAR(64)"/>
-            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
-            <column name="deleted" type="BOOL"/>
-
-            <column name="business_type" type="VARCHAR(64)"/>
-            <column name="business_image" type="TEXT"/>
-        </createTable>
-    </changeSet>
-    <changeSet id="202212122112" author="burak.yesildal">
-        <addPrimaryKey tableName="business" columnNames="id" constraintName="business_pkey"/>
     </changeSet>
 
     <!--Organization Table is Created-->
@@ -72,8 +54,8 @@
 
             <column name="exact_organization_id" type="UUID"/>
             <column name="organization_name" type="VARCHAR(64)"/>
-            <column name="organization_m_id" type="UUID"/>
-            <column name="organization_r_id" type="UUID"/>
+            <column name="business_type" type="VARCHAR(64)"/>
+            <column name="organization_image" type="TEXT"/>
         </createTable>
     </changeSet>
     <changeSet id="202212122114" author="burak.yesildal">
@@ -81,10 +63,10 @@
     </changeSet>
 
     <changeSet id="202212122115" author="burak.yesildal">
-        <addUniqueConstraint tableName="organization" columnNames="organization_m_id, organization_r_id"
+        <addUniqueConstraint tableName="organization" columnNames="exact_organization_id"
                              constraintName="organization_unique_constraints"/>
-        <addForeignKeyConstraint baseTableName="menu" baseColumnNames="business_id"
-                                 constraintName="menu_foreign_constraint" referencedTableName="business"
+        <addForeignKeyConstraint baseTableName="menu" baseColumnNames="organization_id"
+                                 constraintName="menu_foreign_constraint" referencedTableName="organization"
                                  referencedColumnNames="id" deferrable="false" initiallyDeferred="false"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
         <addForeignKeyConstraint baseTableName="product" baseColumnNames="menu_id"

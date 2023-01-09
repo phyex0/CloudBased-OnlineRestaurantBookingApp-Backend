@@ -13,9 +13,7 @@
 
             <column name="organization_name" type="VARCHAR(64)"/>
             <column name="package_service_type" type="VARCHAR(64)"/>
-            <column name="is_market" type="BOOL"/>
-            <column name="is_restaurant" type="BOOL"/>
-            <column name="is_booking" type="BOOL"/>
+            <column name="business_type" type="VARCHAR(64)"/>
             <column name="parent_organization" type="UUID"/>
             <column name="full_address" type="TEXT"/>
         </createTable>

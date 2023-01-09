@@ -11,6 +11,7 @@ public enum OrderStatus {
     ORDER_CREATED("order_create"),
     PAYMENT_FAILED("payment_failed"),
     SUCCESS("success"),
+    ORDER_PREPARING("order_preparing"),
     INVALID_STOCK("invalid_stock"),
     INVALID_USER("invalid_user"),
     INVALID_PRODUCT("invalid_product"),

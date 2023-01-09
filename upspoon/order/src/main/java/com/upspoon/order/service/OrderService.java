@@ -23,15 +23,15 @@ public interface OrderService {
 
     void updateOrderSuccess(StockToPayment stockToPayment);
 
-    ResponseEntity<MenuDTO> createMenu(UUID organizationId, BusinessTypes businessTypes, MenuDTO menuDTO);
+    ResponseEntity<MenuDTO> createMenu(UUID organizationId, MenuDTO menuDTO);
 
 
-    ResponseEntity<UpdateMenuDTO> updateMenu(UUID organizationId, UUID menuId, BusinessTypes businessTypes, UpdateMenuDTO menuDTO);
+    ResponseEntity<UpdateMenuDTO> updateMenu(UUID organizationId, UUID menuId, UpdateMenuDTO menuDTO);
 
     ResponseEntity<Void> deleteMenu(UUID organizationId, UUID menuId);
 
 
-    ResponseEntity<CustomPage<MenuDTO>> getMenu(UUID organizationId, BusinessTypes businessTypes, Pageable pageable);
+    ResponseEntity<CustomPage<MenuDTO>> getMenu(UUID organizationId, Pageable pageable);
 
 
     ResponseEntity<OrganizationDTO> getOrganization(UUID organizationId);
@@ -40,19 +40,19 @@ public interface OrderService {
     ResponseEntity<CustomPage<BusinessDTOForUI>> getAllOrganizations(BusinessTypes businessTypes, Pageable pageable);
 
 
-    ResponseEntity<ProductDTO> createProduct(UUID organizationId, UUID menuId, ProductDTO productDTO, BusinessTypes businessTypes);
+    ResponseEntity<ProductDTO> createProduct(UUID organizationId, UUID menuId, ProductDTO productDTO);
 
 
     ResponseEntity<UpdateProductDTO> updateProduct(UUID organizationId, UUID menuId, UUID productId, UpdateProductDTO updateProductDTO, BusinessTypes businessTypes);
 
 
-    ResponseEntity<Void> deleteProduct(UUID organizationId, UUID productId, UUID menuId, BusinessTypes businessTypes);
+    ResponseEntity<Void> deleteProduct(UUID organizationId, UUID productId, UUID menuId);
 
 
     ResponseEntity<ProductDTO> getProduct(UUID organizationId, UUID productId);
 
 
-    ResponseEntity<CustomPage<ProductDTO>> getProducts(UUID organizationId, UUID menuID, BusinessTypes businessTypes, Pageable pageable);
+    ResponseEntity<CustomPage<ProductDTO>> getProducts(UUID organizationId, UUID menuID, Pageable pageable);
 
     ResponseEntity<OrderDTO> createOrder(OrderDTO orderDTO);
 

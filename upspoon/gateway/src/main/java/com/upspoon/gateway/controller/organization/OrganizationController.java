@@ -35,10 +35,10 @@ public class OrganizationController {
         return organizationClient.createOrganization(newOrganizationCreateDTO);
     }
 
-    @PostMapping("/create-restaurant")
+    @PostMapping("/create-business")
     @Operation(summary = "Creates a new organization and links to given organization")
     public ResponseEntity<NewOrganizationDTO> createRestaurant(@RequestParam(value = "organizationId") UUID organizationId, @RequestBody NewOrganizationDTO newOrganizationDTO) {
-        return organizationClient.createRestaurant(organizationId, newOrganizationDTO);
+        return organizationClient.createBusiness(organizationId, newOrganizationDTO);
     }
 
 

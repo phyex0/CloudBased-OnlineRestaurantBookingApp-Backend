@@ -4,7 +4,9 @@ import com.upspoon.common.dto.Order.*;
 import com.upspoon.common.dto.Stock.CreateStockDTO;
 import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.common.enums.OrderStatus;
+import com.upspoon.common.exceptions.BusinessNotFoundException;
 import com.upspoon.common.exceptions.BusinessTypeDoesNotRecognisedException;
+import com.upspoon.common.exceptions.MissingProductsException;
 import com.upspoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upspoon.common.kafkaTemplateDTO.OrganizationToOrder;
 import com.upspoon.common.kafkaTemplateDTO.StockToPayment;
@@ -13,7 +15,10 @@ import com.upspoon.order.client.StockClient;
 import com.upspoon.order.mapper.*;
 import com.upspoon.order.model.Organization;
 import com.upspoon.order.producer.KafkaProducer;
-import com.upspoon.order.repository.*;
+import com.upspoon.order.repository.MenuRepository;
+import com.upspoon.order.repository.OrderRepository;
+import com.upspoon.order.repository.OrganizationRepository;
+import com.upspoon.order.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,7 +47,6 @@ public class OrderServiceImpl implements OrderService {
     private final MenuRepository menuRepository;
     private final OrganizationMapper organizationMapper;
     private final ProductMapper productMapper;
-    private final BusinessRepository businessRepository;
     private final ProductRepository productRepository;
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
@@ -53,14 +57,13 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private KafkaProducer kafkaProducer;
 
-    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, MenuMapper menuMapper, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, BusinessRepository businessRepository, ProductRepository productRepository, OrderMapper orderMapper, OrderRepository orderRepository, OrderToStockMapper orderToStockMapper, StockClient stockClient, OrderHistoryMapper orderHistoryMapper) {
+    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, ProductRepository productRepository, OrderMapper orderMapper, OrderRepository orderRepository, OrderToStockMapper orderToStockMapper, StockClient stockClient, OrderHistoryMapper orderHistoryMapper, MenuMapper menuMapper) {
         this.organizationFromOrganizationServiceMapper = organizationFromOrganizationServiceMapper;
         this.organizationRepository = organizationRepository;
         this.menuMapper = menuMapper;
         this.menuRepository = menuRepository;
         this.organizationMapper = organizationMapper;
         this.productMapper = productMapper;
-        this.businessRepository = businessRepository;
         this.productRepository = productRepository;
         this.orderMapper = orderMapper;
         this.orderRepository = orderRepository;
@@ -91,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public ResponseEntity<MenuDTO> createMenu(UUID organizationId, BusinessTypes businessTypes, MenuDTO menuDTO) {
+    public ResponseEntity<MenuDTO> createMenu(UUID organizationId, MenuDTO menuDTO) {
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
         if (Objects.isNull(organization)) {
@@ -99,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
         }
         //TODO if selected menu is null handle it.
         var menu = menuMapper.toEntity(menuDTO);
-        organization.getBusiness(businessTypes).getMenuList().add(menu);
+        organization.getMenuList().add(menu);
         organizationRepository.save(organization);
 
 
@@ -108,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public ResponseEntity<UpdateMenuDTO> updateMenu(UUID organizationId, UUID menuId, BusinessTypes businessTypes, UpdateMenuDTO menuDTO) {
+    public ResponseEntity<UpdateMenuDTO> updateMenu(UUID organizationId, UUID menuId, UpdateMenuDTO menuDTO) {
 
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
@@ -117,7 +120,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         //TODO: be sure the following map works well.
-        organization.getBusiness(businessTypes).getMenuList().forEach(menu -> {
+        organization.getMenuList().forEach(menu -> {
             if (menu.getId().equals(menuId)) {
                 menu = menuMapper.updateEntity(menu, menuDTO);
             }
@@ -136,17 +139,13 @@ public class OrderServiceImpl implements OrderService {
         if (Objects.isNull(organization)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        if (organization.getMarket() != null)
-            organization.getMarket().getMenuList().removeIf(menu -> menu.getId().equals(menuId));
-        if (organization.getRestaurant() != null)
-            organization.getRestaurant().getMenuList().removeIf(menu -> menu.getId().equals(menuId));
-
+        organization.getMenuList().removeIf(menu -> menu.getId().equals(menuId));
+        organizationRepository.save(organization);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<CustomPage<MenuDTO>> getMenu(UUID organizationId, BusinessTypes businessTypes, Pageable pageable) {
+    public ResponseEntity<CustomPage<MenuDTO>> getMenu(UUID organizationId, Pageable pageable) {
 
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
@@ -154,7 +153,7 @@ public class OrderServiceImpl implements OrderService {
             return new ResponseEntity<>(new CustomPage<>(new ArrayList<>(), pageable, 0), HttpStatus.NOT_FOUND);
         }
         //TODO obje null ise exception
-        var menuIdList = organization.getBusiness(businessTypes).getMenuList().stream().map(menu -> menu.getId()).collect(Collectors.toList());
+        var menuIdList = organization.getMenuList().stream().map(menu -> menu.getId()).collect(Collectors.toList());
         var menuList = menuRepository.getMenuByIdList(menuIdList, pageable);
 
         return new ResponseEntity<CustomPage<MenuDTO>>(new CustomPage<>(menuList.getContent(), pageable, menuList.getTotalElements()), HttpStatus.OK);
@@ -166,7 +165,7 @@ public class OrderServiceImpl implements OrderService {
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
         if (Objects.isNull(organization)) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            throw new BusinessNotFoundException("Business not found!");
         }
         var dto = organizationMapper.toDto(organization);
 
@@ -178,10 +177,8 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity<CustomPage<BusinessDTOForUI>> getAllOrganizations(BusinessTypes businessTypes, Pageable pageable) {
 
         Page<BusinessDTOForUI> organizations = null;
-        if (businessTypes.codeName.equals(BusinessTypes.RESTAURANT.codeName))
-            organizations = organizationRepository.getAllRestaurantOrganizationByBusinessType(pageable);
-        else if (businessTypes.codeName.equals(BusinessTypes.MARKET.codeName))
-            organizations = organizationRepository.getAllMarketOrganizationByBusinessType(pageable);
+        if (businessTypes.equals(BusinessTypes.MARKET) || businessTypes.equals(BusinessTypes.RESTAURANT))
+            organizations = organizationRepository.getAllOrganizationsByBusinessType(businessTypes, pageable);
         else
             throw new BusinessTypeDoesNotRecognisedException(businessTypes + " is not recognised");
         return new ResponseEntity<>(new CustomPage<>(organizations.getContent(), pageable, organizations.getTotalElements()), HttpStatus.OK);
@@ -189,18 +186,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public ResponseEntity<ProductDTO> createProduct(UUID organizationId, UUID menuId, ProductDTO productDTO, BusinessTypes businessTypes) {
+    public ResponseEntity<ProductDTO> createProduct(UUID organizationId, UUID menuId, ProductDTO productDTO) {
         //TODO: product code gotto be unique add constraint!
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
         if (Objects.isNull(organization))
-            return new ResponseEntity<>(productDTO, HttpStatus.NOT_FOUND);
-        if (organization.getBusiness(businessTypes).getMenuList().stream().filter(menuItem -> menuItem.getId().equals(menuId)).findFirst().isEmpty())
-            return new ResponseEntity<>(productDTO, HttpStatus.NOT_FOUND);
+            throw new BusinessNotFoundException("Business not found!");
 
         var product = productMapper.toEntity(productDTO);
 
-        organization.getBusiness(businessTypes).getMenuList()
+        organization.getMenuList()
                 .stream().filter(menu -> menu.getId().equals(menuId))
                 .findFirst().get().getProductList().add(product);
 
@@ -220,31 +215,31 @@ public class OrderServiceImpl implements OrderService {
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
         if (Objects.isNull(organization))
+            throw new BusinessNotFoundException("Business not found!");
+        if (organization.getMenuList().stream().filter(menu -> menu.getId().equals(menuId)).findFirst().isEmpty())
             return new ResponseEntity<>(updateProductDTO, HttpStatus.NOT_FOUND);
-        if (organization.getBusiness(businessTypes).getMenuList().stream().filter(menu -> menu.getId().equals(menuId)).findFirst().isEmpty())
-            return new ResponseEntity<>(updateProductDTO, HttpStatus.NOT_FOUND);
-
+        //TODO: wtf :D?
 
         return null;
     }
 
     @Override
     @Transactional
-    public ResponseEntity<Void> deleteProduct(UUID organizationId, UUID productId, UUID menuId, BusinessTypes businessTypes) {
+    public ResponseEntity<Void> deleteProduct(UUID organizationId, UUID productId, UUID menuId) {
 
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
         if (Objects.isNull(organization))
+            throw new BusinessNotFoundException("Business not found!");
+        if (organization.getMenuList().stream().filter(menu -> menu.getId().equals(menuId)).findFirst().isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        if (organization.getBusiness(businessTypes).getMenuList().stream().filter(menu -> menu.getId().equals(menuId)).findFirst().isEmpty())
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        if (organization.getBusiness(businessTypes).getMenuList().stream()
+        if (organization.getMenuList().stream()
                 .filter(menu -> menu.getId().equals(menuId))
                 .findFirst().get().getProductList().stream().filter(prod -> prod.getId().equals(productId)).findFirst().isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
 
-        organization.getBusiness(businessTypes).getMenuList().forEach(menu -> {
+        organization.getMenuList().forEach(menu -> {
             menu.getProductList().removeIf(prod -> prod.getId().equals(productId));
         });
         organizationRepository.save(organization);
@@ -258,23 +253,18 @@ public class OrderServiceImpl implements OrderService {
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
         if (Objects.isNull(organization))
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            throw new BusinessNotFoundException("Business not found!");
 
-        ProductDTO dto = extractDtoFromOrganization(organization, BusinessTypes.RESTAURANT, productId);
+        ProductDTO dto = extractDtoFromOrganization(organization, productId);
         if (!Objects.isNull(dto))
             return new ResponseEntity<>(dto, HttpStatus.OK);
-        dto = extractDtoFromOrganization(organization, BusinessTypes.MARKET, productId);
-        if (!Objects.isNull(dto))
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
     }
 
-    private ProductDTO extractDtoFromOrganization(Organization organization, BusinessTypes businessTypes, UUID productId) {
-        var business = organization.getBusiness(businessTypes);
-        if (!Objects.isNull(business)) {
-            var selectedProduct = business.getMenuList().stream().flatMap(menu -> menu.getProductList().stream()).filter(prod -> prod.getId().equals(productId)).findFirst();
+    private ProductDTO extractDtoFromOrganization(Organization organization, UUID productId) {
+
+        if (!Objects.isNull(organization)) {
+            var selectedProduct = organization.getMenuList().stream().flatMap(menu -> menu.getProductList().stream()).filter(prod -> prod.getId().equals(productId)).findFirst();
             if (selectedProduct.isPresent()) {
                 var dto = productMapper.toDto(selectedProduct.get());
                 return dto;
@@ -287,19 +277,13 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public ResponseEntity<CustomPage<ProductDTO>> getProducts(UUID organizationId, UUID menuID, BusinessTypes businessTypes, Pageable pageable) {
+    public ResponseEntity<CustomPage<ProductDTO>> getProducts(UUID organizationId, UUID menuID, Pageable pageable) {
 
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
         if (Objects.isNull(organization))
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        if (Objects.isNull(organization.getBusiness(businessTypes)))
-            return new ResponseEntity<>(null, HttpStatus.OK);
-
-        var businessId = organization.getBusiness(businessTypes).getId();
-
-
-        var product = productRepository.getAllProducts(businessId, menuID, pageable);
+            throw new BusinessNotFoundException("Business not found");
+        var product = productRepository.getAllProducts(organization.getExactOrganizationId(), menuID, pageable);
 
         var productDto = productMapper.toDto(product.getContent());
         Page<ProductDTO> page = new PageImpl<>(productDto);
@@ -315,7 +299,7 @@ public class OrderServiceImpl implements OrderService {
         var containsAll = productRepository.existsAllByIdIn(orderDTO.getProductId());
 
         if (!containsAll) {
-            return new ResponseEntity<>(orderDTO, HttpStatus.NOT_FOUND);
+            throw new MissingProductsException("Some of the products are not valid!");
         }
 
         var order = orderMapper.toEntity(orderDTO);

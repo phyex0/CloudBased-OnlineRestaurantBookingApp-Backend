@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
  */
 
 
-@Mapper(componentModel = "spring", uses = {BusinessMapper.class})
+@Mapper(componentModel = "spring")
 public interface ProductMapper extends EntityMapper<ProductDTO, Product> {
 
     Product toEntity(ProductDTO productDTO);

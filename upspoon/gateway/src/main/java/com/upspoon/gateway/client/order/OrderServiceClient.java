@@ -19,16 +19,16 @@ import java.util.UUID;
 public interface OrderServiceClient {
 
     @PostMapping(value = "/api/order/menu", produces = "application/json", consumes = "application/json")
-    ResponseEntity<MenuDTO> createMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, @RequestBody MenuDTO menuDTO);
+    ResponseEntity<MenuDTO> createMenu(@RequestParam UUID organizationId, @RequestBody MenuDTO menuDTO);
 
     @PutMapping(value = "/api/order/menu", produces = "application/json", consumes = "application/json")
-    ResponseEntity<UpdateMenuDTO> updateMenu(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestParam BusinessTypes businessTypes, @RequestBody UpdateMenuDTO menuDTO);
+    ResponseEntity<UpdateMenuDTO> updateMenu(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestBody UpdateMenuDTO menuDTO);
 
     @DeleteMapping(value = "/api/order/menu", produces = "application/json", consumes = "application/json")
     ResponseEntity<Void> deleteMenu(@RequestParam UUID organizationId, @RequestParam UUID menuId);
 
     @GetMapping(value = "/api/order/menu", produces = "application/json", consumes = "application/json")
-    ResponseEntity<CustomPage<MenuDTO>> getMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, Pageable pageable);
+    ResponseEntity<CustomPage<MenuDTO>> getMenu(@RequestParam UUID organizationId, Pageable pageable);
 
     @GetMapping(value = "/api/order", produces = "application/json", consumes = "application/json")
     ResponseEntity<OrganizationDTO> getOrganization(@RequestParam UUID organizationId);
@@ -37,19 +37,19 @@ public interface OrderServiceClient {
     ResponseEntity<CustomPage<BusinessDTOForUI>> getAllOrganizations(@RequestParam BusinessTypes businessTypes, Pageable pageable);
 
     @PostMapping(value = "/api/order/product", produces = "application/json", consumes = "application/json")
-    ResponseEntity<ProductDTO> createProduct(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestBody ProductDTO productDTO, @RequestParam BusinessTypes businessTypes);
+    ResponseEntity<ProductDTO> createProduct(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestBody ProductDTO productDTO);
 
     @PutMapping(value = "/api/order/product", produces = "application/json", consumes = "application/json")
     ResponseEntity<UpdateProductDTO> updateProduct(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestParam UUID productId, @RequestBody UpdateProductDTO updateProductDTO, @RequestParam BusinessTypes businessTypes);
 
     @DeleteMapping(value = "/api/order/product", produces = "application/json", consumes = "application/json")
-    ResponseEntity<Void> deleteProduct(@RequestParam UUID organizationId, @RequestParam UUID productId, @RequestParam UUID menuId, @RequestParam BusinessTypes businessTypes);
+    ResponseEntity<Void> deleteProduct(@RequestParam UUID organizationId, @RequestParam UUID productId, @RequestParam UUID menuId);
 
     @GetMapping(value = "/api/order/product", produces = "application/json", consumes = "application/json")
     ResponseEntity<ProductDTO> getProduct(@RequestParam UUID organizationId, @RequestParam UUID productId);
 
     @GetMapping(value = "/api/order/product-list", produces = "application/json", consumes = "application/json")
-    ResponseEntity<CustomPage<ProductDTO>> getProducts(@RequestParam UUID organizationId, @RequestParam UUID menuID, @RequestParam BusinessTypes businessTypes, Pageable pageable);
+    ResponseEntity<CustomPage<ProductDTO>> getProducts(@RequestParam UUID organizationId, @RequestParam UUID menuID, Pageable pageable);
 
 
     @PostMapping(value = "/api/order", produces = "application/json", consumes = "application/json")

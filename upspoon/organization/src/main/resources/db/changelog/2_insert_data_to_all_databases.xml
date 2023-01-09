@@ -11,9 +11,7 @@
 
             <column name="organization_name" value="Anatolia Beef"/>
             <column name="package_service_type" value="OWN_CARRIER"/>
-            <column name="is_market" value="false"/>
-            <column name="is_restaurant" value="true"/>
-            <column name="is_booking" value="false"/>
+            <column name="business_type" value="ALL"/>
             <column name="parent_organization" value="null"/>
             <column name="full_address" value="Uyanış mahallesi 1. sokak 1/1 Keçiören Ankara Türkiye"/>
         </insert>
@@ -45,9 +43,7 @@
 
             <column name="organization_name" value="Anatolia Beef-1"/>
             <column name="package_service_type" value="OWN_CARRIER"/>
-            <column name="is_market" value="false"/>
-            <column name="is_restaurant" value="true"/>
-            <column name="is_booking" value="false"/>
+            <column name="business_type" value="RESTAURANT"/>
             <column name="parent_organization" value="30f9e4c3-904d-4037-8708-cb8e2d4049f5"/>
             <column name="full_address" value="Uyanış mahallesi 1. sokak 1/1 Keçiören Ankara Türkiye"/>
         </insert>

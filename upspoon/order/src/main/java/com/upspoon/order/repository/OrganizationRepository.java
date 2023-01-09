@@ -1,6 +1,7 @@
 package com.upspoon.order.repository;
 
 import com.upspoon.common.dto.Order.BusinessDTOForUI;
+import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.order.model.Organization;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,14 +19,8 @@ import java.util.UUID;
 public interface OrganizationRepository extends JpaRepository<Organization, UUID> {
     Organization findOrganizationByExactOrganizationId(UUID organizationId);
 
-    @Query("select new com.upspoon.common.dto.Order.BusinessDTOForUI(o.id, b.id, o.organizationName, b.businessImage) " +
-            "from Organization o left join o.market b where b.id is not null ")
-    Page<BusinessDTOForUI> getAllMarketOrganizationByBusinessType(Pageable pageable);
-
-
-    @Query("select new com.upspoon.common.dto.Order.BusinessDTOForUI(o.id, b.id, o.organizationName, b.businessImage) " +
-            "from Organization o left join o.restaurant b where b.id is not null ")
-    Page<BusinessDTOForUI> getAllRestaurantOrganizationByBusinessType(Pageable pageable);
-
+    @Query("select new com.upspoon.common.dto.Order.BusinessDTOForUI(o.exactOrganizationId, o.organizationName, o.organizationImage, o.businessTypes) " +
+            "from Organization  o where o.businessTypes = :businessTypes order by  o.organizationName asc")
+    Page<BusinessDTOForUI> getAllOrganizationsByBusinessType(BusinessTypes businessTypes, Pageable pageable);
 
 }
