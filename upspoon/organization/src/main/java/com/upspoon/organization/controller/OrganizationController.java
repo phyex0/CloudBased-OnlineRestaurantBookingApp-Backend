@@ -32,9 +32,9 @@ public class OrganizationController {
         return organizationSerice.createOrganization(newOrganizationCreateDTO);
     }
 
-    @PostMapping("/create-restaurant")
-    public ResponseEntity<NewOrganizationDTO> createRestaurant(@RequestParam(value = "organizationId") UUID organizationId, @RequestBody NewOrganizationDTO newOrganizationDTO) {
-        return organizationSerice.createRestaurant(organizationId, newOrganizationDTO);
+    @PostMapping("/create-business")
+    public ResponseEntity<NewOrganizationDTO> createBusiness(@RequestParam(value = "organizationId") UUID organizationId, @RequestBody NewOrganizationDTO newOrganizationDTO) {
+        return organizationSerice.createBusiness(organizationId, newOrganizationDTO);
     }
 
 

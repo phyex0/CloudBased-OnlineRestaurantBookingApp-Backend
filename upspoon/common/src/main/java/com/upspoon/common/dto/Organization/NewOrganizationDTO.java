@@ -1,5 +1,6 @@
 package com.upspoon.common.dto.Organization;
 
+import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.common.enums.PackageService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,11 +30,7 @@ public class NewOrganizationDTO implements Serializable {
 
     @NotNull
     private String fullAddress;
-
-    private boolean isMarket;
-
-    private boolean isRestaurant;
-
-    private boolean isBooking;
+    @NotNull
+    private BusinessTypes businessTypes;
 
 }

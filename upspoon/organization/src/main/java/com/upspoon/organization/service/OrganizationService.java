@@ -18,7 +18,7 @@ public interface OrganizationService {
 
     ResponseEntity<NewOrganizationCreateDTO> createOrganization(NewOrganizationCreateDTO newOrganizationCreateDTO);
 
-    ResponseEntity<NewOrganizationDTO> createRestaurant(UUID organizationId, NewOrganizationDTO newOrganizationDTO);
+    ResponseEntity<NewOrganizationDTO> createBusiness(UUID organizationId, NewOrganizationDTO newOrganizationDTO);
 
     ResponseEntity<CustomPage<NewOrganizationDTO>> getAllOrganizations(UUID restaurantUserId, Pageable pageable);
 

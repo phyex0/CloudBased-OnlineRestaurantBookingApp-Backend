@@ -11,18 +11,8 @@
 
             <column name="exact_organization_id" value="2d0f0a27-70b9-4f67-8fad-c4a449b9e9f9"/>
             <column name="organization_name" value="Anatolia Beef-1"/>
-            <column name="organization_m_id" value="null"/>
-            <column name="organization_r_id" value="e2eb7bfd-dd78-4d32-b28d-29d812f29731"/>
-        </insert>
-        <!--Adding Business-->
-        <insert tableName="business">
-            <column name="id" value="e2eb7bfd-dd78-4d32-b28d-29d812f29731"/>
-            <column name="created_by" value="system"/>
-            <column name="created_date" valueDate="now()"/>
-            <column name="deleted" value="false"/>
-
             <column name="business_type" value="RESTAURANT"/>
-            <column name="business_image" value="null"/>
+            <column name="organization_image" value="null"/>
         </insert>
 
         <!--Adding Menu-->
@@ -33,7 +23,7 @@
             <column name="deleted" value="false"/>
 
             <column name="name" value="Delicious Beef"/>
-            <column name="business_id" value="e2eb7bfd-dd78-4d32-b28d-29d812f29731"/>
+            <column name="organization_id" value="a2c3de07-23fd-4729-bcee-0678a31a9733"/>
         </insert>
 
         <!--Adding Product-->
@@ -75,7 +65,7 @@
             <column name="deleted" value="false"/>
 
             <column name="name" value="Drinks"/>
-            <column name="business_id" value="e2eb7bfd-dd78-4d32-b28d-29d812f29731"/>
+            <column name="organization_id" value="a2c3de07-23fd-4729-bcee-0678a31a9733"/>
         </insert>
 
         <!--Adding Product-->

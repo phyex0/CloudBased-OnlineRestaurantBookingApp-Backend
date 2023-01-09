@@ -22,8 +22,8 @@ public interface OrganizationClient {
     @PostMapping(value = "/api/organization", produces = "application/json", consumes = "application/json")
     ResponseEntity<NewOrganizationCreateDTO> createOrganization(@RequestBody NewOrganizationCreateDTO newOrganizationCreateDTO);
 
-    @PostMapping(value = "/api/organization/create-restaurant", produces = "application/json", consumes = "application/json")
-    ResponseEntity<NewOrganizationDTO> createRestaurant(@RequestParam(value = "organizationId") UUID organizationId, @RequestBody NewOrganizationDTO newOrganizationDTO);
+    @PostMapping(value = "/api/organization/create-business", produces = "application/json", consumes = "application/json")
+    ResponseEntity<NewOrganizationDTO> createBusiness(@RequestParam(value = "organizationId") UUID organizationId, @RequestBody NewOrganizationDTO newOrganizationDTO);
 
 
     @GetMapping(value = "/api/organization", produces = "application/json", consumes = "application/json")

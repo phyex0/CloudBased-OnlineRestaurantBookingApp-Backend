@@ -12,7 +12,13 @@ public enum BusinessTypes {
 
     RESTAURANT("restaurant"),
 
-    BOOK("book");
+    BOOK("book"),
+
+    ALL("all"),
+
+    MARKET_RESTAURANT("market_restaurant"),
+
+    RESTAURANT_BOOK("restaurant_book");
 
     public final String codeName;
 

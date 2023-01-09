@@ -1,5 +1,6 @@
 package com.upspoon.common.kafkaTemplateDTO;
 
+import com.upspoon.common.enums.BusinessTypes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,9 +22,7 @@ public class OrganizationToOrder implements Serializable {
 
     private String organizationName;
 
-    private boolean isMarket;
-
-    private boolean isRestaurant;
+    private BusinessTypes businessTypes;
 
 
 }

@@ -1,11 +1,13 @@
 package com.upspoon.common.dto.Order;
 
+import com.upspoon.common.enums.BusinessTypes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -24,8 +26,11 @@ public class OrganizationDTO implements Serializable {
     @NotNull
     private String organizationName;
 
-    private BusinessDTO market;
+    private BusinessTypes businessTypes;
 
-    private BusinessDTO restaurant;
+    private String organizationImage;
+
+    private List<MenuDTO> menuList;
+
 
 }

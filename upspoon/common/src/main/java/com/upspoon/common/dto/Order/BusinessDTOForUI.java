@@ -1,5 +1,6 @@
 package com.upspoon.common.dto.Order;
 
+import com.upspoon.common.enums.BusinessTypes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,11 @@ public class BusinessDTOForUI implements Serializable {
 
     private UUID organizationId;
 
-    private UUID businessId;
-
     private String organizationName;
 
-    private String businessImage;
+    private String organizationImage;
+
+    private BusinessTypes businessTypes;
+
+
 }

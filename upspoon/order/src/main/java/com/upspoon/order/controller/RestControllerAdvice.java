@@ -1,6 +1,8 @@
 package com.upspoon.order.controller;
 
+import com.upspoon.common.exceptions.BusinessNotFoundException;
 import com.upspoon.common.exceptions.BusinessTypeDoesNotRecognisedException;
+import com.upspoon.common.exceptions.MissingProductsException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,24 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BusinessTypeDoesNotRecognisedException.class)
     public ResponseEntity<Object> handleBusinessTypeDoesNotRecognised(
             BusinessTypeDoesNotRecognisedException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("errorMessage", ex.getMessage());
+        return ResponseEntity.badRequest().body(body);
+    }
+
+
+    @ExceptionHandler(MissingProductsException.class)
+    public ResponseEntity<Object> handleMissingProductsException(
+            MissingProductsException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("errorMessage", ex.getMessage());
+        return ResponseEntity.badRequest().body(body);
+    }
+
+
+    @ExceptionHandler(BusinessNotFoundException.class)
+    public ResponseEntity<Object> handleBusinessNotFoundException(
+            BusinessNotFoundException ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("errorMessage", ex.getMessage());
         return ResponseEntity.badRequest().body(body);

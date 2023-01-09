@@ -29,14 +29,14 @@ public class OrderServiceController {
 
     @PostMapping("/menu")
     @Operation(summary = "Create menu by organization id, and menuDto")
-    public ResponseEntity<MenuDTO> createMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, @RequestBody MenuDTO menuDTO) {
-        return orderServiceClient.createMenu(organizationId, businessTypes, menuDTO);
+    public ResponseEntity<MenuDTO> createMenu(@RequestParam UUID organizationId, @RequestBody MenuDTO menuDTO) {
+        return orderServiceClient.createMenu(organizationId, menuDTO);
     }
 
     @PutMapping("/menu")
     @Operation(summary = "update menu by organization id and update dto")
-    public ResponseEntity<UpdateMenuDTO> updateMenu(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestParam BusinessTypes businessTypes, @RequestBody UpdateMenuDTO menuDTO) {
-        return orderServiceClient.updateMenu(organizationId, menuId, businessTypes, menuDTO);
+    public ResponseEntity<UpdateMenuDTO> updateMenu(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestBody UpdateMenuDTO menuDTO) {
+        return orderServiceClient.updateMenu(organizationId, menuId, menuDTO);
     }
 
     @DeleteMapping("/menu")
@@ -47,8 +47,8 @@ public class OrderServiceController {
 
     @GetMapping("/menu")
     @Operation(summary = "get menu as pageable by organization id, business type")
-    public ResponseEntity<CustomPage<MenuDTO>> getMenu(@RequestParam UUID organizationId, @RequestParam BusinessTypes businessTypes, Pageable pageable) {
-        return orderServiceClient.getMenu(organizationId, businessTypes, pageable);
+    public ResponseEntity<CustomPage<MenuDTO>> getMenu(@RequestParam UUID organizationId, Pageable pageable) {
+        return orderServiceClient.getMenu(organizationId, pageable);
     }
 
     @GetMapping
@@ -65,8 +65,8 @@ public class OrderServiceController {
 
     @PostMapping("/product")
     @Operation(summary = "create product by organization id and menu id, with menuId with productDto")
-    public ResponseEntity<ProductDTO> createProduct(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestBody ProductDTO productDTO, @RequestParam BusinessTypes businessTypes) {
-        return orderServiceClient.createProduct(organizationId, menuId, productDTO, businessTypes);
+    public ResponseEntity<ProductDTO> createProduct(@RequestParam UUID organizationId, @RequestParam UUID menuId, @RequestBody ProductDTO productDTO) {
+        return orderServiceClient.createProduct(organizationId, menuId, productDTO);
     }
 
     @PutMapping("/product")
@@ -77,8 +77,8 @@ public class OrderServiceController {
 
     @DeleteMapping("/product")
     @Operation(summary = "delete product by organization id, menu id and productId")
-    public ResponseEntity<Void> deleteProduct(@RequestParam UUID organizationId, @RequestParam UUID productId, @RequestParam UUID menuId, @RequestParam BusinessTypes businessTypes) {
-        return orderServiceClient.deleteProduct(organizationId, productId, menuId, businessTypes);
+    public ResponseEntity<Void> deleteProduct(@RequestParam UUID organizationId, @RequestParam UUID productId, @RequestParam UUID menuId) {
+        return orderServiceClient.deleteProduct(organizationId, productId, menuId);
     }
 
     @GetMapping("/product")
@@ -89,8 +89,8 @@ public class OrderServiceController {
 
     @GetMapping("/product-list")
     @Operation(summary = "get products as pageable by organization id, menu id and pageable object")
-    public ResponseEntity<CustomPage<ProductDTO>> getProducts(@RequestParam UUID organizationId, @RequestParam UUID menuID, @RequestParam BusinessTypes businessTypes, Pageable pageable) {
-        return orderServiceClient.getProducts(organizationId, menuID, businessTypes, pageable);
+    public ResponseEntity<CustomPage<ProductDTO>> getProducts(@RequestParam UUID organizationId, @RequestParam UUID menuID, Pageable pageable) {
+        return orderServiceClient.getProducts(organizationId, menuID, pageable);
     }
 
 

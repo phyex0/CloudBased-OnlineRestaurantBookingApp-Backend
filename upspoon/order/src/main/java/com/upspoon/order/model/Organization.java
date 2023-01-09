@@ -7,6 +7,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -30,20 +31,16 @@ public class Organization extends AbstractAuditBaseEntity {
     @Column(name = "organization_name", nullable = false)
     private String organizationName;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "organization_m_id")
-    private Business market;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "business_type", nullable = false)
+    private BusinessTypes businessTypes;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "organization_r_id")
-    private Business restaurant;
+    @Column(name = "organization_image")
+    private String organizationImage;
 
-
-    public Business getBusiness(BusinessTypes businessTypes) {
-        if (businessTypes.equals(BusinessTypes.MARKET))
-            return this.market;
-        return this.restaurant;
-    }
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "organization_id")
+    private List<Menu> menuList;
 
 
 }

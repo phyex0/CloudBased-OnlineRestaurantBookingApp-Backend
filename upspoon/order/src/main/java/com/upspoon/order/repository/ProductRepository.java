@@ -17,9 +17,10 @@ import java.util.UUID;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID> {
 
-    @Query("select p from Business b left join  b.menuList m left  join  m.productList p " +
-            "where b.id = :businessId and m.id = :menuId")
-    Page<Product> getAllProducts(UUID businessId, UUID menuId, Pageable pageable);
+
+    @Query("select p from Organization  o left join  o.menuList m left join m.productList p " +
+            "where o.exactOrganizationId = :organizationId and m.id = :menuId ")
+    Page<Product> getAllProducts(UUID organizationId, UUID menuId, Pageable pageable);
 
     Boolean existsAllByIdIn(List<UUID> idList);
 

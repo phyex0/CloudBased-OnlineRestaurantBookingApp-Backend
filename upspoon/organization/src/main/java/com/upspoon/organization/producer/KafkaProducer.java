@@ -21,6 +21,9 @@ public class KafkaProducer {
     @Value("${kafka.topic-organization-create}")
     private String topicName;
 
+    @Value("${kafka.topic-booking-create}")
+    private String topicBook;
+
     private final ObjectMapper objectMapper;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
@@ -42,6 +45,20 @@ public class KafkaProducer {
             kafkaTemplate.send(topicName, UUID.randomUUID().toString(), transferredMessage);
         } catch (Exception e) {
             log.info("Organization create event failed. Mapper failed");
+            organizationService.deleteRestaurant(organizationToOrder.getOrganizationId());
+
+        }
+        log.info("Produce :" + transferredMessage);
+    }
+
+
+    public void produceBook(OrganizationToOrder organizationToOrder) {
+        String transferredMessage = null;
+        try {
+            transferredMessage = objectMapper.writeValueAsString(organizationToOrder);
+            kafkaTemplate.send(topicBook, UUID.randomUUID().toString(), transferredMessage);
+        } catch (Exception e) {
+            log.info("Booking create event failed. Mapper failed");
             organizationService.deleteRestaurant(organizationToOrder.getOrganizationId());
 
         }
