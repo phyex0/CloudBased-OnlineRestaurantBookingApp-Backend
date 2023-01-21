@@ -1,0 +1,29 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="202301212336" author="burak.yesildal">
+
+        <!--Adding Booking to Organization-->
+        <insert tableName="organization">
+            <column name="id" value="3c5bf104-7e5f-4560-8671-09b78f0fd9a1"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="organization_name" value="Anatolia Beef Booking"/>
+            <column name="package_service_type" value="OWN_CARRIER"/>
+            <column name="business_type" value="BOOK"/>
+            <column name="parent_organization" value="30f9e4c3-904d-4037-8708-cb8e2d4049f5"/>
+            <column name="full_address" value="Uyanış mahallesi 1. sokak 1/1 Keçiören Ankara Türkiye"/>
+        </insert>
+
+        <insert tableName="organization_user">
+            <column name="organization_id" value="3c5bf104-7e5f-4560-8671-09b78f0fd9a1"/>
+            <column name="user_id" value="cbb100ea-d7e1-443f-a39d-45a102542808"/>
+        </insert>
+
+    </changeSet>
+
+
+</databaseChangeLog>

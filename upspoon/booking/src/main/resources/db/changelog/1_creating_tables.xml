@@ -1,0 +1,77 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--Organization Table is Created-->
+    <changeSet id="202301211320" author="burak.yesildal">
+        <createTable tableName="organization">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="exact_organization_id" type="UUID"/>
+            <column name="organization_name" type="VARCHAR(255)"/>
+            <column name="max_table" type="INT"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="202301211321" author="burak.yesildal">
+        <addPrimaryKey tableName="organization" columnNames="id" constraintName="organization_pkey"/>
+    </changeSet>
+
+    <!--Book Table is Created-->
+    <changeSet id="202301211322" author="burak.yesildal">
+        <createTable tableName="book">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="book_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="organization_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="202301211323" author="burak.yesildal">
+        <addPrimaryKey tableName="book" columnNames="id" constraintName="book_pkey"/>
+        <addForeignKeyConstraint baseTableName="book" baseColumnNames="organization_id"
+                                 constraintName="organization_book_foreign_constraint"
+                                 referencedTableName="organization"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+
+    <!--BookDetails Table is Created-->
+    <changeSet id="202301211324" author="burak.yesildal">
+        <createTable tableName="book_details">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="full_name" type="VARCHAR(255)"/>
+            <column name="phone_number" type="VARCHAR(255)"/>
+            <column name="number_of_people" type="INT"/>
+            <column name="book_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="table_number" type="INT"/>
+            <column name="book_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="202301211325" author="burak.yesildal">
+        <addPrimaryKey tableName="book_details" columnNames="id" constraintName="book_details_pkey"/>
+        <addForeignKeyConstraint baseTableName="book_details" baseColumnNames="book_id"
+                                 constraintName="book_details_book_foreign_constraint"
+                                 referencedTableName="book"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+
+</databaseChangeLog>

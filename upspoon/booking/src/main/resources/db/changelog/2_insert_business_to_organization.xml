@@ -1,0 +1,21 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="202212120919" author="burak.yesildal">
+        <!--Adding Booking to Organization-->
+
+        <insert tableName="organization">
+            <column name="id" value="c32c39a2-84b8-42c8-a75f-8f3de23bed0e"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="exact_organization_id" value="3c5bf104-7e5f-4560-8671-09b78f0fd9a1"/>
+            <column name="organization_name" value="Anatolia Beef Booking"/>
+            <column name="max_table" value="20"/>
+        </insert>
+    </changeSet>
+
+
+</databaseChangeLog>

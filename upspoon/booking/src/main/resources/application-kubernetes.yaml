@@ -7,8 +7,6 @@ spring:
 
   jpa:
     database: postgresql
-    hibernate:
-      ddl-auto: create-drop
 
     show-sql: true
     properties:
@@ -27,7 +25,7 @@ spring:
 
   liquibase:
     change-log: "classpath:db/changelog/master.xml"
-    enabled: false
+    enabled: true
     contexts: dev
 
 logging:
