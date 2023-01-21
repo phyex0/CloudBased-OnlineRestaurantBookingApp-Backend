@@ -1,6 +1,7 @@
 package com.upspoon.booking.controller;
 
 import com.upspoon.common.exceptions.AlreadyBookedTableException;
+import com.upspoon.common.exceptions.BookingFailedException;
 import com.upspoon.common.exceptions.BookingOrganizationNotFound;
 import com.upspoon.common.exceptions.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -51,6 +52,13 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(body);
     }
 
+    @ExceptionHandler(BookingFailedException.class)
+    public ResponseEntity<Object> handleBookingFailedException(
+            BookingFailedException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("errorMessage", ex.getMessage());
+        return ResponseEntity.badRequest().body(body);
+    }
 
 }
 

@@ -1,10 +1,15 @@
 package com.upspoon.booking.service;
 
+import com.upspoon.common.dto.Booking.BookDTO;
+import com.upspoon.common.dto.Booking.BookDetailDTO;
 import com.upspoon.common.dto.Booking.CreateBookDetailDTO;
 import com.upspoon.common.dto.Booking.UpdateOrganizationDTO;
 import com.upspoon.common.kafkaTemplateDTO.OrganizationToBooking;
+import com.upspoon.common.web.CustomPage;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -21,5 +26,11 @@ public interface BookService {
 
     ResponseEntity<Void> enableBookingForGivenAmountOfDay(UUID restaurantId, Integer day);
 
-    ResponseEntity<Void> deleteBookDetail(UUID businessId, UUID bookDetailId);
+    ResponseEntity<Void> deleteBook(UUID businessId, UUID bookId);
+
+    ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(UUID businessId, Date date, Pageable pageable);
+
+    ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(UUID businessId, UUID bookId, Pageable pageable);
+
+    ResponseEntity<Void> cancelBooking(UUID businessId, UUID bookDetailId);
 }

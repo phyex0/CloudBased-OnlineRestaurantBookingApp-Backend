@@ -26,3 +26,6 @@ client:
   organization-api:
     name: organization
     url: localhost:8084
+  booking-api:
+    name: booking
+    url: localhost:8082

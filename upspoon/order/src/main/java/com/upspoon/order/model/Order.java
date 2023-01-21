@@ -27,6 +27,8 @@ import java.util.UUID;
 @Where(clause = "deleted <> '1' ")
 public class Order extends AbstractAuditBaseEntity {
 
+    //TODO: business id is not stored! Also if a user want to buy products from multiple business what to do?
+
     @Column(name = "user_id")
     private UUID userId;
 

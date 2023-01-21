@@ -1,11 +1,12 @@
-package com.upspoon.booking.controller;
+package com.upspoon.gateway.controller.booking;
 
-import com.upspoon.booking.service.BookService;
 import com.upspoon.common.dto.Booking.BookDTO;
 import com.upspoon.common.dto.Booking.BookDetailDTO;
 import com.upspoon.common.dto.Booking.CreateBookDetailDTO;
 import com.upspoon.common.dto.Booking.UpdateOrganizationDTO;
 import com.upspoon.common.web.CustomPage;
+import com.upspoon.gateway.client.booking.BookClient;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,48 +19,55 @@ import java.util.UUID;
  */
 
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("/book/api")
 public class BookController {
 
-    private final BookService bookService;
+    private final BookClient bookClient;
 
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
+    public BookController(BookClient bookClient) {
+        this.bookClient = bookClient;
     }
 
     @PutMapping
+    @Operation(summary = "Update Business")
     public ResponseEntity<UpdateOrganizationDTO> updateOrganization(@RequestBody UpdateOrganizationDTO updateOrganizationDTO) {
-        return bookService.updateOrganization(updateOrganizationDTO);
+        return bookClient.updateOrganization(updateOrganizationDTO);
     }
 
     @PostMapping("/create-book-detail")
+    @Operation(summary = "User makes a reservation for the table")
     public ResponseEntity<CreateBookDetailDTO> createBookDetail(@RequestParam UUID businessId, @RequestBody CreateBookDetailDTO createBookDetailDTO) {
-        return bookService.createBookDetail(businessId, createBookDetailDTO);
+        return bookClient.createBookDetail(businessId, createBookDetailDTO);
     }
 
     @GetMapping("/enable-booking-for-given-amount-of-day")
+    @Operation(summary = "Business owner can open reservation for upcoming days")
     public ResponseEntity<Void> enableBookingForGivenAmountOfDay(@RequestParam UUID restaurantId, @RequestParam Integer day) {
-        return bookService.enableBookingForGivenAmountOfDay(restaurantId, day);
+        return bookClient.enableBookingForGivenAmountOfDay(restaurantId, day);
     }
 
     @DeleteMapping("/delete-book")
-    public ResponseEntity<Void> deleteBook(@RequestParam UUID businessId, @RequestParam UUID bookId) {
-        return bookService.deleteBook(businessId, bookId);
+    @Operation(summary = "Delete selected book and corresponding reservations")
+    public ResponseEntity<Void> deleteBookDetail(@RequestParam UUID businessId, @RequestParam UUID bookId) {
+        return bookClient.deleteBook(businessId, bookId);
     }
 
     @GetMapping("/get-books-for-business")
+    @Operation(summary = "Users can monitor available days of selected business")
     public ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(@RequestParam UUID businessId, @RequestParam(required = false) Date date, Pageable pageable) {
-        return bookService.getBooksForBusiness(businessId, date, pageable);
+        return bookClient.getBooksForBusiness(businessId, date, pageable);
     }
 
     @GetMapping("/get-book-details-for-business")
+    @Operation(summary = "Users can view selected business detail like how many seats are empty.")
     public ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(@RequestParam UUID businessId, @RequestParam UUID bookId, Pageable pageable) {
-        return bookService.getBookDetailsForBusiness(businessId, bookId, pageable);
+        return bookClient.getBookDetailsForBusiness(businessId, bookId, pageable);
     }
 
     @DeleteMapping("/cancel-book-detail")
+    @Operation(summary = "Business owner can cancel the book detail")
     public ResponseEntity<Void> cancelBooking(@RequestParam UUID businessId, @RequestParam UUID bookDetailId) {
-        return bookService.cancelBooking(businessId, bookDetailId);
+        return bookClient.cancelBooking(businessId, bookDetailId);
     }
 
 }

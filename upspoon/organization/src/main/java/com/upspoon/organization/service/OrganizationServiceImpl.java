@@ -94,7 +94,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         else
             kafkaProducer.produce(restaurantKafkaEventMapper.toDto(restaurant));
         //TODO: Kafka event goes here.
-        //TODO: logical error: market ve restaurant direkt açıyor. Adam belki birisini açmak ister? servisleri böl. ya da bunu update et
         //TODO: producer catchde delete yapıyor. Ama araya girme söz konusu olduğu için işlemi tamamlar mı?
 
         return new ResponseEntity<>(newOrganizationDTO, HttpStatus.OK);

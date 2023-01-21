@@ -1,19 +1,23 @@
 package com.upspoon.booking.service;
 
-import com.upspoon.booking.mapper.BookDetailsDTOToBookDetailsMapper;
-import com.upspoon.booking.mapper.OrganizationToBookingMapper;
-import com.upspoon.booking.mapper.UpdateOrganizationMapper;
+import com.upspoon.booking.mapper.*;
 import com.upspoon.booking.model.Book;
 import com.upspoon.booking.model.BookDetails;
 import com.upspoon.booking.model.Organization;
 import com.upspoon.booking.producer.KafkaProducer;
 import com.upspoon.booking.repository.OrganizationRepository;
+import com.upspoon.common.dto.Booking.BookDTO;
+import com.upspoon.common.dto.Booking.BookDetailDTO;
 import com.upspoon.common.dto.Booking.CreateBookDetailDTO;
 import com.upspoon.common.dto.Booking.UpdateOrganizationDTO;
 import com.upspoon.common.exceptions.AlreadyBookedTableException;
 import com.upspoon.common.exceptions.BookingFailedException;
 import com.upspoon.common.exceptions.BookingOrganizationNotFound;
+import com.upspoon.common.exceptions.BusinessNotFoundException;
 import com.upspoon.common.kafkaTemplateDTO.OrganizationToBooking;
+import com.upspoon.common.web.CustomPage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,19 +47,25 @@ public class BookServiceImpl implements BookService {
 
     private final BookDetailsDTOToBookDetailsMapper bookDetailsDTOToBookDetailsMapper;
 
-    public BookServiceImpl(OrganizationToBookingMapper organizationToBookingMapper, OrganizationRepository organizationRepository, KafkaProducer kafkaProducer, UpdateOrganizationMapper updateOrganizationMapper, BookDetailsDTOToBookDetailsMapper bookDetailsDTOToBookDetailsMapper) {
+    private final BookDTOtoBookMapper bookDTOtoBookMapper;
+
+    private final BookDetailsDTOMapper bookDetailsDTOMapper;
+
+    public BookServiceImpl(OrganizationToBookingMapper organizationToBookingMapper, OrganizationRepository organizationRepository, KafkaProducer kafkaProducer, UpdateOrganizationMapper updateOrganizationMapper, BookDetailsDTOToBookDetailsMapper bookDetailsDTOToBookDetailsMapper, BookDTOtoBookMapper bookDTOtoBookMapper, BookDetailsDTOMapper bookDetailsDTOMapper) {
         this.organizationToBookingMapper = organizationToBookingMapper;
         this.organizationRepository = organizationRepository;
         this.kafkaProducer = kafkaProducer;
         this.updateOrganizationMapper = updateOrganizationMapper;
         this.bookDetailsDTOToBookDetailsMapper = bookDetailsDTOToBookDetailsMapper;
+        this.bookDTOtoBookMapper = bookDTOtoBookMapper;
+        this.bookDetailsDTOMapper = bookDetailsDTOMapper;
     }
 
     @Override
     @Transactional
     public void createOrganization(OrganizationToBooking organizationToBooking) {
         var organization = organizationRepository.findByExactOrganizationId(organizationToBooking.getOrganizationId());
-        if (Objects.isNull(organization)) {
+        if (!Objects.isNull(organization)) {
             kafkaProducer.produce(organizationToBooking);
             return;
         }
@@ -96,7 +106,7 @@ public class BookServiceImpl implements BookService {
 
         AtomicReference<Boolean> reserved = new AtomicReference<>(Boolean.FALSE);
         organization.getBookList().forEach(book -> {
-            if (book.getDate().equals(bookDetails.getBookDate())) {
+            if (book.getDate().toInstant().equals(bookDetails.getBookDate().toInstant())) {
                 Set<Integer> guests = book.getBookDetailsList().stream().map(d -> d.getTableNumber()).collect(Collectors.toSet());
                 if (guests.contains(bookDetails.getTableNumber()))
                     throw new AlreadyBookedTableException("This table already booked. Try another table");
@@ -113,10 +123,9 @@ public class BookServiceImpl implements BookService {
     }
 
     private Date setToFirstHourOfDay(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        return Date.from(calendar.toInstant());
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        localDate = LocalDate.from(localDate.atStartOfDay());
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     private Integer getDateDifferenceAsDay(Date startDate, Date endDate) {
@@ -127,7 +136,7 @@ public class BookServiceImpl implements BookService {
 
     private Date incrementDateOne(Date date) {
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        localDate.plusDays(1);
+        localDate = localDate.plusDays(1);
         return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
@@ -162,26 +171,61 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public ResponseEntity<Void> deleteBookDetail(UUID businessId, UUID bookDetailId) {
+    public ResponseEntity<Void> deleteBook(UUID businessId, UUID bookId) {
 
         Organization organization = organizationRepository.findByExactOrganizationId(businessId);
 
         if (Objects.isNull(organization))
             throw new BookingOrganizationNotFound("Business is not found!");
 
-        AtomicReference<Boolean> isDeleted = new AtomicReference<>(Boolean.FALSE);
-        organization.getBookList().stream().flatMap(book -> book.getBookDetailsList().stream()).filter(detail -> {
-            if (detail.getId().equals(bookDetailId)) {
-                isDeleted.set(true);
-                return true;
-            }
-            return false;
-        }).collect(Collectors.toList());
-
-        if (isDeleted.get())
+        int initial = organization.getBookList().size();
+        organization.getBookList().removeIf(b -> b.getId().equals(bookId));
+        if (initial == organization.getBookList().size())
             throw new BookingFailedException("Book is not found!");
         organizationRepository.save(organization);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @Override
+    public ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(UUID businessId, Date date, Pageable pageable) {
+        Date now = setToFirstHourOfDay(new Date());
+
+        Page<Book> books = organizationRepository.getBooks(businessId, now, date, pageable);
+        List<BookDTO> bookDTOS = bookDTOtoBookMapper.toDto(books.getContent());
+
+        return new ResponseEntity<>(new CustomPage<>(bookDTOS, pageable, books.getTotalElements()), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(UUID businessId, UUID bookId, Pageable pageable) {
+        Page<BookDetails> bookDetails = organizationRepository.getBookDetails(businessId, bookId, pageable);
+        List<BookDetailDTO> bookDetailDTOS = bookDetailsDTOMapper.toDto(bookDetails.getContent());
+
+        return new ResponseEntity<>(new CustomPage<>(bookDetailDTOS, pageable, bookDetails.getTotalElements()), HttpStatus.OK);
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<Void> cancelBooking(UUID businessId, UUID bookDetailId) {
+        Organization organization = organizationRepository.findByExactOrganizationId(businessId);
+
+        if (Objects.isNull(organization))
+            throw new BusinessNotFoundException("Business is not found!");
+        AtomicReference<Boolean> isDeleted = new AtomicReference<>(Boolean.FALSE);
+        organization.getBookList().stream().forEach(b -> {
+            int initial = b.getBookDetailsList().size();
+            b.getBookDetailsList().removeIf(bd -> bd.getId().equals(bookDetailId));
+            if (initial != b.getBookDetailsList().size())
+                isDeleted.set(Boolean.TRUE);
+        });
+
+        if (!isDeleted.get())
+            throw new BookingFailedException("Given record is not found!");
+        organizationRepository.save(organization);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 }
