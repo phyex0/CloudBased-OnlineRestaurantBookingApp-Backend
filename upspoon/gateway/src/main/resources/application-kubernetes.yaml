@@ -26,3 +26,6 @@ client:
   organization-api:
     name: organization
     url: upspoon-organization:8084
+  booking-api:
+    name: booking
+    url: upspoon-booking:8082
