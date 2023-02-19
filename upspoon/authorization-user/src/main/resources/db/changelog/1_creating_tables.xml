@@ -1,0 +1,58 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--Stock Table is Created-->
+    <changeSet id="202212122107" author="burak.yesildal">
+        <createTable tableName="auth_user">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="202212122108" author="burak.yesildal">
+        <addPrimaryKey tableName="auth_user" columnNames="id" constraintName="auth_user_pkey"/>
+    </changeSet>
+
+    <changeSet id="202302162046" author="burak.yesildal">
+        <insert tableName="auth_user">
+            <column name="id" value="4731439d-e128-420e-8efa-e34b28f843f0"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="first_name" value="Admin"/>
+            <column name="last_name" value="Admin"/>
+            <column name="email" value="admin@admin.com"/>
+            <column name="password" value="$2a$12$yxOT1IDyiJ9zejW7CXxiu.wKJ9JY6MsZcxyrbPBEN0BB5XqTrxpUS"/>
+            <column name="role" value="ADMIN_ROLE"/>
+        </insert>
+
+
+        <insert tableName="auth_user">
+            <column name="id" value="345f1ef2-ee80-4723-ad0e-578ce1fdac04"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="first_name" value="Burak"/>
+            <column name="last_name" value="Yeşildal"/>
+            <column name="email" value="system@system.com"/>
+            <column name="password" value="$2a$12$VjboZfw9HTPF//YJTpHg7eC08mDfVenLC4hCrwx/dYtzNWnFlILBK"/>
+            <column name="role" value="ORGANIZATION_ROLE"/>
+        </insert>
+
+
+
+    </changeSet>
+
+
+</databaseChangeLog>

@@ -1,0 +1,38 @@
+server:
+  port: 8087
+
+spring:
+  jpa:
+    database: postgresql
+
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5431/postgres
+    type: com.zaxxer.hikari.HikariDataSource
+
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
+  liquibase:
+    change-log: "classpath:db/changelog/master.xml"
+    enabled: true
+    contexts: dev
+
+logging:
+  level:
+    org: info
+
+kafka:
+  address: 127.0.0.1:9092
+  group-id: upspoon-group-id
+  topic-order-create: topic-order-create
+  topic-payment-failed: topic-payment-failed
+  topic-payment-handle: topic-payment-handle
+  topic-stock-failed: topic-stock-failed

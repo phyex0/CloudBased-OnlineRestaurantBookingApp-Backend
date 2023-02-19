@@ -17,6 +17,9 @@ logging:
     org: info
 
 client:
+  authorization-api:
+    name: authorization-user
+    url: localhost:8087
   order-api:
     name: order
     url: localhost:8083
