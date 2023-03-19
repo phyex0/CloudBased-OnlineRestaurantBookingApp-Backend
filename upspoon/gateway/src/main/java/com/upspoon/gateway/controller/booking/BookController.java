@@ -7,6 +7,7 @@ import com.upspoon.common.dto.Booking.UpdateOrganizationDTO;
 import com.upspoon.common.web.CustomPage;
 import com.upspoon.gateway.client.booking.BookClient;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +21,11 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/book/api")
+@AllArgsConstructor
 public class BookController {
 
     private final BookClient bookClient;
 
-    public BookController(BookClient bookClient) {
-        this.bookClient = bookClient;
-    }
 
     @PutMapping
     @Operation(summary = "Update Business")

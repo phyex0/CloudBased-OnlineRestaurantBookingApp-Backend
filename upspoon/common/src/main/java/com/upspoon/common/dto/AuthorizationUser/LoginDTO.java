@@ -12,8 +12,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse implements Serializable {
-    private static final long serialVersionUID = 1685259686246122192L;
-
-    private String token;
+public class LoginDTO implements Serializable {
+    private static final long serialVersionUID = -3147534070160076174L;
+    private String email;
+    private String password;
 }

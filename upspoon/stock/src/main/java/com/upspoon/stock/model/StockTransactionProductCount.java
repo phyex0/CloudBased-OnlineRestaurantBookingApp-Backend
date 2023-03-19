@@ -8,7 +8,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 import java.util.UUID;
 
 /**

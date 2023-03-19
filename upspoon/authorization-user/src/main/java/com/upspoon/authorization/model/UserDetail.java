@@ -1,7 +1,9 @@
 package com.upspoon.authorization.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.upspoon.common.enums.Role;
 import com.upspoon.common.model.AbstractAuditBaseEntity;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -9,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,16 +18,17 @@ import java.util.List;
  * @author burak.yesildal
  */
 @Entity
-@Table(name = "auth_user")
+@Table(name = "user_detail")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@SQLDelete(sql = "UPDATE auth_user SET deleted = '1' where id = ?")
+@SQLDelete(sql = "UPDATE user_detail SET deleted = '1' where id = ?")
 @Where(clause = "deleted <> '1' ")
-public class AuthUser extends AbstractAuditBaseEntity implements UserDetails {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, defaultImpl = UserDetail.class)
+public class UserDetail extends AbstractAuditBaseEntity implements UserDetails {
 
     @Column(name = "first_name", nullable = false)
     private String firstname;
@@ -40,6 +42,9 @@ public class AuthUser extends AbstractAuditBaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
+
+    public UserDetail(Long id, String loginAccount, String password, List<GrantedAuthority> authorities) {
+    }
 
 
     @Override

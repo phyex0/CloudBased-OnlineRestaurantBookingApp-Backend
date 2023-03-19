@@ -1,6 +1,6 @@
 package com.upspoon.authorization.repository;
 
-import com.upspoon.authorization.model.AuthUser;
+import com.upspoon.authorization.model.UserDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +11,7 @@ import java.util.UUID;
  * @author burak.yesildal
  */
 @Repository
-public interface AuthUserRepository extends JpaRepository<AuthUser, UUID> {
-    Optional<AuthUser> findAuthUserByEmail(String email);
+public interface UserDetailRepository extends JpaRepository<UserDetail, UUID> {
+
+    Optional<UserDetail> findByEmail(String userName);
 }

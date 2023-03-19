@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * @author burak.yesildal
@@ -12,8 +13,10 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticateRequest implements Serializable {
-    private static final long serialVersionUID = -3147534070160076174L;
-    private String email;
-    private String password;
+public class TokenDTO implements Serializable {
+    private static final long serialVersionUID = 1685259686246122192L;
+
+    private UUID userId;
+    private String accessToken;
+    private String refreshToken;
 }

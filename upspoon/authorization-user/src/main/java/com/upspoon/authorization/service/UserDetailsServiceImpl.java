@@ -1,25 +1,49 @@
 package com.upspoon.authorization.service;
 
-import com.upspoon.authorization.repository.AuthUserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import com.upspoon.authorization.model.UserDetail;
+import com.upspoon.authorization.repository.UserDetailRepository;
+import com.upspoon.common.exceptions.UserNotFoundException;
+import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @author burak.yesildal
  */
+
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+@AllArgsConstructor
+public class UserDetailsServiceImpl implements AuthenticationProvider {
+    private final UserDetailRepository userDetailRepository;
 
-    private final AuthUserRepository authUserRepository;
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        Optional<UserDetail> userDetail = userDetailRepository.findByEmail(authentication.getName());
+        UserDetail user = userDetail.orElseThrow(UserNotFoundException::new);
 
-    public UserDetailsServiceImpl(AuthUserRepository authUserRepository) {
-        this.authUserRepository = authUserRepository;
+        //check password right here!
+//        if (!passwordEncoder().matches(password, user.getPassword())) {
+//            throw new BadCredentialsException("Invalid username or password");
+//        }
+
+        return new UsernamePasswordAuthenticationToken(user, authentication.getCredentials().toString(), user.getAuthorities());
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return authUserRepository.findAuthUserByEmail(username).orElseThrow();
+    public boolean supports(Class<?> authentication) {
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
+
+
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        Optional<UserDetail> userDetail = userDetailRepository.findByEmail(username);
+//        return userDetail.orElseThrow(UserNotFoundException::new);
+//
+//    }
 }
