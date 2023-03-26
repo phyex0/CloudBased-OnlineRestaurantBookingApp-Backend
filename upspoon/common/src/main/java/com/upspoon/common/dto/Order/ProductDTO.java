@@ -1,10 +1,10 @@
 package com.upspoon.common.dto.Order;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

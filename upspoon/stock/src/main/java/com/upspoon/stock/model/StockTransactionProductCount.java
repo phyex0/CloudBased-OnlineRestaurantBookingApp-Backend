@@ -1,6 +1,7 @@
 package com.upspoon.stock.model;
 
 import com.upspoon.common.model.AbstractAuditBaseEntity;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -8,7 +9,6 @@ import org.hibernate.annotations.Where;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import jakarta.validation.constraints.Min;
 import java.util.UUID;
 
 /**

@@ -15,23 +15,23 @@
  */
 package com.upspoon.gateway.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Joe Grandja
  * @since 0.0.1
  */
-@Controller
+@RestController
 public class DefaultController {
 
-	@GetMapping("/")
-	public String root() {
-		return "redirect:/index";
-	}
+    @GetMapping("/")
+    public String root() {
+        return "redirect:/index";
+    }
 
-	@GetMapping("/index")
-	public String index() {
-		return "index";
-	}
+    @GetMapping("/index")
+    public String index() {
+        return "index";
+    }
 }

@@ -120,7 +120,6 @@ public class AuthorizationServerConfig {
 
         return registeredClientRepository;
     }
-    // @formatter:on
 
     @Bean
     public PasswordEncoder encoder() {
@@ -199,7 +198,6 @@ public class AuthorizationServerConfig {
             String email = readJsonNode(jsonNode, "email").asText();
             String password = readJsonNode(jsonNode, "password").asText();
             Role role = Role.getCodeName(readJsonNode(jsonNode, "role").asText());
-//            List<GrantedAuthority> authorities = mapper.readerForListOf(GrantedAuthority.class).readValue(jsonNode.get("authorities"));
             return new UserDetail(id, email, password, role);
         }
 
