@@ -1,6 +1,5 @@
 package com.upspoon.authorization.model;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.upspoon.common.enums.Role;
 import com.upspoon.common.model.AbstractAuditBaseEntity;
 import jakarta.persistence.*;
@@ -13,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author burak.yesildal
@@ -27,7 +27,6 @@ import java.util.List;
 @ToString(callSuper = true)
 @SQLDelete(sql = "UPDATE user_detail SET deleted = '1' where id = ?")
 @Where(clause = "deleted <> '1' ")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, defaultImpl = UserDetail.class)
 public class UserDetail extends AbstractAuditBaseEntity implements UserDetails {
 
     @Column(name = "first_name", nullable = false)
@@ -43,9 +42,12 @@ public class UserDetail extends AbstractAuditBaseEntity implements UserDetails {
     @Column(name = "role")
     private Role role;
 
-    public UserDetail(Long id, String loginAccount, String password, List<GrantedAuthority> authorities) {
+    public UserDetail(UUID id, String email, String password, Role role) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

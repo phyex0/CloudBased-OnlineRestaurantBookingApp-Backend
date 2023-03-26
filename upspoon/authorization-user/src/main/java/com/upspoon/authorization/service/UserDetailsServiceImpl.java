@@ -5,9 +5,11 @@ import com.upspoon.authorization.repository.UserDetailRepository;
 import com.upspoon.common.exceptions.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,16 +22,17 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements AuthenticationProvider {
     private final UserDetailRepository userDetailRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         Optional<UserDetail> userDetail = userDetailRepository.findByEmail(authentication.getName());
         UserDetail user = userDetail.orElseThrow(UserNotFoundException::new);
 
-        //check password right here!
-//        if (!passwordEncoder().matches(password, user.getPassword())) {
-//            throw new BadCredentialsException("Invalid username or password");
-//        }
+        if (!passwordEncoder.matches(authentication.getCredentials().toString(), user.getPassword())) {
+            throw new BadCredentialsException("Invalid username or password");
+        }
 
         return new UsernamePasswordAuthenticationToken(user, authentication.getCredentials().toString(), user.getAuthorities());
     }

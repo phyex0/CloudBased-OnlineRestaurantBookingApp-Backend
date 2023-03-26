@@ -30,6 +30,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.upspoon.authorization.model.UserDetail;
+import com.upspoon.common.enums.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +41,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
@@ -61,9 +63,6 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.lang.reflect.Member;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 @Configuration(proxyBeanMethods = false)
@@ -100,7 +99,7 @@ public class AuthorizationServerConfig {
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("messaging-client")
-                .clientSecret("{noop}secret")
+                .clientSecret("$2a$12$NZcoLiD.fRpA3U1VWPVT5eNRVLYidCF138ZaUybI3a7ih/DsFqYei")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
@@ -124,8 +123,8 @@ public class AuthorizationServerConfig {
     // @formatter:on
 
     @Bean
-    public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
-        return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -162,11 +161,18 @@ public class AuthorizationServerConfig {
         return driverManagerDataSource;
     }
 
+    @Bean
+    public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
+        JdbcOAuth2AuthorizationService jdbcOAuth2AuthorizationService = new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
+        jdbcOAuth2AuthorizationService.setAuthorizationRowMapper(new RowMapper(registeredClientRepository));
+        return jdbcOAuth2AuthorizationService;
+    }
+
 
     static class RowMapper extends JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper {
         RowMapper(RegisteredClientRepository registeredClientRepository) {
             super(registeredClientRepository);
-            getObjectMapper().addMixIn(Member.class, UserDetailMixin.class);
+            getObjectMapper().addMixIn(UserDetail.class, UserDetailMixin.class);
         }
     }
 
@@ -176,20 +182,25 @@ public class AuthorizationServerConfig {
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonDeserialize(using = UserDetailDeserializer.class)
     static class UserDetailMixin {
+        public UserDetailMixin() {
+        }
     }
 
 
-    public class UserDetailDeserializer extends JsonDeserializer<UserDetail> {
+    public static class UserDetailDeserializer extends JsonDeserializer<UserDetail> {
+        public UserDetailDeserializer() {
+        }
 
         @Override
         public UserDetail deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, IOException {
             ObjectMapper mapper = (ObjectMapper) jsonParser.getCodec();
             JsonNode jsonNode = mapper.readTree(jsonParser);
-            Long id = readJsonNode(jsonNode, "id").asLong();
-            String loginAccount = readJsonNode(jsonNode, "loginAccount").asText();
+            UUID id = UUID.fromString(readJsonNode(jsonNode, "id").asText());
+            String email = readJsonNode(jsonNode, "email").asText();
             String password = readJsonNode(jsonNode, "password").asText();
-            List<GrantedAuthority> authorities = mapper.readerForListOf(GrantedAuthority.class).readValue(jsonNode.get("authorities"));
-            return new UserDetail(id, loginAccount, password, Collections.singletonList((GrantedAuthority) authorities));
+            Role role = Role.getCodeName(readJsonNode(jsonNode, "role").asText());
+//            List<GrantedAuthority> authorities = mapper.readerForListOf(GrantedAuthority.class).readValue(jsonNode.get("authorities"));
+            return new UserDetail(id, email, password, role);
         }
 
         private JsonNode readJsonNode(JsonNode jsonNode, String field) {
