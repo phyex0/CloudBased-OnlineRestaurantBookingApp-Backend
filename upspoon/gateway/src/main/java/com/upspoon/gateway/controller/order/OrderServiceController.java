@@ -4,7 +4,7 @@ import com.upspoon.common.dto.Order.*;
 import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.common.web.CustomPage;
 import com.upspoon.gateway.client.order.OrderServiceClient;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/order-service/api")
-@Api(value = "Order Controller")
+@Tag(name = "Order Controller")
 public class OrderServiceController {
 
     private final OrderServiceClient orderServiceClient;

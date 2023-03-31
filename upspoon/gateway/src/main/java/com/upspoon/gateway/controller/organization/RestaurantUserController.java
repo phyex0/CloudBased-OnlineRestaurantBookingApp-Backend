@@ -4,7 +4,7 @@ import com.upspoon.common.dto.Organization.NewRestaurantUserDTO;
 import com.upspoon.common.dto.Organization.UpdateRestaurantUserDTO;
 import com.upspoon.common.web.CustomPage;
 import com.upspoon.gateway.client.organization.RestaurantUserClient;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/restaurant-user/api")
-@Api("Restaurant User Controller")
+@Tag(name="Restaurant User Controller")
 public class RestaurantUserController {
 
     private final RestaurantUserClient restaurantUserClient;
