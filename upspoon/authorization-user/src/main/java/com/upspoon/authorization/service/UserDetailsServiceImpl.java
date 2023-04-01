@@ -41,12 +41,4 @@ public class UserDetailsServiceImpl implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
-
-
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Optional<UserDetail> userDetail = userDetailRepository.findByEmail(username);
-//        return userDetail.orElseThrow(UserNotFoundException::new);
-//
-//    }
 }
