@@ -27,6 +27,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.session.SessionManagementFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -41,10 +42,11 @@ public class DefaultSecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
 
+
     // @formatter:off
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http
+        http.addFilterBefore(new CorsConfiguration(), SessionManagementFilter.class).csrf().disable()
                 .authorizeHttpRequests(authorize ->
                         authorize.anyRequest().authenticated()
                 )
