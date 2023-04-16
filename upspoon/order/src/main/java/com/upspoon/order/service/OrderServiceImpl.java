@@ -19,6 +19,7 @@ import com.upspoon.order.repository.MenuRepository;
 import com.upspoon.order.repository.OrderRepository;
 import com.upspoon.order.repository.OrganizationRepository;
 import com.upspoon.order.repository.ProductRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper;
@@ -57,20 +59,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private KafkaProducer kafkaProducer;
 
-    public OrderServiceImpl(OrganizationFromOrganizationServiceMapper organizationFromOrganizationServiceMapper, OrganizationRepository organizationRepository, MenuRepository menuRepository, OrganizationMapper organizationMapper, ProductMapper productMapper, ProductRepository productRepository, OrderMapper orderMapper, OrderRepository orderRepository, OrderToStockMapper orderToStockMapper, StockClient stockClient, OrderHistoryMapper orderHistoryMapper, MenuMapper menuMapper) {
-        this.organizationFromOrganizationServiceMapper = organizationFromOrganizationServiceMapper;
-        this.organizationRepository = organizationRepository;
-        this.menuMapper = menuMapper;
-        this.menuRepository = menuRepository;
-        this.organizationMapper = organizationMapper;
-        this.productMapper = productMapper;
-        this.productRepository = productRepository;
-        this.orderMapper = orderMapper;
-        this.orderRepository = orderRepository;
-        this.orderToStockMapper = orderToStockMapper;
-        this.stockClient = stockClient;
-        this.orderHistoryMapper = orderHistoryMapper;
-    }
 
     @Override
     @Transactional

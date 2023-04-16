@@ -6,8 +6,8 @@ import com.upspoon.payment.mapper.PaymentHistoryMapper;
 import com.upspoon.payment.producer.KafkaProducer;
 import com.upspoon.payment.repository.PaymentHistoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Random;
 
 /**

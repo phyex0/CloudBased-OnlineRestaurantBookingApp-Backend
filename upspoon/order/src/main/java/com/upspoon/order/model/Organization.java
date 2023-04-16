@@ -2,11 +2,11 @@ package com.upspoon.order.model;
 
 import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.common.model.AbstractAuditBaseEntity;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
