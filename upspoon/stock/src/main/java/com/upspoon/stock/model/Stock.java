@@ -2,13 +2,13 @@ package com.upspoon.stock.model;
 
 
 import com.upspoon.common.model.AbstractAuditBaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity

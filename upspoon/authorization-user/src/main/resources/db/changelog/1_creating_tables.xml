@@ -1,0 +1,124 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="202212122107" author="burak.yesildal">
+        <createTable tableName="user_detail">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="202212122108" author="burak.yesildal">
+        <addPrimaryKey tableName="user_detail" columnNames="id" constraintName="user_detail_pkey"/>
+    </changeSet>
+
+    <changeSet id="202302162046" author="burak.yesildal">
+        <insert tableName="user_detail">
+            <column name="id" value="4731439d-e128-420e-8efa-e34b28f843f0"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="first_name" value="Admin"/>
+            <column name="last_name" value="Admin"/>
+            <column name="email" value="admin@admin.com"/>
+            <column name="password" value="$2a$12$yxOT1IDyiJ9zejW7CXxiu.wKJ9JY6MsZcxyrbPBEN0BB5XqTrxpUS"/>
+            <column name="role" value="ADMIN_ROLE"/>
+        </insert>
+
+
+        <insert tableName="user_detail">
+            <column name="id" value="345f1ef2-ee80-4723-ad0e-578ce1fdac04"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" valueDate="now()"/>
+            <column name="deleted" value="false"/>
+
+            <column name="first_name" value="Burak"/>
+            <column name="last_name" value="Yeşildal"/>
+            <column name="email" value="system@system.com"/>
+            <column name="password" value="$2a$12$VjboZfw9HTPF//YJTpHg7eC08mDfVenLC4hCrwx/dYtzNWnFlILBK"/>
+            <column name="role" value="ORGANIZATION_ROLE"/>
+        </insert>
+
+
+    </changeSet>
+
+    <changeSet id="202302162047" author="burak.yesildal">
+        <sql>
+
+            CREATE TABLE oauth2_registered_client
+            (
+                id                            varchar(100)                            NOT NULL,
+                client_id                     varchar(100)                            NOT NULL,
+                client_id_issued_at           timestamp     DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                client_secret                 varchar(200)  DEFAULT NULL,
+                client_secret_expires_at      timestamp     DEFAULT NULL,
+                client_name                   varchar(200)                            NOT NULL,
+                client_authentication_methods varchar(1000)                           NOT NULL,
+                authorization_grant_types     varchar(1000)                           NOT NULL,
+                redirect_uris                 varchar(1000) DEFAULT NULL,
+                post_logout_redirect_uris     varchar(1000) DEFAULT NULL,
+                scopes                        varchar(1000)                           NOT NULL,
+                client_settings               varchar(2000)                           NOT NULL,
+                token_settings                varchar(2000)                           NOT NULL,
+                PRIMARY KEY (id)
+            );
+
+        </sql>
+
+        <sql>
+            CREATE TABLE oauth2_authorization_consent
+            (
+                registered_client_id varchar(100)  NOT NULL,
+                principal_name       varchar(200)  NOT NULL,
+                authorities          varchar(1000) NOT NULL,
+                PRIMARY KEY (registered_client_id, principal_name)
+            );
+
+        </sql>
+
+        <sql>
+            CREATE TABLE oauth2_authorization
+            (
+                id                            varchar(100) NOT NULL,
+                registered_client_id          varchar(100) NOT NULL,
+                principal_name                varchar(200) NOT NULL,
+                authorization_grant_type      varchar(100) NOT NULL,
+                authorized_scopes             varchar(1000) DEFAULT NULL,
+                attributes                    text          DEFAULT NULL,
+                state                         varchar(500)  DEFAULT NULL,
+                authorization_code_value      text          DEFAULT NULL,
+                authorization_code_issued_at  timestamp     DEFAULT NULL,
+                authorization_code_expires_at timestamp     DEFAULT NULL,
+                authorization_code_metadata   text          DEFAULT NULL,
+                access_token_value            text          DEFAULT NULL,
+                access_token_issued_at        timestamp     DEFAULT NULL,
+                access_token_expires_at       timestamp     DEFAULT NULL,
+                access_token_metadata         text          DEFAULT NULL,
+                access_token_type             varchar(100)  DEFAULT NULL,
+                access_token_scopes           varchar(1000) DEFAULT NULL,
+                oidc_id_token_value           text          DEFAULT NULL,
+                oidc_id_token_issued_at       timestamp     DEFAULT NULL,
+                oidc_id_token_expires_at      timestamp     DEFAULT NULL,
+                oidc_id_token_metadata        text          DEFAULT NULL,
+                refresh_token_value           text          DEFAULT NULL,
+                refresh_token_issued_at       timestamp     DEFAULT NULL,
+                refresh_token_expires_at      timestamp     DEFAULT NULL,
+                refresh_token_metadata        text          DEFAULT NULL,
+                PRIMARY KEY (id)
+            );
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>

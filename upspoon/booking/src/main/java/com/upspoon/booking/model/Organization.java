@@ -1,12 +1,12 @@
 package com.upspoon.booking.model;
 
 import com.upspoon.common.model.AbstractAuditBaseEntity;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.UUID;
 

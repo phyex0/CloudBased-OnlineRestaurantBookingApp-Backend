@@ -17,6 +17,9 @@ logging:
     org: info
 
 client:
+  authorization-api:
+    name: authorization-user
+    url: upspoon-authorization-user
   order-api:
     name: order
     url: upspoon-order:8083

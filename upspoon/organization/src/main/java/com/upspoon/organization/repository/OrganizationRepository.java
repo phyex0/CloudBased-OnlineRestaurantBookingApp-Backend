@@ -17,9 +17,9 @@ import java.util.UUID;
 
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, UUID> {
-    @Query("select distinct new com.upspoon.common.dto.Organization.NewRestaurantUserDTO(ru.id, ru.name, ru.lastName, ru.middleName, ru.phoneNumber, ru.email) " +
+    @Query(value = "select distinct new com.upspoon.common.dto.Organization.NewRestaurantUserDTO(ru.id, ru.name, ru.lastName, ru.middleName, ru.phoneNumber, ru.email) " +
             "from  Organization  o join o.restaurantUsers ru " +
-            "where o.id = :organizationId and o.deleted is false and ru.deleted is false ")
+            "where o.id = :organizationId and o.deleted is false and ru.deleted is false ",nativeQuery = true)
     Page<NewRestaurantUserDTO> getAllUsers(UUID organizationId, Pageable pageable);
 
     @Query("select o  from Organization o left join o.restaurantUsers ru " +

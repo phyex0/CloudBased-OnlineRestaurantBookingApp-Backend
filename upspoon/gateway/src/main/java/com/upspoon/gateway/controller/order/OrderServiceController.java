@@ -4,10 +4,11 @@ import com.upspoon.common.dto.Order.*;
 import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.common.web.CustomPage;
 import com.upspoon.gateway.client.order.OrderServiceClient;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/order-service/api")
-@Api(value = "Order Controller")
+@Tag(name = "Order Controller")
 public class OrderServiceController {
 
     private final OrderServiceClient orderServiceClient;
@@ -58,6 +59,7 @@ public class OrderServiceController {
     }
 
     @GetMapping("/business")
+    @PreAuthorize("hasPermission('ROLE', 'ORGANIZATION_ROLE') or hasPermission('ROLE','ADMIN_ROLE')"  )
     @Operation(summary = "get all organizations by business type with pageable")
     public ResponseEntity<CustomPage<BusinessDTOForUI>> getAllOrganizations(@RequestParam BusinessTypes businessTypes, Pageable pageable) {
         return orderServiceClient.getAllOrganizations(businessTypes, pageable);

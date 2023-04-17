@@ -4,11 +4,12 @@ package com.upspoon.organization.model;
 import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.common.enums.PackageService;
 import com.upspoon.common.model.AbstractAuditBaseEntity;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;

@@ -1,0 +1,43 @@
+server:
+  port: 9000
+
+spring:
+  jpa:
+    database: postgresql
+
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  sleuth:
+    enabled: true
+    propagation-keys: authorization
+
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5431/postgres
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
+  liquibase:
+    change-log: "classpath:db/changelog/master.xml"
+    enabled: true
+    contexts: dev
+
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+
+
+
+

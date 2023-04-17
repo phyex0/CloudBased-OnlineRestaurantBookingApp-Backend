@@ -1,11 +1,11 @@
 package com.upspoon.common.dto.Order;
 
 import com.upspoon.common.enums.BusinessTypes;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;

@@ -2,7 +2,7 @@ package com.upspoon.gateway.controller.stock;
 
 import com.upspoon.common.dto.Stock.CreateStockDTO;
 import com.upspoon.gateway.client.stock.StockClient;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/stock/api/")
-@Api(value = "Stock Controller")
+@Tag(name = "Stock Controller")
 public class StockController {
 
     private final StockClient stockClient;
