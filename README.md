@@ -23,7 +23,7 @@ TODO:
 
 10) Minikube dashboard is opened on your web browser. Now you can be sure your cluster is ready to deployments
 
-11) Install Java 11 from => https://drive.google.com/file/d/1iW9Oj82nPWiuAmjGD8LzDEohpQ8oeBXm/view?usp=sharing
+11) Install Java 17 from => https://download.oracle.com/java/17/archive/jdk-17.0.6_windows-x64_bin.exe (sha256 )
 
 12) Set the environment variables for JAVA => https://stackoverflow.com/questions/1672281/how-to-set-the-environment-variables-for-java-in-windows
 
