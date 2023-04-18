@@ -1,10 +1,7 @@
 server:
-  port: 8087
+  port: 9000
 
 spring:
-  kafka:
-    bootstrap-servers: kafka-service:9092
-
   jpa:
     database: postgresql
 
@@ -13,11 +10,17 @@ spring:
       hibernate:
         format_sql: true
 
+  sleuth:
+    enabled: true
+    propagation-keys: authorization
+
+
   datasource:
     username: postgres
     password: postgres
     url: jdbc:postgresql://upspoon-authorization-user-postgresql:5432/postgres
     type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
 
   main:
     allow-bean-definition-overriding: true
@@ -30,12 +33,7 @@ spring:
 
 logging:
   level:
-    org: info
-
-kafka:
-  address: kafka-service:9092
-  group-id: upspoon-group-id
-  topic-order-create: topic-order-create
-  topic-payment-failed: topic-payment-failed
-  topic-payment-handle: topic-payment-handle
-  topic-stock-failed: topic-stock-failed
+    root: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG

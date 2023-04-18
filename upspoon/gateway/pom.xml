@@ -117,7 +117,7 @@
                     <version>3.3.1</version>
                     <configuration>
                         <from>
-                            <image>openjdk:11</image>
+                            <image>openjdk:17</image>
                         </from>
                         <to>
                             <image>upspoon-gw:latest</image>
