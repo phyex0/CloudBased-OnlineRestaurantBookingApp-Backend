@@ -2,6 +2,9 @@ apiVersion: skaffold/v2beta12
 kind: Config
 build:
   artifacts:
+    - image: upspoon-authorization-user
+      context: ./authorization-user
+      jib: { }
     - image: upspoon-gw
       context: ./gateway
       jib: { }
@@ -28,6 +31,7 @@ build:
 deploy:
   kubectl:
     manifests: [
+      "./authorization-user/deployment/*.yaml",
       "./gateway/deployment/*.yaml",
       "./organization/deployment/*.yaml",
       "./order/deployment/*.yaml",
