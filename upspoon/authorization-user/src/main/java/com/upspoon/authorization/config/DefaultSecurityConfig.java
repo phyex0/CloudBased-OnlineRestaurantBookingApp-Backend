@@ -42,8 +42,6 @@ public class DefaultSecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-
-    // @formatter:off
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(new CorsConfiguration(), SessionManagementFilter.class).csrf().disable()

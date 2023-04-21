@@ -6,10 +6,10 @@ metadata:
   name: upspoon-order
 spec:
   ports:
-    - name: 8083-8083
-      port: 8083
+    - name: 8080-8080
+      port: 8080
       protocol: TCP
-      targetPort: 8083
+      targetPort: 8080
   selector:
     app: upspoon-order
   type: ClusterIP

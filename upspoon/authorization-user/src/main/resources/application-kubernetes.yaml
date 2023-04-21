@@ -31,9 +31,14 @@ spring:
     enabled: true
     contexts: dev
 
+
+
 logging:
   level:
     root: DEBUG
     org.springframework.web: DEBUG
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
+
+client:
+  redirect-uri: http://127.0.0.1:5173,https://oidcdebugger.com/debug

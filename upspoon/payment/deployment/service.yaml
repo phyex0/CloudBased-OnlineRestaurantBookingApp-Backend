@@ -6,10 +6,10 @@ metadata:
   name: upspoon-payment
 spec:
   ports:
-    - name: 8085-8085
-      port: 8085
+    - name: 8080-8080
+      port: 8080
       protocol: TCP
-      targetPort: 8085
+      targetPort: 8080
   selector:
     app: upspoon-payment
   type: ClusterIP

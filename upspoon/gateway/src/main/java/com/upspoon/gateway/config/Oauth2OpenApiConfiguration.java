@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.security.OAuthFlow;
 import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,12 +16,14 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class Oauth2OpenApiConfiguration {
+    @Value("${client.authorization-api.url}")
+    private String authorizationServerUrl;
 
     @Bean
     public OpenAPI customOpenApi() {
         OAuthFlow oAuthFlow = new OAuthFlow();
-        oAuthFlow.setAuthorizationUrl("http://127.0.0.1:9000");
-        oAuthFlow.tokenUrl("http://127.0.0.1:9000/oauth2/token");
+        oAuthFlow.setAuthorizationUrl(authorizationServerUrl);
+        oAuthFlow.tokenUrl(authorizationServerUrl.concat("/oauth2/token"));
 
         return new OpenAPI()
                 .components(new Components().addSecuritySchemes("OAuth", new SecurityScheme()

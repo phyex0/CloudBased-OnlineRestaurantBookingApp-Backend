@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8080
 
 spring:
   kafka:
@@ -12,6 +12,16 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  sleuth:
+    enabled: true
+    propagation-keys: authorization
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://upspoon-authorization-user:9000
 
   datasource:
     username: postgres

@@ -60,16 +60,16 @@ logging:
 client:
   authorization-api:
     name: authorization-user
-    url: localhost:8087
+    url: http://127.0.0.1:9000
   order-api:
     name: order
-    url: localhost:8083
+    url: http://127.0.0.1:8083
   stock-api:
     name: stock
-    url: localhost:8086
+    url: http://127.0.0.1:8086
   organization-api:
     name: organization
-    url: localhost:8084
+    url: http://127.0.0.1:8084
   booking-api:
     name: booking
-    url: localhost:8082
+    url: http://127.0.0.1:8082

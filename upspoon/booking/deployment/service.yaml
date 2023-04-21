@@ -6,10 +6,10 @@ metadata:
   name: upspoon-booking
 spec:
   ports:
-    - name: 8082-8082
-      port: 8082
+    - name: 8080-8080
+      port: 8080
       protocol: TCP
-      targetPort: 8082
+      targetPort: 8080
   selector:
     app: upspoon-booking
   type: ClusterIP
