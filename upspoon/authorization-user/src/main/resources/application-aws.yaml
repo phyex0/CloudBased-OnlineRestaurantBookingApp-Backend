@@ -17,7 +17,6 @@ spring:
   security:
     issure-uri: http://upspoon-authorization-user.com
 
-
   datasource:
     username: postgres
     password: postgres

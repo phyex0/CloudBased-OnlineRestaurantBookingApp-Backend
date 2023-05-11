@@ -1,7 +1,10 @@
 server:
-  port: 9000
+  port: 8080
 
 spring:
+  kafka:
+    bootstrap-servers: kafka-service:9092
+
   jpa:
     database: postgresql
 
@@ -15,15 +18,16 @@ spring:
     propagation-keys: authorization
 
   security:
-    issure-uri: http://upspoon-authorization-user.com
-
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://upspoon-authorization-user.com
 
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://upspoon-authorization-user-postgresql:5432/postgres
+    url: jdbc:postgresql://upspoon-booking-postgresql:5432/postgres
     type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: org.postgresql.Driver
 
   main:
     allow-bean-definition-overriding: true
@@ -34,14 +38,16 @@ spring:
     enabled: true
     contexts: dev
 
-
-
 logging:
   level:
-    root: DEBUG
-    org.springframework.web: DEBUG
-    org.springframework.security: DEBUG
-    org.springframework.security.oauth2: DEBUG
+    org: info
 
-client:
-  redirect-uri: http://127.0.0.1:5173,https://oidcdebugger.com/debug
+
+kafka:
+  address: kafka-service:9092
+  group-id: upspoon-group-id
+  topic-booking-create: topic-booking-create
+  topic-booking-create-fail: topic-booking-create-fail
+
+
+

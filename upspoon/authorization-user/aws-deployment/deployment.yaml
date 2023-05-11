@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: upspoon-authorization-user
+  name: upspoon-authorization-user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upspoon-authorization-user
+  template:
+    metadata:
+      labels:
+        app: upspoon-authorization-user
+    spec:
+      containers:
+        - env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-username
+                  name: upspoon-authorization-user
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-password
+                  name: upspoon-authorization-user
+            - name: spring.config.name
+              value: application-aws
+          image: upspoon-authorization-user:latest
+          name: upspoon-api
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          readinessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 45
+            periodSeconds: 30
+          livenessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 45
+            periodSeconds: 30

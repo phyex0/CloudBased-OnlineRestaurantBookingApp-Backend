@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: upspoon-booking-postgresql
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: upspoon-booking-postgresql
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upspoon-booking-postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upspoon-booking-postgresql
+  template:
+    metadata:
+      labels:
+        app: upspoon-booking-postgresql
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-username
+                  name: upspoon-booking
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-password
+                  name: upspoon-booking
+          image: postgres:13.2
+          name: postgres
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data
+              subPath: postgres
+      volumes:
+        - emptyDir: { }
+          name: data

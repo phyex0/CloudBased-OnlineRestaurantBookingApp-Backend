@@ -16,7 +16,7 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://upspoon-order-postgresql:5432/postgres
+    url: jdbc:postgresql://upspoon-stock-postgresql:5432/postgres
     type: com.zaxxer.hikari.HikariDataSource
 
   sleuth:
@@ -45,14 +45,7 @@ logging:
 kafka:
   address: kafka-service:9092
   group-id: upspoon-group-id
-  topic-organization-create: topic-organization-create
-  topic-organization-create-fail: topic-organization-create-fail
   topic-order-create: topic-order-create
+  topic-payment-failed: topic-payment-failed
+  topic-payment-handle: topic-payment-handle
   topic-stock-failed: topic-stock-failed
-  topic-order-created-successfully: topic-order-created-successfully
-
-client:
-  stock-api:
-    name: stock
-    url: http://upspoon-stock:8080
-

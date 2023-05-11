@@ -82,6 +82,8 @@ public class AuthorizationServerConfig {
     private String driverClassName;
     @Value("${client.redirect-uri}")
     private String redirectUri;
+    @Value("${spring.security.issure-uri}")
+    private String issureUri;
 
     @Autowired
     private PasswordEncoderConfig passwordEncoderConfig;
@@ -151,8 +153,10 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
-    public AuthorizationServerSettings authorizationServerSettings() {
-        return AuthorizationServerSettings.builder().build();
+    public AuthorizationServerSettings providerSettings() {
+        return AuthorizationServerSettings.builder()
+                .issuer(issureUri)
+                .build();
     }
 
     @Bean

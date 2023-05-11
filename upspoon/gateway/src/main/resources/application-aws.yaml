@@ -32,7 +32,7 @@ logging:
 client:
   authorization-api:
     name: authorization-user
-    url: https://upspoon-authorization-user.com
+    url: http://upspoon-authorization-user.com
   order-api:
     name: order
     url: http://upspoon-order:8080

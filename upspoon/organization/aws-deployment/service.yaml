@@ -2,14 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: upspoon-gw
-  name: upspoon-gw
+    app: upspoon-organization
+  name: upspoon-organization
 spec:
   ports:
-    - name: 80-8080
-      port: 80
+    - name: 8080-8080
+      port: 8080
       protocol: TCP
       targetPort: 8080
   selector:
-    app: upspoon-gw
+    app: upspoon-organization
   type: ClusterIP
