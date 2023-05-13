@@ -2,6 +2,8 @@ server:
   port: 8080
 
 spring:
+  profiles:
+    active: aws
   main:
     allow-bean-definition-overriding: true
 
@@ -13,7 +15,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://upspoon-authorization-user.com
+          issuer-uri: http://a25e5d2b66a01467e93f8d28f9ee14c4-593053229.us-east-1.elb.amazonaws.com
 
 springdoc:
   swagger-ui:
@@ -32,7 +34,7 @@ logging:
 client:
   authorization-api:
     name: authorization-user
-    url: http://upspoon-authorization-user.com
+    url: http://a25e5d2b66a01467e93f8d28f9ee14c4-593053229.us-east-1.elb.amazonaws.com
   order-api:
     name: order
     url: http://upspoon-order:8080

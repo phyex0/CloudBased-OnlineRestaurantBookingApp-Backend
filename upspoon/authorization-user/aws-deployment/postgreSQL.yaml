@@ -36,17 +36,17 @@ spec:
                 secretKeyRef:
                   key: postgresql-password
                   name: upspoon-authorization-user
-          image: postgres:13.2
+          image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/postgres:13.2
           name: postgres
           ports:
             - containerPort: 5432
           resources:
             limits:
               cpu: "1"
-              memory: 512Mi
-            requests:
-              cpu: 500m
               memory: 256Mi
+            requests:
+              cpu: 250m
+              memory: 128Mi
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: data

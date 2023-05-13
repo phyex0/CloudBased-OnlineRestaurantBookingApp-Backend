@@ -28,7 +28,7 @@ spec:
                   name: upspoon-order
             - name: spring.config.name
               value: application-aws
-          image: upspoon-order:latest
+          image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-order:latest
           name: upspoon-api
           resources:
             limits:

@@ -28,7 +28,7 @@ spec:
                   name: upspoon-authorization-user
             - name: spring.config.name
               value: application-aws
-          image: upspoon-authorization-user:latest
+          image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-authorization-user:latest
           name: upspoon-api
           resources:
             limits:

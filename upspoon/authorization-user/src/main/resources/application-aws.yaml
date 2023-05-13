@@ -2,6 +2,8 @@ server:
   port: 9000
 
 spring:
+  profiles:
+    active: aws
   jpa:
     database: postgresql
 
@@ -15,7 +17,7 @@ spring:
     propagation-keys: authorization
 
   security:
-    issure-uri: http://upspoon-authorization-user.com
+    issure-uri: http://a25e5d2b66a01467e93f8d28f9ee14c4-593053229.us-east-1.elb.amazonaws.com
 
   datasource:
     username: postgres

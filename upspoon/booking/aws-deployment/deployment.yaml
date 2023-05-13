@@ -28,7 +28,7 @@ spec:
                   name: upspoon-booking
             - name: spring.config.name
               value: application-aws
-          image: upspoon-booking:latest
+          image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-booking:latest
           name: upspoon-api
           resources:
             limits:
