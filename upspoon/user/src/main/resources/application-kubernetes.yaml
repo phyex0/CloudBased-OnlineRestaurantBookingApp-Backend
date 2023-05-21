@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: minikube
+  kafka:
+    bootstrap-servers: kafka-service:9092
+
+  jpa:
+    database: postgresql
+
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://upspoon-user-postgresql:5432/postgres
+    type: com.zaxxer.hikari.HikariDataSource
+
+  sleuth:
+    enabled: true
+    propagation-keys: authorization
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://upspoon-authorization-user.com
+
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
+  liquibase:
+    change-log: "classpath:db/changelog/master.xml"
+    enabled: true
+    contexts: dev
+
+logging:
+  level:
+    org: info
+
+client:
+  authorization-server:
+    name: authorization-server
+    url: http://127.0.0.1:9000
+

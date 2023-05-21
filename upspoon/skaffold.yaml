@@ -23,6 +23,9 @@ build:
     - image: upspoon-booking
       context: ./booking
       jib: { }
+    - image: upspoon-user
+      context: ./user
+      jib: { }
   tagPolicy:
     sha256: { }
   local:
@@ -37,5 +40,6 @@ deploy:
       "./order/deployment/*.yaml",
       "./stock/deployment/*.yaml",
       "./payment/deployment/*.yaml",
-      "./booking/deployment/*.yaml"
+      "./booking/deployment/*.yaml",
+      "./user/deployment/*.yaml"
     ]

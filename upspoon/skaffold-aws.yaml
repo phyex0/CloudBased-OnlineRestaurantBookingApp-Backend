@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+
+deploy:
+  kubectl:
+    manifests: [
+      "./authorization-user/aws-deployment/*.yaml",
+      "./gateway/aws-deployment/*.yaml",
+      "./organization/aws-deployment/*.yaml",
+      "./order/aws-deployment/*.yaml",
+      "./stock/aws-deployment/*.yaml",
+      "./payment/aws-deployment/*.yaml",
+      "./booking/aws-deployment/*.yaml",
+      "./user/aws-deployment/*.yaml"
+    ]

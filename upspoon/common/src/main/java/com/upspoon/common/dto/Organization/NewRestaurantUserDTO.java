@@ -34,4 +34,7 @@ public class NewRestaurantUserDTO implements Serializable {
     @NotNull
     private String email;
 
+    @NotNull
+    private String password;
+
 }
