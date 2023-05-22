@@ -3,6 +3,8 @@ server:
 
 
 spring:
+  profiles:
+    active: local
   jpa:
     database: postgresql
     hibernate:
@@ -14,16 +16,34 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5436/postgres
     type: com.zaxxer.hikari.HikariDataSource
 
+  sleuth:
+    enabled: true
+    propagation-keys: authorization
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://127.0.0.1:9000
+
+
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
+  liquibase:
+    change-log: "classpath:db/changelog/master.xml"
+    enabled: true
+    contexts: dev
 
 logging:
   level:
     org: debug
 
-kafka:
-  address: 127.0.0.1:9092
-  group-id: upspoon-group-id
-  topic: order
+client:
+  authorization-server:
+    name: authorization-server
+    url: http://127.0.0.1:9000

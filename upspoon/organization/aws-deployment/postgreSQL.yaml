@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: upspoon-organization-postgresql
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: upspoon-organization-postgresql
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upspoon-organization-postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upspoon-organization-postgresql
+  template:
+    metadata:
+      labels:
+        app: upspoon-organization-postgresql
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-username
+                  name: upspoon-organization
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-password
+                  name: upspoon-organization
+          image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/postgres:13.2
+          name: postgres
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              cpu: "1"
+              memory: 256Mi
+            requests:
+              cpu: 250m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data
+              subPath: postgres
+      volumes:
+        - emptyDir: { }
+          name: data

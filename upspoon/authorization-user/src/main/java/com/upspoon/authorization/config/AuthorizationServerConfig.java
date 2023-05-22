@@ -67,6 +67,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Configuration(proxyBeanMethods = false)
@@ -79,6 +80,10 @@ public class AuthorizationServerConfig {
     private String databasePassword;
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
+    @Value("${client.redirect-uri}")
+    private String redirectUri;
+    @Value("${spring.security.issure-uri}")
+    private String issureUri;
 
     @Autowired
     private PasswordEncoderConfig passwordEncoderConfig;
@@ -91,33 +96,30 @@ public class AuthorizationServerConfig {
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());    // Enable OpenID Connect 1.0
 
-        // @formatter:off
         http
                 .exceptionHandling(exceptions ->
                         exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
-        // @formatter:on
         return http.build();
     }
 
-    // @formatter:off
     @Bean
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
+
+        Consumer<Set<String>> redirectConsumer = consumer -> consumer.addAll(Set.of(redirectUri.split(",")));
+
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("messaging-client")
+                .clientId("upspoon")
                 .clientSecret(passwordEncoderConfig.encoder().encode("secret"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUri("https://oidcdebugger.com/debug")
-                .redirectUri("http://127.0.0.1:5173")
+                .redirectUris(redirectConsumer)
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
-                .scope("message.read")
-                .scope("message.write")
                 .tokenSettings(TokenSettings.builder()
                         .accessTokenTimeToLive(Duration.ofHours(2))
                         .refreshTokenTimeToLive(Duration.ofHours(2))
@@ -151,8 +153,10 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
-    public AuthorizationServerSettings authorizationServerSettings() {
-        return AuthorizationServerSettings.builder().build();
+    public AuthorizationServerSettings providerSettings() {
+        return AuthorizationServerSettings.builder()
+                .issuer(issureUri)
+                .build();
     }
 
     @Bean
@@ -170,7 +174,6 @@ public class AuthorizationServerConfig {
 
     @Bean
     DataSource dataSource() {
-
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
         driverManagerDataSource.setUsername(databaseUsername);
         driverManagerDataSource.setPassword(databasePassword);
@@ -225,5 +228,4 @@ public class AuthorizationServerConfig {
             return jsonNode.has(field) ? jsonNode.get(field) : MissingNode.getInstance();
         }
     }
-
 }

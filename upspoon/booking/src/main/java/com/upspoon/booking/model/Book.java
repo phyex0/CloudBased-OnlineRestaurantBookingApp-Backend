@@ -1,11 +1,11 @@
 package com.upspoon.booking.model;
 
 import com.upspoon.common.model.AbstractAuditBaseEntity;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 

@@ -1,0 +1,36 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="202212122107" author="burak.yesildal">
+        <createTable tableName="user_data">
+            <column name="id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(64)"/>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted" type="BOOL"/>
+
+            <column name="first_name" type="VARCHAR(256)"/>
+            <column name="last_name" type="VARCHAR(256)"/>
+            <column name="middle_name" type="VARCHAR(256)"/>
+            <column name="phone_number" type="VARCHAR(256)"/>
+            <column name="address" type="TEXT"/>
+            <column name="mail_address" type="VARCHAR(256)"/>
+        </createTable>
+
+        <createTable tableName="order_element_collection">
+            <column name="user_id" type="UUID"/>
+            <column name="order_id" type="UUID"/>
+        </createTable>
+
+    </changeSet>
+    <changeSet id="202212122108" author="burak.yesildal">
+        <addPrimaryKey tableName="user_data" columnNames="id" constraintName="user_data_pkey"/>
+        <addForeignKeyConstraint baseTableName="order_element_collection" baseColumnNames="user_id"
+                                 constraintName="user_data_fk_order_history"
+                                 referencedTableName="user_data"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+
+</databaseChangeLog>

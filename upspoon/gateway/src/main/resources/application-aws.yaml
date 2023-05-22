@@ -1,0 +1,49 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: aws
+  main:
+    allow-bean-definition-overriding: true
+
+  sleuth:
+    enabled: true
+    propagation-keys: authorization
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://a25e5d2b66a01467e93f8d28f9ee14c4-593053229.us-east-1.elb.amazonaws.com
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationSorter: method
+    enabled: true
+    disable-swagger-default-url: true
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+
+client:
+  authorization-api:
+    name: authorization-user
+    url: http://a25e5d2b66a01467e93f8d28f9ee14c4-593053229.us-east-1.elb.amazonaws.com
+  order-api:
+    name: order
+    url: http://upspoon-order:8080
+  stock-api:
+    name: stock
+    url: http://upspoon-stock:8080
+  organization-api:
+    name: organization
+    url: http://upspoon-organization:8080
+  booking-api:
+    name: booking
+    url: http://upspoon-booking:8080

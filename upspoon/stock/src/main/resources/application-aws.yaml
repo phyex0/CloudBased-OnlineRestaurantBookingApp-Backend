@@ -1,0 +1,53 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: aws
+  kafka:
+    bootstrap-servers: kafka-service:9092
+
+  jpa:
+    database: postgresql
+
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://upspoon-stock-postgresql:5432/postgres
+    type: com.zaxxer.hikari.HikariDataSource
+
+  sleuth:
+    enabled: true
+    propagation-keys: authorization
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://a25e5d2b66a01467e93f8d28f9ee14c4-593053229.us-east-1.elb.amazonaws.com
+
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
+  liquibase:
+    change-log: "classpath:db/changelog/master.xml"
+    enabled: true
+    contexts: dev
+
+logging:
+  level:
+    org: info
+
+kafka:
+  address: kafka-service:9092
+  group-id: upspoon-group-id
+  topic-order-create: topic-order-create
+  topic-payment-failed: topic-payment-failed
+  topic-payment-handle: topic-payment-handle
+  topic-stock-failed: topic-stock-failed

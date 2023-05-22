@@ -2,6 +2,8 @@ server:
   port: 8084
 
 spring:
+  profiles:
+    active: local
   jpa:
     database: postgresql
 
@@ -13,6 +15,12 @@ spring:
   sleuth:
     enabled: true
     propagation-keys: authorization
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://127.0.0.1:9000
 
   datasource:
     username: postgres

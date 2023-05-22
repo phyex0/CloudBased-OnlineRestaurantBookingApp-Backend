@@ -2,9 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: upspoon-authorization-user-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
     - host: upspoon-authorization-user.com
@@ -16,5 +13,4 @@ spec:
               service:
                 name: upspoon-authorization-user
                 port:
-                  number: 9000
-  ingressClassName: nginx
+                  number: 80

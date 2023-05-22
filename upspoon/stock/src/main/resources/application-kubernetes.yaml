@@ -1,7 +1,9 @@
 server:
-  port: 8086
+  port: 8080
 
 spring:
+  profiles:
+    active: minikube
   kafka:
     bootstrap-servers: kafka-service:9092
 
@@ -18,6 +20,16 @@ spring:
     password: postgres
     url: jdbc:postgresql://upspoon-stock-postgresql:5432/postgres
     type: com.zaxxer.hikari.HikariDataSource
+
+  sleuth:
+    enabled: true
+    propagation-keys: authorization
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://upspoon-authorization-user:9000
 
   main:
     allow-bean-definition-overriding: true

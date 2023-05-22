@@ -18,64 +18,64 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.upspoon</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!--		<dependency>-->
-        <!--			<groupId>org.springframework.boot</groupId>-->
-        <!--			<artifactId>spring-boot-starter-data-jdbc</artifactId>-->
-        <!--		</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.liquibase</groupId>-->
-        <!--            <artifactId>liquibase-core</artifactId>-->
-        <!--            <version>4.6.2</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>io.micrometer</groupId>-->
-        <!--            <artifactId>micrometer-registery-prometheus</artifactId>-->
-        <!--            <scope>runtime</scope>-->
-        <!--            &lt;!&ndash;			 <version>1.9.4</version> &ndash;&gt;-->
-        <!--        </dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-resource-server -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <!--            <version>3.10.3</version>-->
+        </dependency>
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>1.4.2.Final</version>
         </dependency>
+
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>1.4.2.Final</version>
             <scope>provided</scope>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-starter-kubernetes-fabric8-all</artifactId>-->
-        <!--            <version>5.3.23</version>-->
-        <!--        </dependency>-->
-        <!--		<dependency>-->
-        <!--			<groupId>jakarta.validation</groupId>-->
-        <!--			<artifactId>jakarta.validation-api</artifactId>-->
-        <!--			<version></version>-->
-        <!--		</dependency>-->
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -90,34 +90,31 @@
             <version>4.0.2</version>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.liquibase</groupId>-->
-        <!--            <artifactId>liquibase-maven-plugin</artifactId>-->
-        <!--            <version>3.4.1</version>-->
-        <!--        </dependency>-->
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>2.23.4</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-<!--            <version>2.8.5</version>-->
+            <!--            <version>2.8.5</version>-->
         </dependency>
-        <!--		<dependency>-->
-        <!--			<groupId>com.h2database</groupId>-->
-        <!--			<artifactId>h2</artifactId>-->
-        <!--			<scope>runtime</scope>-->
-        <!--		</dependency>-->
         <dependency>
-            <groupId>com.google.cloud.tools</groupId>
-            <artifactId>jib-maven-plugin</artifactId>
-            <version>3.2.0</version>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>2.2</version>
+            <scope>compile</scope>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -151,73 +148,6 @@
                 </configuration>
             </plugin>
 
-
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugings</groupId>-->
-            <!--                <artifactId>maven-compiler-plugin</artifactId>-->
-            <!--                <version>${maven-compiler-plugin.version}</version>-->
-            <!--                <configuration>-->
-            <!--                    <source>${java.version}</source>-->
-            <!--                    <target>${java.version}</target>-->
-            <!--                    <annotationProcessorPaths>-->
-            <!--                        <path>-->
-            <!--                            <groupId>org.mapstruct</groupId>-->
-            <!--                            <artifactId>mapstruct-processor</artifactId>-->
-            <!--                            <version>${mapstruct.version}</version>-->
-            <!--                        </path>-->
-            <!--                        <path>-->
-            <!--                            <groupId>org.projectlombok</groupId>-->
-            <!--                            <artifactId>lombok</artifactId>-->
-            <!--                            <version>${org.projectlombok.version}</version>-->
-            <!--                        </path>-->
-            <!--                        <path>-->
-            <!--                            <groupId>org.projectlombok</groupId>-->
-            <!--                            <artifactId>lombok-mapstruct-bindings</artifactId>-->
-            <!--                            <version>${lombok-mapstruct-binding.version}</version>-->
-            <!--                        </path>-->
-            <!--                        <path>-->
-            <!--                            <groupId>org.mapstruct</groupId>-->
-            <!--                            <artifactId>mapstruct-processor</artifactId>-->
-            <!--                            <version>${mapstruct.version}</version>-->
-            <!--                        </path>-->
-            <!--                    </annotationProcessorPaths>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
-            <!--            <plugin>-->
-            <!--                <groupId>org.liqubase</groupId>-->
-            <!--                <artifactId>liqubase-maven-plugin</artifactId>-->
-            <!--                <version>3.4.1</version>-->
-            <!--                <configuration>-->
-            <!--                    <changeLogFile>src/maim/resource/db/changelog/master.xml</changeLogFile>-->
-            <!--                    <diffChangeLogFile>src/maim/resource/db/changelog/changelog.xml</diffChangeLogFile>-->
-            <!--                    <outputChangeLogFile>src/maim/resource/db/changelog/myaddon.db.changelog.xml</outputChangeLogFile>-->
-            <!--                    <driver>org.postgresql.Driver</driver>-->
-            <!--                    <url>jdbc:postgresql://localhost:5432/upspoon-order</url>-->
-            <!--                    <referenceUrl>jdbc:postgresql://localhost:5432/upspoon-order</referenceUrl>-->
-            <!--                    <referenceDriver>org.postgresql.Driver</referenceDriver>-->
-            <!--                    <username>upspoon</username>-->
-            <!--                    <password></password>-->
-            <!--                    <referenceUsername>upspoon</referenceUsername>-->
-            <!--                    <referencePassword></referencePassword>-->
-            <!--                </configuration>-->
-            <!--                <dependencies>-->
-            <!--                    <dependency>-->
-            <!--                        <groupId>org.liquibase.ext</groupId>-->
-            <!--                        <artifactId>liquibase-hibernate4</artifactId>-->
-            <!--                        <version>3.5</version>-->
-            <!--                    </dependency>-->
-            <!--                    <dependency>-->
-            <!--                        <groupId>org.springframework</groupId>-->
-            <!--                        <artifactId>spring-beans</artifactId>-->
-            <!--                        <version>4.1.7.RELEASE</version>-->
-            <!--                    </dependency>-->
-            <!--                    <dependency>-->
-            <!--                        <groupId>org.springframework.data</groupId>-->
-            <!--                        <artifactId>spring-data-jpa</artifactId>-->
-            <!--                        <version>1.7.3.RELEASE</version>-->
-            <!--                    </dependency>-->
-            <!--                </dependencies>-->
-            <!--            </plugin>-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -230,54 +160,37 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <!--            <plugin>-->
-            <!--                <groupId>com.google.cloud.tools</groupId>-->
-            <!--                <artifactId>jib-maven-plugin</artifactId>-->
-            <!--                <version>${jib-maven-plugin.version}</version>-->
-            <!--            </plugin>-->
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <to>
+                        <image>upspoon-user:latest</image>
+                    </to>
+                </configuration>
+            </plugin>
         </plugins>
-        <!--        <pluginManagement>-->
-        <!--            <plugins>-->
-        <!--                <plugin>-->
-        <!--                    <groupId>com.google.cloud.tools</groupId>-->
-        <!--                    <artifactId>jib-maven-plugin</artifactId>-->
-        <!--                    <version>${jib-maven-plugin.version}</version>-->
-        <!--                    <configuration>-->
-        <!--                        <from>-->
-        <!--                            <image>....</image>-->
-        <!--                        </from>-->
-        <!--                        <to>-->
-        <!--                            <image>localhost:5000/upspoon/upspoon-order:latest</image>-->
-        <!--                        </to>-->
-        <!--                        <container>-->
-        <!--                            <entrypoint>-->
-        <!--                                <shell>bash</shell>-->
-        <!--                                <option>-c</option>-->
-        <!--                                <arg>/entrypoint.sh</arg>-->
-        <!--                            </entrypoint>-->
-        <!--                            <ports>-->
-        <!--                                <port>8080</port>-->
-        <!--                            </ports>-->
-        <!--                            <environment>-->
-        <!--                                <SPRING_OUTPUT_ANSI_ENEABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENEABLED>-->
-        <!--                                <APP_START_SLEEP>0</APP_START_SLEEP>-->
-        <!--                            </environment>-->
-        <!--                            <creationTime>USE_CURRENT_TIMESTAMP</creationTime>-->
-        <!--                            <user>1000</user>-->
-        <!--                        </container>-->
-        <!--                        <extraDirectories>-->
-        <!--                            <paths>src/main/docker</paths>-->
-        <!--                            <permissions>-->
-        <!--                                <permission>-->
-        <!--                                    <file>/entrypoint.sh</file>-->
-        <!--                                    <mode>755</mode>-->
-        <!--                                </permission>-->
-        <!--                            </permissions>-->
-        <!--                        </extraDirectories>-->
-        <!--                    </configuration>-->
-        <!--                </plugin>-->
-        <!--            </plugins>-->
-        <!--        </pluginManagement>-->
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>3.3.1</version>
+                    <configuration>
+                        <from>
+                            <image>openjdk:17</image>
+                        </from>
+                        <to>
+                            <image>upspoon-user:latest</image>
+                        </to>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
     </build>
 
 </project>

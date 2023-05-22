@@ -1,5 +1,6 @@
 package com.upspoon.gateway;
 
+import com.upspoon.common.config.ResourceServerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +15,7 @@ import org.springframework.cloud.openfeign.FeignAutoConfiguration;
         DataSourceTransactionManagerAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class})
 @EnableFeignClients
-@ImportAutoConfiguration({FeignAutoConfiguration.class})
+@ImportAutoConfiguration({FeignAutoConfiguration.class, ResourceServerConfig.class})
 public class GatewayApplication {
 
     public static void main(String[] args) {

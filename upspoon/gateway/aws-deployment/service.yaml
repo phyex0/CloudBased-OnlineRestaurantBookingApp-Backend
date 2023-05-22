@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: upspoon-gw
+  name: upspoon-gw
+spec:
+  ports:
+    - name: 80-8080
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: upspoon-gw
+  type: LoadBalancer

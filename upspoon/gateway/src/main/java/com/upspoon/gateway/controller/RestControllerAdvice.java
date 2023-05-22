@@ -33,6 +33,6 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler {
 
 
         body.put("timestamp", LocalDateTime.now().toString());
-        return ResponseEntity.ok().body(body);
+        return ResponseEntity.badRequest().body(body);
     }
 }

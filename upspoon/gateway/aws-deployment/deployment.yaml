@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: upspoon-gw
+  name: upspoon-gw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upspoon-gw
+  template:
+    metadata:
+      labels:
+        app: upspoon-gw
+    spec:
+      containers:
+        - env:
+            - name: spring.config.name
+              value: application-aws
+          image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-gw:latest
+          name: upspoon-api
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 30

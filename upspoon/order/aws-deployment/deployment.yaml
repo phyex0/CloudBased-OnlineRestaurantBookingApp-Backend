@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: upspoon-order
+  name: upspoon-order
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upspoon-order
+  template:
+    metadata:
+      labels:
+        app: upspoon-order
+    spec:
+      containers:
+        - env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-username
+                  name: upspoon-order
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-password
+                  name: upspoon-order
+            - name: spring.config.name
+              value: application-aws
+          image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-order:latest
+          name: upspoon-api
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 120
+            periodSeconds: 30
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 120
+            periodSeconds: 30

@@ -2,6 +2,8 @@ server:
   port: 9000
 
 spring:
+  profiles:
+    active: minikube
   jpa:
     database: postgresql
 
@@ -13,6 +15,9 @@ spring:
   sleuth:
     enabled: true
     propagation-keys: authorization
+
+  security:
+    issure-uri: http://upspoon-authorization-user.com
 
 
   datasource:
@@ -31,9 +36,14 @@ spring:
     enabled: true
     contexts: dev
 
+
+
 logging:
   level:
     root: DEBUG
     org.springframework.web: DEBUG
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
+
+client:
+  redirect-uri: http://127.0.0.1:5173,https://oidcdebugger.com/debug

@@ -13,5 +13,4 @@ spec:
               service:
                 name: upspoon-gw
                 port:
-                  number: 8080
-  ingressClassName: nginx
+                  number: 80
