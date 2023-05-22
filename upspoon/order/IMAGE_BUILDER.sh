@@ -25,7 +25,7 @@ sleep 5
 #aws confiugre public_key, private_key
 #Before push images don't forget to login:
 #To get account Id use:
-#aws sts get-caller-identity "Accoun" is the required for next step!
+#aws sts get-caller-identity "Account" is the required for next step!
 #aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 980605516176.dkr.ecr.us-east-1.amazonaws.com
 echo "Push Image"
 docker push 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-order:latest

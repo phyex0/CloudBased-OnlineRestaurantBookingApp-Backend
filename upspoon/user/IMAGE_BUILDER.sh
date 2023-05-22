@@ -17,7 +17,7 @@ sleep 5
 
 #Tag Image
 echo "Add Tag"
-docker tag upspoon-booking:latest 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-booking:latest
+docker tag upspoon-user:latest 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-user:latest
 sleep 5
 
 #Push Image to Amazon ECR
@@ -28,4 +28,4 @@ sleep 5
 #aws sts get-caller-identity "Account" is the required for next step!
 #aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 980605516176.dkr.ecr.us-east-1.amazonaws.com
 echo "Push Image"
-docker push 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-booking:latest
+docker push 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-user:latest
