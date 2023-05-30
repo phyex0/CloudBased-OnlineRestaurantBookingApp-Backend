@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * @author burak.yesildal
@@ -17,7 +18,8 @@ import java.io.Serializable;
 public class ProductDTO implements Serializable {
     private static final long serialVersionUID = -1005738152875737310L;
 
-    @NotNull
+    private UUID id;
+
     private String productCode;
 
     @NotNull
@@ -29,6 +31,5 @@ public class ProductDTO implements Serializable {
     @NotNull
     private Double price;
 
-    @NotNull
     private String productImage;
 }
