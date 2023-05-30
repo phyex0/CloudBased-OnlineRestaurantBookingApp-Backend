@@ -20,5 +20,5 @@ public interface RestaurantUserRepository extends JpaRepository<RestaurantUser, 
             "where ru.id = :restaurantUserId and ru.deleted is false and o.deleted is false ", nativeQuery = true)
     Page<NewOrganizationDTO> getAllOrganizations(UUID restaurantUserId, Pageable pageable);
 
-    Optional<RestaurantUser> findRestaurantUserByEmailMatches(String mail);
+    Optional<RestaurantUser> findRestaurantUserByEmail(String mail);
 }

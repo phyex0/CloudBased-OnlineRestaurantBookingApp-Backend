@@ -117,7 +117,7 @@ public class RestaurantUserServiceImpl implements RestaurantUserService {
 
     @Override
     public ResponseEntity<RestaurantUserDTO> findUserByMail(String mail) {
-        Optional<RestaurantUser> restaurantUserByEmailMatches = restaurantUserRepository.findRestaurantUserByEmailMatches(mail);
+        Optional<RestaurantUser> restaurantUserByEmailMatches = restaurantUserRepository.findRestaurantUserByEmail(mail);
         RestaurantUserDTO dto = restaurantUserMapper.toDto(restaurantUserByEmailMatches.orElseThrow(UserNotFoundException::new));
         return new ResponseEntity<RestaurantUserDTO>(dto, HttpStatus.OK);
     }
