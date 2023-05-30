@@ -2,8 +2,8 @@ server:
   port: 9000
 
 spring:
-  profiles:
-    active: minikube
+  #profiles:
+    #active: minikube
   jpa:
     database: postgresql
 

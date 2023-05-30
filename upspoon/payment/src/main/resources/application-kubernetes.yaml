@@ -2,8 +2,8 @@ server:
   port: 8080
 
 spring:
-  profiles:
-    active: minikube
+  #profiles:
+    #active: minikube
   kafka:
     bootstrap-servers: kafka-service:9092
 
