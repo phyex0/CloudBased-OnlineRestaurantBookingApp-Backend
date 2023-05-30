@@ -2,8 +2,8 @@ server:
   port: 8080
 
 spring:
-  profiles:
-    active: aws
+  #profiles:
+    #active: aws
   main:
     allow-bean-definition-overriding: true
 
