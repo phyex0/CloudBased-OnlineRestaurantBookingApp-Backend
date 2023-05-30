@@ -15,7 +15,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://a25e5d2b66a01467e93f8d28f9ee14c4-593053229.us-east-1.elb.amazonaws.com
+          issuer-uri: http://a10b0652697734cc0af5ec1643e74586-1635581591.us-east-1.elb.amazonaws.com
 
 springdoc:
   swagger-ui:
@@ -34,7 +34,7 @@ logging:
 client:
   authorization-api:
     name: authorization-user
-    url: http://a25e5d2b66a01467e93f8d28f9ee14c4-593053229.us-east-1.elb.amazonaws.com
+    url: http://a10b0652697734cc0af5ec1643e74586-1635581591.us-east-1.elb.amazonaws.com
   order-api:
     name: order
     url: http://upspoon-order:8080
@@ -47,3 +47,6 @@ client:
   booking-api:
     name: booking
     url: http://upspoon-booking:8080
+  user-api:
+    name: user
+    url: http://upspoon-user:8080

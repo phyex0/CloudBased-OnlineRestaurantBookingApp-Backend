@@ -1,6 +1,7 @@
 package com.upspoon.organization.service;
 
 import com.upspoon.common.dto.Organization.NewRestaurantUserDTO;
+import com.upspoon.common.dto.Organization.RestaurantUserDTO;
 import com.upspoon.common.dto.Organization.UpdateRestaurantUserDTO;
 import com.upspoon.common.web.CustomPage;
 import org.springframework.data.domain.Pageable;
@@ -22,4 +23,5 @@ public interface RestaurantUserService {
 
     ResponseEntity<UpdateRestaurantUserDTO> updateUser(UUID userId, UpdateRestaurantUserDTO restaurantUserDTO);
 
+    ResponseEntity<RestaurantUserDTO> findUserByMail(String mail);
 }

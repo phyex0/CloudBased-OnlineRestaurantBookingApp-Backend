@@ -1,0 +1,72 @@
+apiVersion: v1
+data:
+  application.yaml: |+
+    server:
+      port: 9000
+
+    spring:
+      profiles:
+        active: aws
+      jpa:
+        database: postgresql
+    
+        show-sql: true
+        properties:
+          hibernate:
+            format_sql: true
+    
+      sleuth:
+        enabled: true
+        propagation-keys: authorization
+    
+      security:
+        issure-uri: ${APP_ISSURE_URI}
+    
+      datasource:
+        username: postgres
+        password: postgres
+        url: jdbc:postgresql://upspoon-authorization-user-postgresql:5432/postgres
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: org.postgresql.Driver
+    
+      main:
+        allow-bean-definition-overriding: true
+        allow-circular-references: true
+    
+      liquibase:
+        change-log: "classpath:db/changelog/master.xml"
+        enabled: true
+        contexts: dev
+    
+    logging:
+      level:
+        root: DEBUG
+        org.springframework.web: DEBUG
+        org.springframework.security: DEBUG
+        org.springframework.security.oauth2: DEBUG
+    
+    client:
+      redirect-uri: ${REDIRECT_URIS}
+
+kind: ConfigMap
+metadata:
+  labels:
+    app: upspoon-authorization-user-configmap
+  name: upspoon-authorization-user-configmap-app
+
+---
+apiVersion: v1
+data:
+  APP_ISSURE_URI: http://upspoon-authorization-user.com
+  REDIRECT_URIS: http://127.0.0.1:5173,https://oidcdebugger.com/debug
+  SPRING_CLOUD_KUBERNETES_CONFIG_ENABLED: "true"
+  SPRING_CLOUD_KUBERNETES_CONFIG_NAME: upspoon-authorization-user-configmap-app
+  SPRING_CLOUD_KUBERNETES_SECRET_ENABLED: "true"
+  SPRING_CLOUD_BOOTSTRAP_ENABLED: "true"
+
+
+kind: ConfigMap
+metadata:
+  labels:
+    app: upspoon-authorization-user-configmap
+  name: upspoon-authorization-user-configmap-env

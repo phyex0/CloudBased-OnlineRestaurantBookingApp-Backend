@@ -16,8 +16,9 @@ spec:
     spec:
       containers:
         - env:
-            - name: spring.config.name
-              value: application-kubernetes
+          envFrom:
+            - configMapRef:
+                name: upspoon-gw-configmap-env
           image: upspoon-gw:latest
           name: upspoon-api
           resources:

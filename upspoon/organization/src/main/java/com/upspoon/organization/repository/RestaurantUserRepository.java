@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -19,5 +20,5 @@ public interface RestaurantUserRepository extends JpaRepository<RestaurantUser, 
             "where ru.id = :restaurantUserId and ru.deleted is false and o.deleted is false ", nativeQuery = true)
     Page<NewOrganizationDTO> getAllOrganizations(UUID restaurantUserId, Pageable pageable);
 
-
+    Optional<RestaurantUser> findRestaurantUserByEmailMatches(String mail);
 }

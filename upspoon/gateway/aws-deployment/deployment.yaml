@@ -16,8 +16,9 @@ spec:
     spec:
       containers:
         - env:
-            - name: spring.config.name
-              value: application-aws
+          envFrom:
+            - configMapRef:
+                name: upspoon-gw-configmap-env
           image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-gw:latest
           name: upspoon-api
           resources:

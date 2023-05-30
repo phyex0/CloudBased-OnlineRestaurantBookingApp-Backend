@@ -1,6 +1,7 @@
 package com.upspoon.gateway.controller.organization;
 
 import com.upspoon.common.dto.Organization.NewRestaurantUserDTO;
+import com.upspoon.common.dto.Organization.RestaurantUserDTO;
 import com.upspoon.common.dto.Organization.UpdateRestaurantUserDTO;
 import com.upspoon.common.web.CustomPage;
 import com.upspoon.gateway.client.organization.RestaurantUserClient;
@@ -55,6 +56,13 @@ public class RestaurantUserController {
     @Operation(summary = "Updates the given user")
     public ResponseEntity<UpdateRestaurantUserDTO> updateUser(@RequestParam(value = "userId") UUID userId, @RequestBody UpdateRestaurantUserDTO restaurantUserDTO) {
         return restaurantUserClient.updateUser(userId, restaurantUserDTO);
+    }
+
+    @GetMapping(value = "/find-by-mail")
+    @Operation(summary = "Returns user and related organization by mail")
+    @PreAuthorize("hasPermission('ROLE', 'ORGANIZATION_ROLE') or hasPermission('ROLE','ADMIN_ROLE') or hasPermission('ROLE', 'BUSINESS_ROLE')")
+    public ResponseEntity<RestaurantUserDTO> findUserByMail(@RequestParam String mail) {
+        return restaurantUserClient.findUserByMail(mail);
     }
 
 }

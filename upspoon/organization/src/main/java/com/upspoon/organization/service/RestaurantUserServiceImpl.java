@@ -2,12 +2,16 @@ package com.upspoon.organization.service;
 
 
 import com.upspoon.common.dto.Organization.NewRestaurantUserDTO;
+import com.upspoon.common.dto.Organization.RestaurantUserDTO;
 import com.upspoon.common.dto.Organization.UpdateRestaurantUserDTO;
 import com.upspoon.common.exceptions.UserNotFoundException;
 import com.upspoon.common.web.CustomPage;
 import com.upspoon.organization.mapper.NewRestaurantUserCreateMapper;
+import com.upspoon.organization.mapper.RestaurantUserMapper;
+import com.upspoon.organization.model.RestaurantUser;
 import com.upspoon.organization.repository.OrganizationRepository;
 import com.upspoon.organization.repository.RestaurantUserRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -24,6 +29,7 @@ import java.util.UUID;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class RestaurantUserServiceImpl implements RestaurantUserService {
 
     private final RestaurantUserRepository restaurantUserRepository;
@@ -32,11 +38,8 @@ public class RestaurantUserServiceImpl implements RestaurantUserService {
 
     private final NewRestaurantUserCreateMapper newRestaurantUserCreateMapper;
 
-    public RestaurantUserServiceImpl(RestaurantUserRepository restaurantUserRepository, OrganizationRepository organizationRepository, NewRestaurantUserCreateMapper newRestaurantUserCreateMapper) {
-        this.restaurantUserRepository = restaurantUserRepository;
-        this.organizationRepository = organizationRepository;
-        this.newRestaurantUserCreateMapper = newRestaurantUserCreateMapper;
-    }
+    private final RestaurantUserMapper restaurantUserMapper;
+
 
     @Override
     @Transactional
@@ -110,5 +113,12 @@ public class RestaurantUserServiceImpl implements RestaurantUserService {
 
         return new ResponseEntity<>(restaurantUserDTO, HttpStatus.OK);
 
+    }
+
+    @Override
+    public ResponseEntity<RestaurantUserDTO> findUserByMail(String mail) {
+        Optional<RestaurantUser> restaurantUserByEmailMatches = restaurantUserRepository.findRestaurantUserByEmailMatches(mail);
+        RestaurantUserDTO dto = restaurantUserMapper.toDto(restaurantUserByEmailMatches.orElseThrow(UserNotFoundException::new));
+        return new ResponseEntity<RestaurantUserDTO>(dto, HttpStatus.OK);
     }
 }

@@ -2,9 +2,11 @@ package com.upspoon.organization.controller;
 
 
 import com.upspoon.common.dto.Organization.NewRestaurantUserDTO;
+import com.upspoon.common.dto.Organization.RestaurantUserDTO;
 import com.upspoon.common.dto.Organization.UpdateRestaurantUserDTO;
 import com.upspoon.common.web.CustomPage;
 import com.upspoon.organization.service.RestaurantUserService;
+import feign.Response;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +45,11 @@ public class RestaurantUserController {
     @PutMapping
     public ResponseEntity<UpdateRestaurantUserDTO> updateUser(@RequestParam(value = "userId") UUID userId, @RequestBody UpdateRestaurantUserDTO restaurantUserDTO) {
         return restaurantUserService.updateUser(userId, restaurantUserDTO);
+    }
+
+    @GetMapping(value = "/find-by-mail")
+    public ResponseEntity<RestaurantUserDTO> findUserByMail(@RequestParam String mail){
+        return restaurantUserService.findUserByMail(mail);
     }
 
 }

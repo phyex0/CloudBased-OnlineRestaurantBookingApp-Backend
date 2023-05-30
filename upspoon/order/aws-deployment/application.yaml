@@ -1,0 +1,87 @@
+apiVersion: v1
+data:
+  application.yaml: |+
+    server:
+      port: 8080
+    
+    spring:
+      profiles:
+        active: aws
+      kafka:
+        bootstrap-servers: kafka-service:9092
+    
+      jpa:
+        database: postgresql
+    
+        show-sql: true
+        properties:
+          hibernate:
+            format_sql: true
+    
+      datasource:
+        username: postgres
+        password: postgres
+        url: jdbc:postgresql://upspoon-order-postgresql:5432/postgres
+        type: com.zaxxer.hikari.HikariDataSource
+    
+      sleuth:
+        enabled: true
+        propagation-keys: authorization
+    
+      security:
+        oauth2:
+          resourceserver:
+            jwt:
+              issuer-uri: ${APP_ISSURE_URI}
+    
+      main:
+        allow-bean-definition-overriding: true
+        allow-circular-references: true
+    
+      liquibase:
+        change-log: "classpath:db/changelog/master.xml"
+        enabled: true
+        contexts: dev
+    
+    logging:
+      level:
+        org: info
+    
+    kafka:
+      address: kafka-service:9092
+      group-id: upspoon-group-id
+      topic-organization-create: topic-organization-create
+      topic-organization-create-fail: topic-organization-create-fail
+      topic-order-create: topic-order-create
+      topic-stock-failed: topic-stock-failed
+      topic-order-created-successfully: topic-order-created-successfully
+    
+    client:
+      stock-api:
+        name: stock
+        url: http://upspoon-stock:8080
+
+
+
+
+kind: ConfigMap
+metadata:
+  labels:
+    app: upspoon-order-configmap
+  name: upspoon-order-configmap-app
+
+---
+apiVersion: v1
+data:
+  APP_ISSURE_URI: http://upspoon-authorization-user.com
+  SPRING_CLOUD_KUBERNETES_CONFIG_ENABLED: "true"
+  SPRING_CLOUD_KUBERNETES_CONFIG_NAME: upspoon-order-configmap-app
+  SPRING_CLOUD_KUBERNETES_SECRET_ENABLED: "true"
+  SPRING_CLOUD_BOOTSTRAP_ENABLED: "true"
+
+
+kind: ConfigMap
+metadata:
+  labels:
+    app: upspoon-order-configmap
+  name: upspoon-order-configmap-env

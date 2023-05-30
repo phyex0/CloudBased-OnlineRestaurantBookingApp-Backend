@@ -75,3 +75,6 @@ client:
   booking-api:
     name: booking
     url: http://127.0.0.1:8082
+  user-api:
+    name: user
+    url: http://127.0.0.1:8088

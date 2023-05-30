@@ -2,8 +2,8 @@ server:
   port: 8080
 
 spring:
-  profiles:
-    active: minikube
+#  profiles:
+#    active: minikube
   main:
     allow-bean-definition-overriding: true
 
@@ -47,3 +47,6 @@ client:
   booking-api:
     name: booking
     url: http://upspoon-booking:8080
+  user-api:
+    name: user
+    url: http://upspoon-user:8080

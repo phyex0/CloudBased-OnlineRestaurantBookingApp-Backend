@@ -29,3 +29,13 @@ sleep 5
 #aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 980605516176.dkr.ecr.us-east-1.amazonaws.com
 echo "Push Image"
 docker push 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-authorization-user:latest
+
+echo "Press any key to continue"
+while [ true ]; do
+  read -t 3 -n 1
+  if [ $? = 0 ]; then
+    exit
+  else
+    echo "waiting for the keypress"
+  fi
+done

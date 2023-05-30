@@ -26,8 +26,9 @@ spec:
                 secretKeyRef:
                   key: postgresql-password
                   name: upspoon-user
-            - name: spring.config.name
-              value: application-aws
+          envFrom:
+            - configMapRef:
+                name: upspoon-user-configmap-env
           image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-user:latest
           name: upspoon-api
           resources:
