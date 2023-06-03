@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -104,30 +105,19 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public ResponseEntity<CreateStockDTO> createStock(CreateStockDTO createStockDTO) {
-        var selectedStock = stockRepository.findById(createStockDTO.getProductId());
-
-        if (selectedStock.isPresent())
-            return new ResponseEntity<>(createStockDTO, HttpStatus.CONFLICT);
-
-        Stock stock = new Stock(createStockDTO.getProductId(), createStockDTO.getCount());
-        stockRepository.save(stock);
-
-        return new ResponseEntity<>(createStockDTO, HttpStatus.OK);
-
-    }
-
-    @Override
+    @Transactional
     public ResponseEntity<CreateStockDTO> updateStock(CreateStockDTO createStockDTO) {
-        var selectedStock = stockRepository.findById(createStockDTO.getProductId());
+        Optional<Stock> stockOptional = stockRepository.findById(createStockDTO.getProductId());
+        Stock stock;
 
-        if (selectedStock.isEmpty())
-            return new ResponseEntity<>(createStockDTO, HttpStatus.NOT_FOUND);
-
-        Stock stock = new Stock(createStockDTO.getProductId(), createStockDTO.getCount());
+        if (stockOptional.isEmpty()) {
+            stock = new Stock(createStockDTO.getProductId(), createStockDTO.getCount());
+        } else {
+            stock = stockOptional.get();
+            stock.setCount(createStockDTO.getCount());
+        }
         stockRepository.save(stock);
 
         return new ResponseEntity<>(createStockDTO, HttpStatus.OK);
-
     }
 }

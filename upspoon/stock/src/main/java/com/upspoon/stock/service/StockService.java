@@ -14,10 +14,5 @@ public interface StockService {
     void save(OrderToStock orderToStock);
 
     void rollback(StockToPayment stockToPayment);
-
-    ResponseEntity<CreateStockDTO> createStock(CreateStockDTO createStockDTO);
-
     ResponseEntity<CreateStockDTO> updateStock(CreateStockDTO createStockDTO);
-
-
 }
