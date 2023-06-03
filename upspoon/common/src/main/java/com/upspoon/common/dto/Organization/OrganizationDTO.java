@@ -1,5 +1,6 @@
 package com.upspoon.common.dto.Organization;
 
+import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.common.enums.PackageService;
 import lombok.*;
 
@@ -37,4 +38,6 @@ public class OrganizationDTO implements Serializable {
 
 
     private Set<RestaurantUserDTO> restaurantUsers;
+
+    private BusinessTypes businessType;
 }

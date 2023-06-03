@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -28,7 +29,7 @@ public interface OrderServiceClient {
     ResponseEntity<Void> deleteMenu(@RequestParam UUID organizationId, @RequestParam UUID menuId);
 
     @GetMapping(value = "/api/order/menu", produces = "application/json", consumes = "application/json")
-    ResponseEntity<CustomPage<MenuDTO>> getMenu(@RequestParam UUID organizationId, Pageable pageable);
+    ResponseEntity<List<MenuDTO>> getMenu(@RequestParam UUID organizationId);
 
     @GetMapping(value = "/api/order", produces = "application/json", consumes = "application/json")
     ResponseEntity<OrganizationDTO> getOrganization(@RequestParam UUID organizationId);

@@ -6,6 +6,7 @@ import com.upspoon.common.enums.BusinessTypes;
 import com.upspoon.common.enums.OrderStatus;
 import com.upspoon.common.exceptions.BusinessNotFoundException;
 import com.upspoon.common.exceptions.BusinessTypeDoesNotRecognisedException;
+import com.upspoon.common.exceptions.MenuNotFoundException;
 import com.upspoon.common.exceptions.MissingProductsException;
 import com.upspoon.common.kafkaTemplateDTO.OrderToStock;
 import com.upspoon.common.kafkaTemplateDTO.OrganizationToOrder;
@@ -133,18 +134,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseEntity<CustomPage<MenuDTO>> getMenu(UUID organizationId, Pageable pageable) {
+    public ResponseEntity<List<MenuDTO>> getMenu(UUID organizationId) {
 
         var organization = organizationRepository.findOrganizationByExactOrganizationId(organizationId);
 
         if (Objects.isNull(organization)) {
-            return new ResponseEntity<>(new CustomPage<>(new ArrayList<>(), pageable, 0), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_FOUND);
         }
-        //TODO obje null ise exception
-        var menuIdList = organization.getMenuList().stream().map(menu -> menu.getId()).collect(Collectors.toList());
-        var menuList = menuRepository.getMenuByIdList(menuIdList, pageable);
-
-        return new ResponseEntity<CustomPage<MenuDTO>>(new CustomPage<>(menuList.getContent(), pageable, menuList.getTotalElements()), HttpStatus.OK);
+        OrganizationDTO dto = organizationMapper.toDto(organization);
+        return new ResponseEntity<List<MenuDTO>>(dto.getMenuList(), HttpStatus.OK);
     }
 
     @Override
@@ -185,7 +183,7 @@ public class OrderServiceImpl implements OrderService {
 
         organization.getMenuList()
                 .stream().filter(menu -> menu.getId().equals(menuId))
-                .findFirst().get().getProductList().add(product);
+                .findFirst().orElseThrow(MenuNotFoundException::new).getProductList().add(product);
 
         organizationRepository.save(organization);
         organizationRepository.flush();

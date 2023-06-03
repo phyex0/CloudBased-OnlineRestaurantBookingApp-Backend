@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -51,8 +52,8 @@ public class OrderServiceController {
 
     @GetMapping("/menu")
     @Operation(summary = "get menu as pageable by organization id, business type")
-    public ResponseEntity<CustomPage<MenuDTO>> getMenu(@RequestParam UUID organizationId, Pageable pageable) {
-        return orderServiceClient.getMenu(organizationId, pageable);
+    public ResponseEntity<List<MenuDTO>> getMenu(@RequestParam UUID organizationId) {
+        return orderServiceClient.getMenu(organizationId);
     }
 
     @GetMapping
