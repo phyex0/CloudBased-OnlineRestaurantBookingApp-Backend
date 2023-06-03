@@ -8,7 +8,9 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author burak.yesildal
@@ -26,13 +28,19 @@ import java.util.Date;
 public class BookDetails extends AbstractAuditBaseEntity {
     @Column(name = "full_name")
     private String fullName;
+
     @Column(name = "phone_number")
     private String phoneNumber;
+
     @Column(name = "number_of_people")
     private Integer numberOfPeople;
+
     @Column(name = "book_date")
-    private Date bookDate;
+    private LocalDate bookDate;
 
     @Column(name = "table_number")
     private Integer tableNumber;
+
+    @Column(name = "user_id")
+    private UUID userId;
 }

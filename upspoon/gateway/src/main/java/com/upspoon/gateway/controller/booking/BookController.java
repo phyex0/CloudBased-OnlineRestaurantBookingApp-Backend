@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -58,21 +58,21 @@ public class BookController {
 
     @GetMapping("/get-books-for-business")
     @Operation(summary = "Users can monitor available days of selected business")
-    public ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(@RequestParam UUID businessId, @RequestParam(required = false) Date date, Pageable pageable) {
+    public ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(@RequestParam UUID businessId, @RequestParam(required = false) LocalDate date, Pageable pageable) {
         return bookClient.getBooksForBusiness(businessId, date, pageable);
     }
 
     @GetMapping("/get-book-details-for-business")
     @Operation(summary = "Users can view selected business detail like how many seats are empty.")
-    public ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(@RequestParam UUID businessId, @RequestParam UUID bookId, Pageable pageable) {
-        return bookClient.getBookDetailsForBusiness(businessId, bookId, pageable);
+    public ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(@RequestParam UUID businessId, @RequestParam UUID userId, Pageable pageable) {
+        return bookClient.getBookDetailsForBusiness(businessId, userId, pageable);
     }
 
     @DeleteMapping("/cancel-book-detail")
     @PreAuthorize("hasPermission('ROLE', 'ORGANIZATION_ROLE') or hasPermission('ROLE','ADMIN_ROLE')")
     @Operation(summary = "Business owner can cancel the book detail")
-    public ResponseEntity<Void> cancelBooking(@RequestParam UUID businessId, @RequestParam UUID bookDetailId) {
-        return bookClient.cancelBooking(businessId, bookDetailId);
+    public ResponseEntity<Void> cancelBooking(@RequestParam UUID businessId, @RequestParam UUID userId) {
+        return bookClient.cancelBooking(businessId, userId);
     }
 
 }

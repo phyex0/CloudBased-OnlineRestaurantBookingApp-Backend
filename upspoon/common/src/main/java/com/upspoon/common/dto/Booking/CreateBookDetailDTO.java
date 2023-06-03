@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -28,8 +28,10 @@ public class CreateBookDetailDTO implements Serializable {
 
     private Integer numberOfPeople;
 
-    private Date bookDate;
+    private LocalDate bookDate;
 
     @Min(1)
     private Integer tableNumber;
+
+    private UUID userId;
 }

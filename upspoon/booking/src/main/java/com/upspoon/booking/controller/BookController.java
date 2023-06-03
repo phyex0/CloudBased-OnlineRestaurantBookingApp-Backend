@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -48,18 +49,18 @@ public class BookController {
     }
 
     @GetMapping("/get-books-for-business")
-    public ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(@RequestParam UUID businessId, @RequestParam(required = false) Date date, Pageable pageable) {
+    public ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(@RequestParam UUID businessId, @RequestParam(required = false) LocalDate date, Pageable pageable) {
         return bookService.getBooksForBusiness(businessId, date, pageable);
     }
 
     @GetMapping("/get-book-details-for-business")
-    public ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(@RequestParam UUID businessId, @RequestParam UUID bookId, Pageable pageable) {
-        return bookService.getBookDetailsForBusiness(businessId, bookId, pageable);
+    public ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(@RequestParam UUID businessId, @RequestParam UUID userId, Pageable pageable) {
+        return bookService.getBookDetailsForBusiness(businessId, userId, pageable);
     }
 
     @DeleteMapping("/cancel-book-detail")
-    public ResponseEntity<Void> cancelBooking(@RequestParam UUID businessId, @RequestParam UUID bookDetailId) {
-        return bookService.cancelBooking(businessId, bookDetailId);
+    public ResponseEntity<Void> cancelBooking(@RequestParam UUID businessId, @RequestParam UUID userId) {
+        return bookService.cancelBooking(businessId, userId);
     }
 
 }

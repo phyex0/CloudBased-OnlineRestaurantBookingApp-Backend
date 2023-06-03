@@ -57,7 +57,7 @@ metadata:
 ---
 apiVersion: v1
 data:
-  APP_ISSURE_URI: http://upspoon-authorization-user.com
+  APP_ISSURE_URI: http://ac3bce6cefd0c42188bf743296edf44a-422653947.us-east-1.elb.amazonaws.com
   REDIRECT_URIS: http://127.0.0.1:5173,https://oidcdebugger.com/debug
   SPRING_CLOUD_KUBERNETES_CONFIG_ENABLED: "true"
   SPRING_CLOUD_KUBERNETES_CONFIG_NAME: upspoon-authorization-user-configmap-app

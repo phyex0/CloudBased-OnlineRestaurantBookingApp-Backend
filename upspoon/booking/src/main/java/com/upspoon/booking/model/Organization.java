@@ -30,14 +30,14 @@ public class Organization extends AbstractAuditBaseEntity {
 
     @Column(name = "organization_name", nullable = false)
     private String organizationName;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "organization_id")
     private List<Book> bookList;
+
     @Column(name = "max_table")
     @Min(0)
     private Integer maxTable;
-
-
 }
 
 

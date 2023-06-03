@@ -6,7 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -24,7 +24,8 @@ import java.util.List;
 @Where(clause = "deleted <> '1' ")
 public class Book extends AbstractAuditBaseEntity {
     @Column(name = "book_date")
-    private Date date;
+    private LocalDate date;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "book_id")
     private List<BookDetails> bookDetailsList;

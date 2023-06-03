@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -25,9 +26,9 @@ public interface OrganizationRepository extends JpaRepository<Organization, UUID
     @Query("select b from  Organization  o left join o.bookList b " +
             "where  o.exactOrganizationId = :businessId and b.date >= :date " +
             "and  (coalesce(:selectedDate) is null or b.date = :selectedDate) ")
-    Page<Book> getBooks(UUID businessId, Date date, Date selectedDate, Pageable pageable);
+    Page<Book> getBooks(UUID businessId, LocalDate date, LocalDate selectedDate, Pageable pageable);
 
     @Query("select bd from Organization  o left join o.bookList b left join b.bookDetailsList bd " +
-            "where o.exactOrganizationId = :businessId and b.id = :bookId")
-    Page<BookDetails> getBookDetails(UUID businessId, UUID bookId, Pageable pageable);
+            "where o.exactOrganizationId = :businessId and bd.userId = :userId")
+    Page<BookDetails> getBookDetails(UUID businessId, UUID userId, Pageable pageable);
 }

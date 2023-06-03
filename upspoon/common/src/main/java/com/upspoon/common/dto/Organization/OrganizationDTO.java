@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * @author burak.yesildal
@@ -17,6 +18,8 @@ import java.util.Set;
 @ToString
 public class OrganizationDTO implements Serializable {
     private static final long serialVersionUID = -4310059631778009167L;
+
+    private UUID id;
 
     private String organizationName;
 

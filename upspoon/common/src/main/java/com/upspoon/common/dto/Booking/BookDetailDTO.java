@@ -22,4 +22,5 @@ public class BookDetailDTO implements Serializable {
     private Integer numberOfPeople;
     private Date bookDate;
     private Integer tableNumber;
+    private UUID userId;
 }

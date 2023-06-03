@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -106,7 +105,7 @@ public class BookServiceImpl implements BookService {
 
         AtomicReference<Boolean> reserved = new AtomicReference<>(Boolean.FALSE);
         organization.getBookList().forEach(book -> {
-            if (book.getDate().toInstant().equals(bookDetails.getBookDate().toInstant())) {
+            if (book.getDate().equals(bookDetails.getBookDate())) {
                 Set<Integer> guests = book.getBookDetailsList().stream().map(d -> d.getTableNumber()).collect(Collectors.toSet());
                 if (guests.contains(bookDetails.getTableNumber()))
                     throw new AlreadyBookedTableException("This table already booked. Try another table");
@@ -122,22 +121,17 @@ public class BookServiceImpl implements BookService {
         return new ResponseEntity<>(createBookDetailDTO, HttpStatus.OK);
     }
 
-    private Date setToFirstHourOfDay(Date date) {
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        localDate = LocalDate.from(localDate.atStartOfDay());
-        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    private LocalDate setToFirstHourOfDay(LocalDate date) {
+        return LocalDate.from(date);
     }
 
-    private Integer getDateDifferenceAsDay(Date startDate, Date endDate) {
-        Period diff = Period.between(startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+    private Integer getDateDifferenceAsDay(LocalDate startDate, LocalDate endDate) {
+        Period diff = Period.between(startDate, endDate);
         return diff.getDays() > 0 ? diff.getDays() : 0;
     }
 
-    private Date incrementDateOne(Date date) {
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        localDate = localDate.plusDays(1);
-        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    private LocalDate incrementDateOne(LocalDate date) {
+        return date.plusDays(1);
     }
 
     @Override
@@ -147,12 +141,12 @@ public class BookServiceImpl implements BookService {
         if (Objects.isNull(organization))
             throw new BookingOrganizationNotFound("Business is not found!");
         Collections.sort(organization.getBookList(), Comparator.comparing(Book::getDate));
-        Date date = this.setToFirstHourOfDay(new Date());
+        LocalDate date = this.setToFirstHourOfDay(LocalDate.now());
 
         int i = 0;
         if (!organization.getBookList().isEmpty()) {
-            var lastBook = organization.getBookList().get(organization.getBookList().size() - 1);
-            if (lastBook.getDate().after(date)) {
+            Book lastBook = organization.getBookList().get(organization.getBookList().size() - 1);
+            if (lastBook.getDate().isAfter(date)) {
                 i = getDateDifferenceAsDay(date, lastBook.getDate());
                 date = lastBook.getDate();
             }
@@ -189,8 +183,8 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(UUID businessId, Date date, Pageable pageable) {
-        Date now = setToFirstHourOfDay(new Date());
+    public ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(UUID businessId, LocalDate date, Pageable pageable) {
+        LocalDate now = setToFirstHourOfDay(LocalDate.now());
 
         Page<Book> books = organizationRepository.getBooks(businessId, now, date, pageable);
         List<BookDTO> bookDTOS = bookDTOtoBookMapper.toDto(books.getContent());
@@ -199,8 +193,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(UUID businessId, UUID bookId, Pageable pageable) {
-        Page<BookDetails> bookDetails = organizationRepository.getBookDetails(businessId, bookId, pageable);
+    public ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(UUID businessId, UUID userId, Pageable pageable) {
+        Page<BookDetails> bookDetails = organizationRepository.getBookDetails(businessId, userId, pageable);
         List<BookDetailDTO> bookDetailDTOS = bookDetailsDTOMapper.toDto(bookDetails.getContent());
 
         return new ResponseEntity<>(new CustomPage<>(bookDetailDTOS, pageable, bookDetails.getTotalElements()), HttpStatus.OK);
@@ -208,7 +202,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public ResponseEntity<Void> cancelBooking(UUID businessId, UUID bookDetailId) {
+    public ResponseEntity<Void> cancelBooking(UUID businessId, UUID userId) {
         Organization organization = organizationRepository.findByExactOrganizationId(businessId);
 
         if (Objects.isNull(organization))
@@ -216,7 +210,7 @@ public class BookServiceImpl implements BookService {
         AtomicReference<Boolean> isDeleted = new AtomicReference<>(Boolean.FALSE);
         organization.getBookList().stream().forEach(b -> {
             int initial = b.getBookDetailsList().size();
-            b.getBookDetailsList().removeIf(bd -> bd.getId().equals(bookDetailId));
+            b.getBookDetailsList().removeIf(bd -> bd.getUserId().equals(userId));
             if (initial != b.getBookDetailsList().size())
                 isDeleted.set(Boolean.TRUE);
         });

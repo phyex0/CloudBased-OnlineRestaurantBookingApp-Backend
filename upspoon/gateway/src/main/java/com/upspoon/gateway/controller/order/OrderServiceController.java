@@ -62,7 +62,6 @@ public class OrderServiceController {
     }
 
     @GetMapping("/business")
-    @PreAuthorize("hasPermission('ROLE', 'ORGANIZATION_ROLE') or hasPermission('ROLE','ADMIN_ROLE')")
     @Operation(summary = "get all organizations by business type with pageable")
     public ResponseEntity<CustomPage<BusinessDTOForUI>> getAllOrganizations(@RequestParam BusinessTypes businessTypes, Pageable pageable) {
         return orderServiceClient.getAllOrganizations(businessTypes, pageable);

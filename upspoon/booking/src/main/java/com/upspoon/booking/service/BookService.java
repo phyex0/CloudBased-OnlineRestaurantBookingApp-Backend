@@ -9,6 +9,7 @@ import com.upspoon.common.web.CustomPage;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,9 +29,9 @@ public interface BookService {
 
     ResponseEntity<Void> deleteBook(UUID businessId, UUID bookId);
 
-    ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(UUID businessId, Date date, Pageable pageable);
+    ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(UUID businessId, LocalDate date, Pageable pageable);
 
-    ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(UUID businessId, UUID bookId, Pageable pageable);
+    ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(UUID businessId, UUID userId, Pageable pageable);
 
-    ResponseEntity<Void> cancelBooking(UUID businessId, UUID bookDetailId);
+    ResponseEntity<Void> cancelBooking(UUID businessId, UUID userId);
 }

@@ -32,7 +32,7 @@
             <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="deleted" type="BOOL"/>
 
-            <column name="book_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="book_date" type="DATE"/>
             <column name="organization_id" type="UUID"/>
         </createTable>
     </changeSet>
@@ -59,7 +59,7 @@
             <column name="full_name" type="VARCHAR(255)"/>
             <column name="phone_number" type="VARCHAR(255)"/>
             <column name="number_of_people" type="INT"/>
-            <column name="book_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="book_date" type="DATE"/>
             <column name="table_number" type="INT"/>
             <column name="book_id" type="UUID"/>
         </createTable>

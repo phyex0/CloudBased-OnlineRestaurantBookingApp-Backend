@@ -18,6 +18,8 @@ public class UserDataDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = -5821517733699069292L;
 
+    private UUID id;
+
     private String firstName;
 
     private String lastName;

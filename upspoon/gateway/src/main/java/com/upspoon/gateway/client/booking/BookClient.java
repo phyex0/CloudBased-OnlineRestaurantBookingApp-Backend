@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -33,12 +34,12 @@ public interface BookClient {
     ResponseEntity<Void> deleteBook(@RequestParam UUID businessId, @RequestParam UUID bookId);
 
     @GetMapping("/api/book/get-books-for-business")
-    ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(@RequestParam UUID businessId, @RequestParam(required = false) Date date, Pageable pageable);
+    ResponseEntity<CustomPage<BookDTO>> getBooksForBusiness(@RequestParam UUID businessId, @RequestParam(required = false) LocalDate date, Pageable pageable);
 
     @GetMapping("/api/book/get-book-details-for-business")
-    ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(@RequestParam UUID businessId, @RequestParam UUID bookId, Pageable pageable);
+    ResponseEntity<CustomPage<BookDetailDTO>> getBookDetailsForBusiness(@RequestParam UUID businessId, @RequestParam UUID userId, Pageable pageable);
 
 
     @DeleteMapping("/api/book/cancel-book-detail")
-    ResponseEntity<Void> cancelBooking(@RequestParam UUID businessId, @RequestParam UUID bookDetailId);
+    ResponseEntity<Void> cancelBooking(@RequestParam UUID businessId, @RequestParam UUID userId);
 }

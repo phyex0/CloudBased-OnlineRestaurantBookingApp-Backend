@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * @author burak.yesildal
@@ -16,6 +17,8 @@ import java.util.Set;
 @ToString
 public class RestaurantUserDTO implements Serializable {
     private static final long serialVersionUID = -6503234721562743348L;
+
+    private UUID id;
 
     private String name;
 
