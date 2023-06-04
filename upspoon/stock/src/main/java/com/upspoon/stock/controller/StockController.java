@@ -4,10 +4,11 @@ package com.upspoon.stock.controller;
 import com.upspoon.common.dto.Stock.CreateStockDTO;
 import com.upspoon.stock.service.StockService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/stock")
@@ -22,5 +23,10 @@ public class StockController {
     @PutMapping
     public ResponseEntity<CreateStockDTO> updateStock(@RequestBody CreateStockDTO createStockDTO) {
         return stockService.updateStock(createStockDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<Map<UUID, Long>> getStockMap(@RequestParam Set<UUID> productId) {
+        return stockService.getStockMap(productId);
     }
 }

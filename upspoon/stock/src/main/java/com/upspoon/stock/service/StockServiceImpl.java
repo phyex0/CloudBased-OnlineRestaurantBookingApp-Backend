@@ -17,8 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -119,5 +118,14 @@ public class StockServiceImpl implements StockService {
         stockRepository.save(stock);
 
         return new ResponseEntity<>(createStockDTO, HttpStatus.OK);
+    }
+
+
+    @Override
+    public ResponseEntity<Map<UUID, Long>> getStockMap(Set<UUID> productId) {
+        List<Stock> stockList = stockRepository.findAllByProductIdIn(productId);
+        Map<UUID, Long> stockMap = stockList.stream().collect(Collectors.toMap(Stock::getProductId, Stock::getCount));
+
+        return new ResponseEntity<>(stockMap, HttpStatus.OK);
     }
 }

@@ -142,8 +142,24 @@ public class OrderServiceImpl implements OrderService {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_FOUND);
         }
         OrganizationDTO dto = organizationMapper.toDto(organization);
+        handleStockInformation(dto);
+
         return new ResponseEntity<List<MenuDTO>>(dto.getMenuList(), HttpStatus.OK);
     }
+
+    private void handleStockInformation(OrganizationDTO dto) {
+        Set<UUID> productId = dto.getMenuList().stream().flatMap(menu -> menu.getProductList().stream()).map(productDTO -> productDTO.getId()).collect(Collectors.toSet());
+
+        ResponseEntity<Map<UUID, Long>> stockMap = stockClient.getStockMap(productId);
+        if (stockMap.getStatusCode().equals(HttpStatus.OK)) {
+            dto.getMenuList().stream().flatMap(menu -> menu.getProductList().stream()).forEach(product -> {
+                if (stockMap.getBody().containsKey(product.getId())) {
+                    product.setStock(stockMap.getBody().get(product.getId()));
+                }
+            });
+        }
+    }
+
 
     @Override
     public ResponseEntity<OrganizationDTO> getOrganization(UUID organizationId) {
@@ -154,6 +170,7 @@ public class OrderServiceImpl implements OrderService {
             throw new BusinessNotFoundException("Business not found!");
         }
         var dto = organizationMapper.toDto(organization);
+        handleStockInformation(dto);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
 
@@ -187,7 +204,7 @@ public class OrderServiceImpl implements OrderService {
 
         organizationRepository.save(organization);
         organizationRepository.flush();
-        //TODO: getProductCode might not be unique. Find another solution about this!
+
         product = productRepository.findProductByProductCode(product.getProductCode());
         productDTO.setId(product.getId());
         stockClient.updateStock(new CreateStockDTO(product.getId(), 0L));
@@ -243,9 +260,17 @@ public class OrderServiceImpl implements OrderService {
             throw new BusinessNotFoundException("Business not found!");
 
         ProductDTO dto = extractDtoFromOrganization(organization, productId);
-        if (!Objects.isNull(dto))
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        if (Objects.isNull(dto))
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        ResponseEntity<Map<UUID, Long>> stockMap = stockClient.getStockMap(List.of(dto.getId()));
+
+        if (stockMap.getStatusCode().equals(HttpStatus.OK)) {
+            if (stockMap.getBody().containsKey(dto.getStock())) {
+                dto.setStock(stockMap.getBody().get(dto.getId()));
+            }
+        }
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     private ProductDTO extractDtoFromOrganization(Organization organization, UUID productId) {
@@ -259,7 +284,6 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return null;
-
     }
 
 
@@ -273,10 +297,18 @@ public class OrderServiceImpl implements OrderService {
         var product = productRepository.getAllProducts(organization.getExactOrganizationId(), menuID, pageable);
 
         var productDto = productMapper.toDto(product.getContent());
+
+        ResponseEntity<Map<UUID, Long>> stockMap = stockClient.getStockMap(productDto.stream().map(ProductDTO::getId).collect(Collectors.toSet()));
+        if (stockMap.getStatusCode().equals(HttpStatus.OK)) {
+            productDto.forEach(p -> {
+                if (stockMap.getBody().containsKey(p.getId()))
+                    p.setStock(stockMap.getBody().get(p.getId()));
+            });
+
+        }
         Page<ProductDTO> page = new PageImpl<>(productDto);
 
         return new ResponseEntity<>(new CustomPage<>(page.getContent(), pageable, page.getTotalElements()), HttpStatus.OK);
-
     }
 
     @Override
