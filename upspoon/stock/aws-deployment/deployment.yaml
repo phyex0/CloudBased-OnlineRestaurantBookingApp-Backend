@@ -29,7 +29,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: upspoon-stock-configmap-env
-          image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-stock:latest
+          image: your-arn.dkr.ecr.us-east-1.amazonaws.com/upspoon-stock:latest
           name: upspoon-api
           resources:
             limits:

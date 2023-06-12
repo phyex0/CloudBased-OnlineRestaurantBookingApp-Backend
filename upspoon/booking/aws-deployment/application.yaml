@@ -64,7 +64,7 @@ metadata:
 ---
 apiVersion: v1
 data:
-  APP_ISSURE_URI: http://ac3bce6cefd0c42188bf743296edf44a-422653947.us-east-1.elb.amazonaws.com
+  APP_ISSURE_URI: http://your-auth-server-url
   SPRING_CLOUD_KUBERNETES_CONFIG_ENABLED: "true"
   SPRING_CLOUD_KUBERNETES_CONFIG_NAME: upspoon-booking-configmap-app
   SPRING_CLOUD_KUBERNETES_SECRET_ENABLED: "true"

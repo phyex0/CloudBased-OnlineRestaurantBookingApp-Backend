@@ -36,7 +36,7 @@ spec:
                 secretKeyRef:
                   key: postgresql-password
                   name: upspoon-order
-          image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/postgres:13.2
+          image: your-arn.dkr.ecr.us-east-1.amazonaws.com/postgres:13.2
           name: postgres
           ports:
             - containerPort: 5432

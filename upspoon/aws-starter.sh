@@ -39,7 +39,7 @@ eksctl create iamserviceaccount \
   --namespace=kube-system \
   --name=aws-load-balancer-controller \
   --role-name AmazonEKSLoadBalancerControllerRole \
-  --attach-policy-arn=arn:aws:iam::980605516176:policy/AWSLoadBalancerControllerIAMPolicy \
+  --attach-policy-arn=arn:aws:iam::your-arn:policy/AWSLoadBalancerControllerIAMPolicy \
   --approve
 
 helm repo add eks https://aws.github.io/eks-charts

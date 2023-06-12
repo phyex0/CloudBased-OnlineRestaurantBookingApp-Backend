@@ -29,7 +29,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: upspoon-payment-configmap-env
-          image: 980605516176.dkr.ecr.us-east-1.amazonaws.com/upspoon-payment:latest
+          image: your-arn.dkr.ecr.us-east-1.amazonaws.com/upspoon-payment:latest
           name: upspoon-api
           resources:
             limits:
