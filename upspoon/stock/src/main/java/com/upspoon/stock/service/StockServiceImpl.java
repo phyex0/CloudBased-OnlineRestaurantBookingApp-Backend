@@ -124,7 +124,7 @@ public class StockServiceImpl implements StockService {
     @Override
     public ResponseEntity<Map<UUID, Long>> getStockMap(Set<UUID> productId) {
         List<Stock> stockList = stockRepository.findAllByProductIdIn(productId);
-        Map<UUID, Long> stockMap = stockList.stream().collect(Collectors.toMap(Stock::getProductId, Stock::getCount));
+        Map<UUID, Long> stockMap = stockList.stream().collect(Collectors.toMap(Stock::getProductId, Stock::getCount,Long::max));
 
         return new ResponseEntity<>(stockMap, HttpStatus.OK);
     }
