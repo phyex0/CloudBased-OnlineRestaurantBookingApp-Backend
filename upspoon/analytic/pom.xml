@@ -257,7 +257,7 @@
         <!--                                <arg>/entrypoint.sh</arg>-->
         <!--                            </entrypoint>-->
         <!--                            <ports>-->
-        <!--                                <port>8080</port>-->
+        <!--                                <port>80</port>-->
         <!--                            </ports>-->
         <!--                            <environment>-->
         <!--                                <SPRING_OUTPUT_ANSI_ENEABLED>ALWAYS</SPRING_OUTPUT_ANSI_ENEABLED>-->

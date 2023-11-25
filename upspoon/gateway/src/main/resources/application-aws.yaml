@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 80
 
 spring:
   #profiles:
@@ -37,16 +37,16 @@ client:
     url: http://a10b0652697734cc0af5ec1643e74586-1635581591.us-east-1.elb.amazonaws.com
   order-api:
     name: order
-    url: http://upspoon-order:8080
+    url: http://upspoon-order:80
   stock-api:
     name: stock
-    url: http://upspoon-stock:8080
+    url: http://upspoon-stock:80
   organization-api:
     name: organization
-    url: http://upspoon-organization:8080
+    url: http://upspoon-organization:80
   booking-api:
     name: booking
-    url: http://upspoon-booking:8080
+    url: http://upspoon-booking:80
   user-api:
     name: user
-    url: http://upspoon-user:8080
+    url: http://upspoon-user:80

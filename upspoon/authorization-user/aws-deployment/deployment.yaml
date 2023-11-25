@@ -40,11 +40,11 @@ spec:
               memory: 256Mi
           readinessProbe:
             tcpSocket:
-              port: 9000
+              port: 80
             initialDelaySeconds: 45
             periodSeconds: 30
           livenessProbe:
             tcpSocket:
-              port: 9000
+              port: 80
             initialDelaySeconds: 45
             periodSeconds: 30

@@ -2,7 +2,7 @@ apiVersion: v1
 data:
   application.yaml: |+
     server:
-      port: 9000
+      port: 80
 
     spring:
       profiles:

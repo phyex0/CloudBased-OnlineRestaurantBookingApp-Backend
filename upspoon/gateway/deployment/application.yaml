@@ -2,7 +2,7 @@ apiVersion: v1
 data:
   application.yaml: |+
     server:
-      port: 8080
+      port: 80
     
     spring:
       profiles:
@@ -40,19 +40,19 @@ data:
         url: ${APP_ISSURE_URI}
       order-api:
         name: order
-        url: http://upspoon-order:8080
+        url: http://upspoon-order:80
       stock-api:
         name: stock
-        url: http://upspoon-stock:8080
+        url: http://upspoon-stock:80
       organization-api:
         name: organization
-        url: http://upspoon-organization:8080
+        url: http://upspoon-organization:80
       booking-api:
         name: booking
-        url: http://upspoon-booking:8080
+        url: http://upspoon-booking:80
       user-api:
         name: user
-        url: http://upspoon-user:8080
+        url: http://upspoon-user:80
 
 kind: ConfigMap
 metadata:
